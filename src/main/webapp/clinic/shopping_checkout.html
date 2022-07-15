@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
     <head>
         <meta charset="utf-8" />
         <title>DentCare - Dental Clinic Website Template</title>
@@ -222,7 +222,7 @@
                                     <input
                                         type="text"
                                         class="form-control bg-light border-0"
-                                        placeholder="市內電話(可不填)"
+                                        placeholder="市話 (可不填)"
                                         style="height: 55px"
                                     />
                                 </div>
@@ -300,7 +300,7 @@
                                         style="height: 55px"
                                     />
                                 </div>
-                                <div class="col-12 col-sm-6">
+                                <!-- <div class="col-12 col-sm-6">
                                     <select
                                         class="form-select bg-light border-0"
                                         style="height: 55px"
@@ -312,7 +312,7 @@
                                         <option value="2">Service 2</option>
                                         <option value="3">Service 3</option>
                                     </select>
-                                </div>
+                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -368,13 +368,13 @@
                             </li>
                         </ul>
                         <div class="checkout__order__subtotal">
-                            小計 <span>$750.99</span>
+                            小計 <span>NT$750</span>
                         </div>
                         <div class="checkout__order__subtotal">
-                            運費 <span>$750.99</span>
+                            運費 <span>NT$150</span>
                         </div>
                         <div class="checkout__order__total">
-                            總額 <span>$750.99</span>
+                            總額 <span>NT$900</span>
                         </div>
                     </div>
                 </div>
@@ -409,7 +409,7 @@
                                 <input
                                     type="text"
                                     class="form-control bg-light border-0"
-                                    placeholder="市內電話(可不填)"
+                                    placeholder="市話 (可不填)"
                                     style="height: 55px"
                                 />
                             </div>
@@ -423,17 +423,17 @@
                                             name="city"
                                             id="city"
                                         >
-                                            <option value="請選擇縣市">
+                                            <option value="cityarea">
                                                 請選擇縣市
                                             </option>
 
-                                            <option value="基隆市">
+                                            <option value="keelung">
                                                 基隆市
                                             </option>
-                                            <option value="台北市">
+                                            <option value="taipei">
                                                 台北市
                                             </option>
-                                            <option value="新北市">
+                                            <option value="newtaipei">
                                                 新北市
                                             </option>
                                         </select>
@@ -443,9 +443,9 @@
                                             class="form-select bg-light border-0"
                                             style="height: 55px"
                                             name="city"
-                                            id="city"
+                                            id="area"
                                         >
-                                            <option value="中正區">
+                                            <!-- <option value="中正區">
                                                 中正區
                                             </option>
                                             <option value="大同區">
@@ -453,7 +453,7 @@
                                             </option>
                                             <option value="中山區">
                                                 中山區
-                                            </option>
+                                            </option> -->
                                         </select>
                                     </div>
                                 </div>
@@ -694,5 +694,173 @@
         <script src="js/materialize.js"></script>
         <script src="js/patientBookingQueryJs.js"></script>
         <script src="js/adminlte.min.js"></script>
+
+        <!-- 縣市串接 -->
+        <script>
+            const city = document.querySelector("#city");
+            const area = document.querySelector("#area");
+            city.onchange = () => {
+                area.innerHTML = areaMap[city.value];
+                // switch (city.value) {
+                //     case "基隆市":
+                //         area.innerHTML = areaMap.keelung;
+                //         break;
+
+                //     case "台北市":
+                //         console.log(123);
+                //         area.innerHTML = areaMap.taipei;
+                //         break;
+
+                //     case "新北市":
+                //         area.innerHTML = areaMap.newtaipei;
+                //         break;
+                // }
+            };
+
+            const areaMap = {
+                cityarea: `<option value= "請選擇區域">請選擇區域</option>`,
+                keelung: `<option value="仁愛區">
+                                                仁愛區
+                                            </option>
+                                            <option value="信義區">
+                                                信義區
+                                            </option>
+                                            <option value="中正區">
+                                                中正區
+                                            </option>
+                                            <option value="中山區">
+                                                中山區
+                                            </option>
+                                            <option value="安樂區">
+                                                安樂區
+                                            </option>
+                                            <option value="暖暖區">
+                                                暖暖區
+                                            </option>
+                                            <option value="七堵區">
+                                                七堵區
+                                            </option>`,
+                taipei: ` <option value="中正區">
+                                                中正區
+                                            </option>
+                                            <option value="大同區">
+                                                大同區
+                                            </option>
+                                            <option value="中山區">
+                                                中山區
+                                            </option> 
+                                            <option value="松山區">
+                                                松山區
+                                            </option>
+                                            <option value="大安區">
+                                                大安區
+                                            </option>
+                                            <option value="萬華區">
+                                                萬華區
+                                            </option>
+                                            <option value="信義區">
+                                                信義區
+                                            </option>
+                                            <option value="士林區">
+                                                士林區
+                                            </option>
+                                            <option value="北投區">
+                                                北投區
+                                            </option>
+                                            <option value="內湖區">
+                                                內湖區
+                                            </option>
+                                            <option value="南港區">
+                                                南港區
+                                            </option>
+                                            <option value="文山區">
+                                                文山區
+                                            </option>`,
+                newtaipei: `<option value="萬里區">
+                                                萬里區
+                                            </option>
+                                            <option value="金山區">
+                                                金山區
+                                            </option>
+                                            <option value="板橋區">
+                                                板橋區
+                                            </option>
+                                            <option value="汐止區">
+                                                汐止區
+                                            </option>
+                                            <option value="深坑區">
+                                                深坑區
+                                            </option>
+                                            <option value="石碇區">
+                                                石碇區
+                                            </option>
+                                            <option value="瑞芳區">
+                                                瑞芳區
+                                            </option>
+                                            <option value="平溪區">
+                                                平溪區
+                                            </option>
+                                            <option value="雙溪區">
+                                                雙溪區
+                                            </option>
+                                            <option value="貢寮區">
+                                                貢寮區
+                                            </option>
+                                            <option value="新店區">
+                                                新店區
+                                            </option>
+                                            <option value="坪林區">
+                                                坪林區
+                                            </option>
+                                            <option value="烏來區">
+                                                烏來區
+                                            </option>
+                                            <option value="永和區">
+                                                永和區
+                                            </option>
+                                            <option value="土城區">
+                                                土城區
+                                            </option>
+                                            <option value="三峽區">
+                                                三峽區
+                                            </option>
+                                            <option value="樹林區">
+                                                樹林區
+                                            </option>
+                                            <option value="鶯歌區">
+                                                鶯歌區
+                                            </option>
+                                            <option value="三重區">
+                                                三重區
+                                            </option>
+                                            <option value="新莊區">
+                                                新莊區
+                                            </option>
+                                            <option value="泰山區">
+                                                泰山區
+                                            </option>
+                                            <option value="林口區">
+                                                林口區
+                                            </option>
+                                            <option value="蘆洲區">
+                                                蘆洲區
+                                            </option>
+                                            <option value="五股區">
+                                                五股區
+                                            </option>
+                                            <option value="八里區">
+                                                八里區
+                                            </option>
+                                            <option value="淡水區">
+                                                淡水區
+                                            </option>
+                                            <option value="三芝區">
+                                                三芝區
+                                            </option>
+                                            <option value="石門區">
+                                                石門區
+                                            </option>`,
+            };
+        </script>
     </body>
 </html>
