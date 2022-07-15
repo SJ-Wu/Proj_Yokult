@@ -192,25 +192,22 @@
                 <!-- 選擇日期開始 -->
                 <div class="col s12 flex_div40" style="padding-left: 0px; padding-right: 0px"  >
                     <span class="spanFontS11WNFF">日期：</span> 
-                    <select name="ctl00$ContentPlaceHolder1$select_page"onchange="javascript:setTimeout()" id="select_page" class="browser-default"  style="width: auto"  >
-                        <option  selected="selected" value="">
-                            2022/08/01～2022/08/07
+                    <select name="" id="select_page" class="selectDate browser-default"  style="width: auto"  >
+                        <option class="week1" selected="selected" value="">
+                            
                         </option>
-                        <option value=" ">
-                            2022/08/08～2022/06/27
+                        <option class="week2" value=" ">
+                            
                         </option>
-                        <option value="">
-                            2022/08/15～2022/07/04
+                        <option class="week3" value="">
+                            
                         </option>
-                        <option value="">
-                            2022/08/22～2022/08/17
-                        </option>
-                        <option value="">
-                            2022/08/29～2022/09/04
+                        <option class="week4" value="">
+                            
                         </option>
                     </select>
                     
-                    <input type="submit" name="ctl00$ContentPlaceHolder1$ButtonD" value="下一周" id="nextWeek" class="waves-light btn spanFontS10WBFF"  />
+                    <input type="button" name="ctl00$ContentPlaceHolder1$ButtonD" value="下一周" id="nextWeek" class="waves-light btn spanFontS10WBFF"  />
                 
                 </div>
                 <!-- 日期選擇結束 -->
@@ -218,7 +215,7 @@
                 
                 <!-- 一周看診時刻+照片 開始-->
                 <div class="col s12" style="padding-left: 0px; padding-right: 0px"  >
-                    <div class="row" > <!-- 框住照片+看診時間表 -->
+                    <div class="row" > <!-- 框住照片+ 看診時間表 -->
                         
                         <div class="col m4 s12 l3" >
                             <img class="drImg" src="img/team-1.jpg"/><br />
@@ -226,10 +223,10 @@
                         </div><!-- 框住照片 -->
 
                         <!-- 一周看診時刻開始 -->
-                        <div class="col m9 s12 l9 flex_div30">
+                        <div class="weekBookingTime col m9 s12 l9 flex_div30">
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -246,7 +243,7 @@
                             <!-- 一日早午晚結束 -->
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -263,7 +260,7 @@
                             <!-- 一日早午晚結束 -->
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -280,7 +277,7 @@
                             <!-- 一日早午晚結束 -->
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -297,7 +294,7 @@
                             <!-- 一日早午晚結束 -->
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -314,7 +311,7 @@
                             <!-- 一日早午晚結束 -->
                             <!-- 一日早午晚開始 -->
                             <div class="week" style="padding: 2px; width: 16%"> <!--每日間距-->
-                                <div class="spanFontS11WNFF" style="text-align: center"> 06/15<br />(一)</div>
+                                <div class="th spanFontS11WNFF" style="text-align: center"></div>
                                 
                                 <div style="padding: 1px">
                                     <a  class="waves-effect waves-light btn spanFontS10WBFF disabled" >早</a>
@@ -410,13 +407,22 @@
                                     </div>
                                 </div> -->
                                 <div class="col-12">
-                                    <button class="btn btn-dark w-100 py-3" type="submit">確定預約</button>
+                                    <button class="btn_modal btn btn-dark w-100 py-3"  type="button" >確定預約</button>                         
                                 </div>
                             </div>
                         </form>
                     </div>
         <!-- 掛號資訊填寫結束 -->
-        
+
+        <!-- 燈箱 -->
+                    <div class="overlay">
+                        <article>
+                            <h1>您的掛號資訊如下</h1>
+                            <p>這是 Modal 段落</p>
+                            <button type="button" class="btn_modal_close ">確認</button>
+                        </article>
+                    </div>
+                
         <div class="space"></div><!-- 間隔佔位用 -->
 
         <!-- Main content 到這邊結束 -->
