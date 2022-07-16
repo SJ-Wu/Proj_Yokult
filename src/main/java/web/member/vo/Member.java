@@ -26,13 +26,13 @@ public class Member {
 	@Column(name = "LASTNAME")
 	private String memLastName;
 	
-	@Column(name = "BIRTH")
+	@Column(name = "BIRTH", nullable = true)
 	private Date memBirth;
 	
-	@Column(name = "CELLPHONE")
+	@Column(name = "CELLPHONE", length = 10)
 	private String memCellPhone;
 	
-	@Column(name = "ADDR")
+	@Column(name = "ADDR", nullable = true)
 	private String memAddress;
 
 

@@ -1,7 +1,7 @@
 package web.member.servlet;
 
 import java.io.IOException;
-import java.util.Set;
+import java.util.List;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -33,7 +33,7 @@ public class memberServlet extends HttpServlet {
 		JsonObject respObject = new JsonObject();
 		try {
 			service = new MemberServiceImpl();
-			Set<Member> members = service.getAll();
+			List<Member> members = service.getAll();
 			if (members != null) {
 				respObject.addProperty("msg", "success");
 				respObject.add("members", gson.toJsonTree(members));

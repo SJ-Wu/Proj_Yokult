@@ -3,8 +3,8 @@ package web.member.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -13,21 +13,21 @@ import javax.sql.DataSource;
 import web.member.dao.MemberDao;
 import web.member.vo.Member;
 
-public class MemberDaoImpl implements MemberDao {
+public class MemberDaoJDBC implements MemberDao {
 
 	private DataSource datasource;
 
-	public MemberDaoImpl() throws NamingException {
+	public MemberDaoJDBC() throws NamingException {
 		datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 	
 	final String SELECTALL = "Select MEMID, FIRSTNAME, LASTNAME, EMAIL, BIRTH, CELLPHONE, ADDR from MEMBER";
 	@Override
-	public Set<Member> selectAll() {
+	public List<Member> selectAll() {
 		try(Connection conn = datasource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(SELECTALL);) {
 			try (ResultSet rs = ps.executeQuery()) {
-				Set<Member> members = new HashSet<Member>();
+				List<Member> members = new ArrayList<Member>();
 				System.out.println("Show member list:");
 				while(rs.next()) {
 					Member m = new Member();
