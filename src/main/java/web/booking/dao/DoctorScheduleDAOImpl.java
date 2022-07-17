@@ -34,7 +34,7 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 	
 	//在建構子裡面拿到連線 JNDI
 	public DoctorScheduleDAOImpl() throws NamingException {
-		dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/YOKULT");
+		dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 	
 	

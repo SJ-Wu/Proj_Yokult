@@ -1,5 +1,4 @@
 package web.booking.servlet;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import web.booking.service.BookingService;
@@ -29,21 +29,18 @@ public class BookingServlet extends HttpServlet {
     public BookingServlet() {
         super();
     }
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		//開啟跨網域，html才能接收到servlet傳出的東西
-
 		setHeaders(response);
 //		Gson gson = new Gson();
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
-		System.out.println("get request");
-
-//		流程重寫 在這邊用gson把前端包裹打開 判斷裡面是甚麼關鍵字???再寫if判斷式
+		BookingServlet servlet = new BookingServlet();
 		
-		
+//		out.append(gson.toJson(receiveBookingRequest(gson, br, "TGA001")));
+		out.append(gson.toJson(servlet.patientCheckin(gson, br)));
 		br.close();
 		out.close();
 	}
@@ -52,36 +49,70 @@ public class BookingServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	//新增掛號資料
-	private void receiveBookingRequest(Gson gson, Reader br, String memId) {
+	//新增checkin方法
+	private JsonObject patientCheckin(Gson gson, Reader br) {
+		//讀進資料
+		Patient patient = gson.fromJson(br, Patient.class);
+		//patient傳入處理checkin方法
+		BookingServiceImpl bookingService = new BookingServiceImpl();
+		int result = 0;;
+		try {
+			result = bookingService.patientCheckIn(patient);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		JsonObject jsonObject = new JsonObject();
+		if (result == 1) {
+			jsonObject.addProperty("msg", "checkin success");
+		} else {
+			jsonObject.addProperty("msg", "checkin failure");
+		}
+		return jsonObject;
+	}
+	
+	//新增掛號資料方法 
+	private JsonObject receiveBookingRequest(Gson gson, Reader br, String memId) {
 		BookingService bookingService = new BookingServiceImpl();
-//		bookingService.setPatientBooking(String memId, Patient patient);
+		Patient patient = gson.fromJson(br, Patient.class);
+		int bookingNumber = 0;
+		JsonObject jsonObject = new JsonObject();
+		try {
+			bookingNumber = bookingService.setPatientBooking(memId, patient);
+		} catch (NamingException e) {
+			System.out.println("receiveBookingRequest failure");
+			e.printStackTrace();
+		}
+		if(bookingNumber != -1) {
+			jsonObject.addProperty("msg", "receiveBookingRequest success");
+			jsonObject.addProperty("bookingNumber", bookingNumber);
+		} else {
+			jsonObject.addProperty("msg", "receiveBookingRequest failure");
+		}
+		System.out.println("receiveBookingRequest finish");
+		return jsonObject;
 	}
 	
 	//回傳醫師上班時間
-	private void sendJsonOfDoctorScheduleAndDoctorName(Gson gson, Reader br, Writer out) {
+	private JsonObject sendJsonOfDoctorScheduleAndDoctorName(Gson gson, Reader br) {
 		PatientBookingVO vo = gson.fromJson(br, PatientBookingVO.class);
-		System.out.println(vo);
-		System.out.println("fromJson to PatientBookingVO");
+		JsonObject jsonObject = new JsonObject();
 		//把東西轉成GSON丟出
 		BookingService bookingService = new BookingServiceImpl();
 		try {
 			Map<String, Object> map = bookingService.getDoctorScheduleAndDoctorName(vo.getDate1(), vo.getDate2(), vo.getDoctorId());
-												//此方式把直接map物件轉JSONTREE 再轉JsonObject
+												//toJsonTree方式把直接map物件轉JSONTREE 再轉JsonObject
 			JsonObject drNameScheduleJsonObject = gson.toJsonTree(map).getAsJsonObject();
 //			System.out.println(drNameScheduleJsonObject);
 			//送到前端要把JsonObject轉json
-			out.append(gson.toJson(drNameScheduleJsonObject));
-			
+			jsonObject.addProperty("msg", "sendSchedule success");
+			jsonObject.add("schedule", drNameScheduleJsonObject);
+			return jsonObject;
 		} catch (NamingException e) {
 			System.out.println("NamingException at sendJsonOfDoctorScheduleAndDoctorName()");
+			jsonObject.addProperty("msg", "sendSchedule failure");
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("IOException at sendJsonOfDoctorScheduleAndDoctorName()");
+			return jsonObject;
 		}
-
-		
 	}
 	
 	private void setHeaders(HttpServletResponse response) {
@@ -102,6 +133,4 @@ public class BookingServlet extends HttpServlet {
 //	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 //		setHeaders(resp);
 //	}
-	
-	
 }

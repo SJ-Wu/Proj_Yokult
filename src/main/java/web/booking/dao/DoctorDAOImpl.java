@@ -15,7 +15,7 @@ public class DoctorDAOImpl {
 	
 	public DoctorDAOImpl() throws NamingException {
 		Context context = new InitialContext();
-		DataSource dataSource =(DataSource) context.lookup("java:comp/env/jdbc/YOKULT");
+		DataSource dataSource =(DataSource) context.lookup("java:comp/env/jdbc/Yokult");
 		this.dataSource = dataSource;
 	}
 

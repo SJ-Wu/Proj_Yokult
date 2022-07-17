@@ -17,21 +17,21 @@ import web.booking.vo.Patient;
 public class PatientDAOImpl implements PatientDAO {
 	DataSource dataSource;
 	public PatientDAOImpl() throws NamingException {
-		 DataSource dataSource = (DataSource)new InitialContext().lookup("java:comp/env/jdbc/YOKULT");
+		 DataSource dataSource = (DataSource)new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 		 this.dataSource = dataSource;
 	}
 
 	@Override
-	public int insertBookingIntoPatient(String memId, String patientIdcard, Date bookingDate, String amPm, Integer bookingNumber, Integer doctorId) {
+	public int insertBookingIntoPatient(String memId, Patient patient) {
 		String sql = "INSERT INTO PATIENT(MEMID, PATIENT_IDCARD, BOOKING_DATE, AMPM, BOOKING_NUMBER, DOCTOR_ID) VALUES (?, ?, ?, ?, ?, ?);";
 			try(Connection connection = dataSource.getConnection();) {
 				PreparedStatement ps = connection.prepareStatement(sql);
 				ps.setString(1, memId);
-				ps.setString(2, patientIdcard);
-				ps.setDate(3, bookingDate);
-				ps.setString(4, amPm);
-				ps.setInt(5, bookingNumber);
-				ps.setInt(6, doctorId);
+				ps.setString(2, patient.getPatientIdcard());
+				ps.setDate(3, patient.getBookingDate());
+				ps.setString(4, patient.getAmPm());
+				ps.setInt(5, patient.getBookingNumber());
+				ps.setInt(6, patient.getDoctorId());
 				return ps.executeUpdate();
 
 			} catch (SQLException e) {
@@ -69,13 +69,14 @@ public class PatientDAOImpl implements PatientDAO {
 	//(刪除/修改)病患身份證字號為A123456788 看診預約日期為=?? 預約狀態為=?
 	// 刪除病患身份證字號為A123456788 看診預約日期為??=? 預約狀態為? =1
 	// 修改病患身份證字號為A123456788 看診預約日期為 =今天 預約狀態為=1
-	public int updatePatientCheckinConditionByBookingDate(String patientIdcard, Date bookingDate,Integer checkinCondition) {
+	public int updatePatientCheckinConditionByBookingDate(Patient patient) {
 		String sql = "UPDATE PATIENT SET CHECKIN_CONDITION = ? WHERE PATIENT_IDCARD = ? AND BOOKING_DATE = ? ;";
 			try (Connection connection = dataSource.getConnection()){
 				PreparedStatement ps = connection.prepareStatement(sql);
-				ps.setInt(1, checkinCondition);
-				ps.setString(2, patientIdcard);
-				ps.setDate(3, bookingDate);
+				ps.setInt(1, patient.getCheckinCondition());
+				ps.setString(2, patient.getPatientIdcard());
+				ps.setDate(3, patient.getBookingDate());
+				System.out.println("in updatePatientCheckinConditionByBookingDate : "+ patient);
 				return ps.executeUpdate();
 			} catch (SQLException e) {
 				System.out.println("selectPatientBypatientIdcard failure");
@@ -83,6 +84,25 @@ public class PatientDAOImpl implements PatientDAO {
 			}
 			return -1;
 			
+	}
+
+	@Override
+	public int selectCountByDoctor(Date date, int doctorId) {
+		//SELECT COUNT(1) FROM PATIENT WHERE DOCTOR_ID = ? AND BOOKING_DATE = ? ;
+		String sql = "SELECT COUNT(1) FROM PATIENT WHERE DOCTOR_ID = ? AND BOOKING_DATE = ? ;";
+		try( Connection connection = dataSource.getConnection();
+		PreparedStatement ps = connection.prepareStatement(sql);){
+			ps.setInt(1, doctorId);
+			ps.setDate(2, date);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			int count = rs.getInt(1);
+			return count;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return -1;
 	}
 
 

@@ -7,6 +7,8 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import org.apache.taglibs.standard.lang.jstl.test.ParserTest;
+
 import web.booking.dao.DoctorDAOImpl;
 import web.booking.dao.DoctorScheduleDAOImpl;
 import web.booking.dao.PatientDAOImpl;
@@ -18,13 +20,37 @@ public class BookingServiceImpl implements BookingService {
 	//		
 	public BookingServiceImpl() {
 	}
-
+	
+	//patient checkin方法 成功回傳1 失敗回傳-1
+	public int patientCheckIn(Patient patient) throws NamingException {
+		PatientDAOImpl patientDAOImpl = new PatientDAOImpl();
+		patient.setCheckinCondition(1);
+//		patient.setBookingDate();
+		System.out.println("patientCheckIn at setCheckinCondition"+patient.getCheckinCondition());
+		int result = patientDAOImpl.updatePatientCheckinConditionByBookingDate(patient);
+		System.out.println("patientCheckIn int "+ result);
+		
+		return result;
+	}
 	//組裝會員編號和要booking的時段，並回傳是否新增成功 把object資料拿出來
+	//在這邊計算掛幾號
 	@Override
 	public int setPatientBooking(String memId, Patient patient) throws NamingException {
-		PatientDAOImpl patientDAOJDBC = new PatientDAOImpl();
-		int result = patientDAOJDBC.insertBookingIntoPatient(memId, patient.getPatientIdcard(), patient.getBookingDate(), patient.getAmPm(), patient.getBookingNumber(), patient.getDoctorId());
-		return result;
+		PatientDAOImpl patientDAO = new PatientDAOImpl();
+		//先查詢是否有此筆掛號
+		
+		//要先拿到patient中 某醫師某時段總共幾人
+	 	int patientCount = patientDAO.selectCountByDoctor(patient.getBookingDate(), patient.getDoctorId());
+		// 得到當天有幾人掛號
+	 	if(patientCount != -1) {
+			patient.setBookingNumber(patientCount+1);
+		}
+	 	int rowcount = patientDAO.insertBookingIntoPatient(memId, patient);
+		if (rowcount == -1) {
+			return -1;
+		} else {
+			return patient.getBookingNumber();
+		}
 	}
 	
 	// 組裝日期 醫師有上班的時段和姓名
