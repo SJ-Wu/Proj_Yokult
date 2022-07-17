@@ -1,5 +1,7 @@
 package web.staff.vo;
 
+import java.sql.Blob;
+
 public class Staff {
 	
 	private static final long serialVersionUID = 1L;
@@ -9,8 +11,11 @@ public class Staff {
 	private String staffIdNumber;
 	private String staffBirthday;
 	private String staffPhone;
-
+	private Blob staffPicture;
 	
+
+
+
 	@Override
 	public String toString() {
 		return "staff [  staffEmail=" + staffEmail + ", staffIdNumber=" + staffIdNumber
@@ -48,5 +53,11 @@ public class Staff {
 	}
 	public void setStaffPhone(String staffPhone) {
 		this.staffPhone = staffPhone;
+	}
+	public Blob getStaffPicture() {
+		return staffPicture;
+	}
+	public void setStaffPicture(Blob staffPicture) {
+		this.staffPicture = staffPicture;
 	}
 }
