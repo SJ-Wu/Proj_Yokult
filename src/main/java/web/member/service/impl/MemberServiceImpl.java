@@ -3,18 +3,15 @@ package web.member.service.impl;
 import java.util.List;
 import java.util.Objects;
 
-import javax.naming.NamingException;
-
 import web.member.dao.MemberDao;
-import web.member.dao.impl.MemberDaoJDBC;
 import web.member.service.MemberService;
 import web.member.vo.Member;
 
 public class MemberServiceImpl implements MemberService {
 	private MemberDao dao;
 
-	public MemberServiceImpl() throws NamingException {
-		dao = new MemberDaoJDBC();
+	public MemberServiceImpl(MemberDao memberDao) {
+		dao = memberDao;
 	}
 	
 	@Override

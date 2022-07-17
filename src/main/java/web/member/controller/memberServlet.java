@@ -1,9 +1,8 @@
-package web.member.servlet;
+package web.member.controller;
 
 import java.io.IOException;
 import java.util.List;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +13,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import model.hibernate.HibernateUtil;
+import web.member.dao.impl.MemberDaoHibernate;
 import web.member.service.MemberService;
 import web.member.service.impl.MemberServiceImpl;
 import web.member.vo.Member;
@@ -27,12 +28,16 @@ public class memberServlet extends HttpServlet {
 	private MemberService service;
 
 	@Override
+	public void init() throws ServletException {
+		service = new MemberServiceImpl(new MemberDaoHibernate(HibernateUtil.getSessionFactory()));
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		try {
-			service = new MemberServiceImpl();
 			List<Member> members = service.getAll();
 			if (members != null) {
 				respObject.addProperty("msg", "success");
@@ -52,7 +57,6 @@ public class memberServlet extends HttpServlet {
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		try {
-			service = new MemberServiceImpl();
 			pathInfo = req.getPathInfo();
 			infos = pathInfo.split("/");
 			if ("register".equals(infos[1])) {
@@ -73,7 +77,7 @@ public class memberServlet extends HttpServlet {
 					respObject.addProperty("msg", "fail");
 				}
 			}
-		} catch (NamingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
@@ -90,7 +94,6 @@ public class memberServlet extends HttpServlet {
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		if ("remove".equals(infos[1])) {
 			try {
-				MemberService service = new MemberServiceImpl();
 				Integer status = service.remove(member);
 				if (status > 0) {
 					respObject.addProperty("msg", "success");
@@ -114,13 +117,12 @@ public class memberServlet extends HttpServlet {
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		if ("modify".equals(infos[1])) {
 			try {
-				MemberService service = new MemberServiceImpl();
 				if (service.modify(member) > 0) {
 					respObject.addProperty("msg", "success");
 				} else {
 					respObject.addProperty("msg", "fail");
 				}
-			} catch (NamingException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println(gson.toJson(respObject));

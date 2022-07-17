@@ -21,14 +21,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/my-first-project/api/0.01/member/login",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/member/login",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"my-first-project",
+						"Proj_Yokult",
 						"api",
 						"0.01",
 						"member",
@@ -85,14 +85,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/my-first-project/api/0.01/member/modify",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/member/modify",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"my-first-project",
+						"Proj_Yokult",
 						"api",
 						"0.01",
 						"member",
@@ -109,7 +109,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"memID\": \"TGA001\"\n}",
+					"raw": "{\n    \"memID\": \"TGA1991\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -117,14 +117,14 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/my-first-project/api/0.01/member/remove",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/member/remove",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"my-first-project",
+						"Proj_Yokult",
 						"api",
 						"0.01",
 						"member",
@@ -140,14 +140,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/my-first-project/api/0.01/member/",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/member/",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"my-first-project",
+						"Proj_Yokult",
 						"api",
 						"0.01",
 						"member",

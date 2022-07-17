@@ -53,7 +53,6 @@ public class MemberDaoHibernate implements MemberDao {
 	public Integer update(Member member) {
 		Member update = (Member)this.getSession().get(Member.class, member.getMemID());
 		if (update != null) {
-			update.setMemPassword(member.getMemPassword());
 			update.setMemEmail(member.getMemEmail());
 			update.setMemFirstName(member.getMemFirstName());
 			update.setMemLastName(member.getMemLastName());
