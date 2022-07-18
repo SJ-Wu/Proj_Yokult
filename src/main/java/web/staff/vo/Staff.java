@@ -1,6 +1,5 @@
 package web.staff.vo;
 
-import java.sql.Blob;
 
 public class Staff {
 	
@@ -11,18 +10,14 @@ public class Staff {
 	private String staffIdNumber;
 	private String staffBirthday;
 	private String staffPhone;
-	private Blob staffPicture;
+	private byte[] staffPicture;
 	
-
-
 
 	@Override
 	public String toString() {
 		return "staff [  staffEmail=" + staffEmail + ", staffIdNumber=" + staffIdNumber
 				+ "]";
 	}
-
-	
 	
 	public String getStaffName() {
 		return staffName;
@@ -54,10 +49,14 @@ public class Staff {
 	public void setStaffPhone(String staffPhone) {
 		this.staffPhone = staffPhone;
 	}
-	public Blob getStaffPicture() {
+	public byte[] getStaffPicture() {
 		return staffPicture;
 	}
-	public void setStaffPicture(Blob staffPicture) {
+	public void setStaffPicture(byte[] staffPicture) {
 		this.staffPicture = staffPicture;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }
