@@ -6,14 +6,13 @@ public class Schedule {
 	private static final long serialVersionUID = 1L;
 
 	private Date scheduleDate;
-	private String workingStaff;
-	private String dayOffStaff;
-	
+	private String scheduleWorkingStaff;
+	private String scheduleDayOffStaff;
 	
 	@Override
 	public String toString() {
-		return "Schedule [scheduleDate=" + scheduleDate + ", workingStaff=" + workingStaff + ", dayOffStaff="
-				+ dayOffStaff + "]";
+		return "Schedule [scheduleDate=" + scheduleDate + ", scheduleWorkingStaff=" + scheduleWorkingStaff
+				+ ", scheduleDayOffStaff=" + scheduleDayOffStaff + "]";
 	}
 	
 	public Date getScheduleDate() {
@@ -22,17 +21,17 @@ public class Schedule {
 	public void setScheduleDate(Date scheduleDate) {
 		this.scheduleDate = scheduleDate;
 	}
-	public String getWorkingStaff() {
-		return workingStaff;
+	public String getScheduleWorkingStaff() {
+		return scheduleWorkingStaff;
 	}
-	public void setWorkingStaff(String workingStaff) {
-		this.workingStaff = workingStaff;
+	public void setScheduleWorkingStaff(String scheduleWorkingStaff) {
+		this.scheduleWorkingStaff = scheduleWorkingStaff;
 	}
-	public String getDayOffStaff() {
-		return dayOffStaff;
+	public String getScheduleDayOffStaff() {
+		return scheduleDayOffStaff;
 	}
-	public void setDayOffStaff(String dayOffStaff) {
-		this.dayOffStaff = dayOffStaff;
+	public void setScheduleDayOffStaff(String scheduleDayOffStaff) {
+		this.scheduleDayOffStaff = scheduleDayOffStaff;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
