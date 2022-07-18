@@ -1,3 +1,4 @@
+use YOKULT;
 CREATE TABLE `Product` (
   `PROID` varchar(300) NOT NULL COMMENT '商品ID',
   `PRONAME` varchar(300) NOT NULL COMMENT '商品名稱',
@@ -12,7 +13,7 @@ CREATE TABLE `Product` (
   
 
 INSERT INTO 
-	`project`.`Product` (`PROID`, `PRONAME`, `PROSTOCK`, `PROPRICE`, `PROSPECS`, `PROBRAND`, `PROPICTURE`, `PROCATEGORY`) 
+	`YOKULT`.`Product` (`PROID`, `PRONAME`, `PROSTOCK`, `PROPRICE`, `PROSPECS`, `PROBRAND`, `PROPICTURE`, `PROCATEGORY`) 
 VALUES 
 	('1', 'MARVIS義大利經典牙膏', '30', '339', '85ml', 'MARVIS ', '?', '牙膏'),
 	('2', '舒酸定強化琺瑯質兒童牙膏', '30', '180', '65g', '舒酸定', '?', '牙膏'),
