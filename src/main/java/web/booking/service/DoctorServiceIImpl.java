@@ -14,15 +14,24 @@ import web.booking.vo.Patient;
 
 public class DoctorServiceIImpl {
 	//index_doctor_chart  填寫病歷 
+	
+	//儲存病歷
+	public int updateChart(Patient patient) throws NamingException {
+		PatientDAOImpl patientDAOImpl = new PatientDAOImpl();
+		int rowcount = patientDAOImpl.updateChart(patient);
+		return rowcount;
+	}
+	
+	
 	//回傳某醫師所有病人MEMID
-	public Set<String> returnDrPatientNames(Doctor doctor) throws NamingException {
+	public Set<String> returnDrPatientIdcard(Doctor doctor) throws NamingException {
 		PatientDAOImpl patientDAOImpl = new PatientDAOImpl();
 		
 		List<Patient> list = filterPatientNames(doctor);
 		if(list.size() != 0) {
 			Set<String> set = new HashSet<String>();
 			for(Patient patient : list) {
-				set.add(patient.getMemId());
+				set.add(patient.getPatientIdcard());
 			}
 		return set;
 		}
@@ -36,7 +45,7 @@ public class DoctorServiceIImpl {
 		if(list.size() != 0) {
 			List<Date> listofDate = new ArrayList<Date>();
 			for(Patient vo : list) {
-				if(vo.getMemId().equals(patient.getMemId())) {
+				if(vo.getPatientIdcard().equals(patient.getPatientIdcard())) {
 					listofDate.add(vo.getBookingDate());
 				}
 			}
@@ -46,25 +55,23 @@ public class DoctorServiceIImpl {
 	}
 	
 	//回傳某醫師某病人已報到日期 的病歷資料
-//	public List<Date> returnDrPatientChart(Doctor doctor, Patient patient) throws NamingException {
-//		PatientDAOImpl patientDAOImpl = new PatientDAOImpl();
-//		
-//		List<Patient> list = filterPatientNames(doctor);
-//		if(list.size() != 0) {
-//			List<Date> listofDate = new ArrayList<Date>();
-//			for(Patient vo : list) {
-//				if(vo.getMemId().equals(patient.getMemId())) {
-//					listofDate.add(vo.getBookingDate());
-//				}
-//			}
-//		return listofDate;
-//		}
-//		return null;
-//	}
-//	
+	public Patient returnDrPatientChart(Doctor doctor, Patient patient) throws NamingException {
+		PatientDAOImpl patientDAOImpl = new PatientDAOImpl();
+		//過濾同樣dr 有報到的病人們的list
+		List<Patient> list = filterPatientNames(doctor);
+		if(list.size() != 0) {
+			for(Patient vo : list) {
+				if(vo.getPatientIdcard().equals(patient.getPatientIdcard()) && vo.getBookingDate().equals(patient.getBookingDate())) {
+					return vo;
+				}
+			}
+		}
+		return null;
+	}
 	
 	
-	//回傳某醫師某病人某報到日期所有欄位
+	
+
 	
 	
 	

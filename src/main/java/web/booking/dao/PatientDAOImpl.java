@@ -176,6 +176,24 @@ public class PatientDAOImpl implements PatientDAO {
 		return null;
 	}
 
+	@Override
+	public int updateChart(Patient patient) {
+		String sql = "UPDATE PATIENT SET CHART = ?  WHERE PATIENT_IDCARD = ? AND BOOKING_DATE = ?;";
+		try (Connection connection = dataSource.getConnection();
+				PreparedStatement ps = connection.prepareStatement(sql);){
+			ps.setString(1, patient.getChart());
+			ps.setString(2, patient.getPatientIdcard());
+			ps.setDate(3, patient.getBookingDate());
+			int rowcount = ps.executeUpdate();
+			System.out.println("updateChart for : "+ rowcount +"-" + patient);
+			return rowcount;
+		} catch (SQLException e) {
+			System.out.println("updateChart failure");
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
 
 
 }

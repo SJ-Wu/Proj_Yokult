@@ -40,8 +40,9 @@ public class DoctorServlet extends HttpServlet {
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
 		
-//		out.append(gson.toJson(getDrPatientNames(gson, br)));
+//		out.append(gson.toJson(getDrPatientIdcard(gson, br)));
 //		out.append(gson.toJson(getDrPatientDates(gson, br)));
+		out.append(gson.toJson(returnChart(gson, br)));
 		
 		
 		
@@ -57,35 +58,57 @@ public class DoctorServlet extends HttpServlet {
 		doGet(request, response);
 	}
 	
-	//回傳index_doctor_chart.html 的 病患姓名textbox
-	private JsonObject getDrPatientNames(Gson gson, Reader br) {
+
+
+	
+	//儲存前端傳來的病歷紀錄
+	private JsonObject updateChart(Gson gson, Reader br) {
+		DoctorServiceIImpl doctorServiceIImpl = new DoctorServiceIImpl();
+		Patient patient = gson.fromJson(br, Patient.class);
+		JsonObject jsonObject = new JsonObject();
+		int result = 0;
+		try {
+			result = doctorServiceIImpl.updateChart(patient);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		if (result == 1) {
+			jsonObject.addProperty("msg", "updateChart success");
+		} else {
+			jsonObject.addProperty("msg", "updateChart failure");
+		}
+		return jsonObject;
+	}
+	
+	//回傳index_doctor_chart.html 的 病患身分證字號
+	private JsonObject getDrPatientIdcard(Gson gson, Reader br) {
 		DoctorServiceIImpl doctorServiceIImpl = new DoctorServiceIImpl();
 		Doctor doctor = gson.fromJson(br, Doctor.class);
 		JsonObject jsonObject = new JsonObject();
 		try {
-			Set<String> set = doctorServiceIImpl.returnDrPatientNames(doctor);
+			Set<String> set = doctorServiceIImpl.returnDrPatientIdcard(doctor);
 			if (set.size()> 0) {
-				jsonObject.addProperty("msg", "get patient names success");
-				jsonObject.add("NameSet", gson.toJsonTree(set, new TypeToken<Set<String>>() {}.getType()).getAsJsonArray());
+				jsonObject.addProperty("msg", "get patient id success");
+				jsonObject.add("IDSet", gson.toJsonTree(set, new TypeToken<Set<String>>() {}.getType()).getAsJsonArray());
 			}
 			
 		} catch (NamingException e) {
-			System.out.println("getDrPatientNames failure");
-			jsonObject.addProperty("msg", "getDrPatientNames failure");
+			System.out.println("getDrPatientID failure");
+			jsonObject.addProperty("msg", "getDrPatientID failure");
 			e.printStackTrace();
 		}
 		
 		return jsonObject;
 	}
 
-	//回傳index_doctor_chart.html 的 看診日期選單
+	//回傳index_doctor_chart.html 的 看診日期選單 依據病患的身分證字號
 	private JsonObject getDrPatientDates(Gson gson, Reader br) {
 		DoctorServiceIImpl doctorServiceIImpl = new DoctorServiceIImpl();
 		DoctorChartVO doctorChartVO = gson.fromJson(br, DoctorChartVO.class);
 		Doctor doctor = new Doctor();
 		Patient patient = new Patient();
 		doctor.setDoctorId(doctorChartVO.getDoctorId());
-		patient.setMemId(doctorChartVO.getMemId());
+		patient.setPatientIdcard(doctorChartVO.getPatientIdcard());
 		System.out.println(patient);		
 		JsonObject jsonObject = new JsonObject();
 		try {
@@ -98,6 +121,33 @@ public class DoctorServlet extends HttpServlet {
 		} catch (NamingException e) {
 			System.out.println("getDrPatientDates failure");
 			jsonObject.addProperty("msg", "getDrPatientDates failure");
+			e.printStackTrace();
+		}
+		
+		return jsonObject;
+	}
+	
+	
+	//顯示原本的病歷紀錄
+	private JsonObject returnChart(Gson gson, Reader br) {
+		DoctorServiceIImpl doctorServiceIImpl = new DoctorServiceIImpl();
+		DoctorChartVO doctorChartVO = gson.fromJson(br, DoctorChartVO.class);
+		Doctor doctor = new Doctor();
+		Patient patient = new Patient();
+		doctor.setDoctorId(doctorChartVO.getDoctorId());
+		patient.setPatientIdcard(doctorChartVO.getPatientIdcard());
+		patient.setBookingDate(doctorChartVO.getBookingDate());
+		JsonObject jsonObject = new JsonObject();
+		try {
+			Patient patientChart = doctorServiceIImpl.returnDrPatientChart(doctor, patient);
+			if (patientChart != null) {
+				jsonObject.addProperty("msg", "returnChart success");
+				jsonObject.addProperty("list", gson.toJson(patientChart.getChart()));
+			}
+			
+		} catch (NamingException e) {
+			System.out.println("returnChart failure");
+			jsonObject.addProperty("msg", "returnChart failure");
 			e.printStackTrace();
 		}
 		

@@ -36,29 +36,77 @@ public class BookingServlet extends HttpServlet {
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
+		String pathInfo = request.getPathInfo();
+		String[] infos = pathInfo.split("/");
 		//開啟跨網域，html才能接收到servlet傳出的東西
 		setHeaders(response);
-//		Gson gson = new Gson();
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
-//		BookingServlet servlet = new BookingServlet();???
-		
-		out.append(gson.toJson(sendJsonOfDoctorScheduleAndDoctorName(gson, br)));
-//		out.append(gson.toJson(receiveBookingRequest(gson, br, "TGA001")));
-//		out.append(gson.toJson(servlet.patientCheckin(gson, br)));
-//		out.append(gson.toJson(bookingQuery(gson, "TGA001")));
-//		out.append(gson.toJson(cancelBooking(gson, br)));
-		
-		
-		
-		
+
+//回傳醫師上班時間 /api/0.01/booking/drSchedule
+		if ("drSchedule".equals(infos[1])) {
+			out.append(gson.toJson(sendJsonOfDoctorScheduleAndDoctorName(gson, br)));
+			br.close();
+			out.close();
+			return;
+		} else if("bookingQuery".equals(infos[1])) {
+//查詢某會員預約資訊/api/0.01/booking/bookingQuery
+			//===========還沒拿到會員資料==========!!!!!!!!!!!!!!!!!!
+			out.append(gson.toJson(bookingQuery(gson, br)));
+			br.close();
+			out.close();
+			return;
+		}
+
 		br.close();
 		out.close();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		request.setCharacterEncoding("UTF-8");
+		String pathInfo = request.getPathInfo();
+		String[] infos = pathInfo.split("/");
+		//開啟跨網域，html才能接收到servlet傳出的東西
+		setHeaders(response);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		BufferedReader br = request.getReader();
+		PrintWriter out = response.getWriter();
+
+//新增checkin /api/0.01/booking/patientCheckin
+		if ("patientCheckin".equals(infos[1])) {
+			out.append(gson.toJson(patientCheckin(gson, br)));
+			br.close();
+			out.close();
+			return;
+		} else if("receiveBookingRequest".equals(infos[1])) {
+//新增掛號/api/0.01/booking/receiveBookingRequest
+			out.append(gson.toJson(receiveBookingRequest(gson, br, "TGA001")));			
+			br.close();
+			out.close();
+			return;
+		}
+	
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		String pathInfo = request.getPathInfo();
+		String[] infos = pathInfo.split("/");
+		//開啟跨網域，html才能接收到servlet傳出的東西
+		setHeaders(response);
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		BufferedReader br = request.getReader();
+		PrintWriter out = response.getWriter();
+
+//取消預約 /api/0.01/booking/cancelBooking
+		if ("cancelBooking".equals(infos[1])) {
+			out.append(gson.toJson(cancelBooking(gson, br)));
+			br.close();
+			out.close();
+			return;
+		}
 	}
 	
 	//新增checkin方法
@@ -130,9 +178,10 @@ public class BookingServlet extends HttpServlet {
 	}
 	
 	//查詢某會員預約資訊
-	private JsonObject bookingQuery(Gson gson, String memId) {
-		Patient patient = new Patient();
-		patient.setMemId(memId);
+	private JsonObject bookingQuery(Gson gson, Reader br) {
+//		Patient patient = new Patient();
+//		patient.setMemId(memId);
+		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
 		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 		JsonObject jsonObject = new JsonObject();
@@ -149,8 +198,8 @@ public class BookingServlet extends HttpServlet {
 		jsonObject.addProperty("msg", "you have no unchecked booking data");
 		return jsonObject;
 	}
-	//取消預約
-	
+
+//取消預約
 	private JsonObject cancelBooking(Gson gson, Reader br) {
 		Patient patient = gson.fromJson(br, Patient.class);
 		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();

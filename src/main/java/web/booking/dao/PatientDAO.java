@@ -37,8 +37,7 @@ public interface PatientDAO {
 //	}
 	
 	//update病歷
-//	public int updatePatientChartByBySerialNumber(String patientIdcard, Date bookingDate,Integer checkinCondition);
-	
+	public int updateChart(Patient patient);
 	
 		
 }
