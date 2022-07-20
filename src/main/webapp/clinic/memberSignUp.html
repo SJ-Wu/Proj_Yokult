@@ -19,9 +19,10 @@
 
         <!-- Icon Font Stylesheet -->
         <link
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
             rel="stylesheet"
         />
+
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css"
             rel="stylesheet"
@@ -66,17 +67,12 @@
             </div>
         </div>
         <!-- Spinner End -->
-
         <!-- Topbar Start -->
         <div class="container-fluid bg-light ps-5 pe-0 d-none d-lg-block">
             <div class="row gx-0">
                 <div class="col-md-6 text-center text-lg-start mb-2 mb-lg-0">
                     <div class="d-inline-flex align-items-center">
-                        <small class="py-2"
-                            ><i class="far fa-clock text-primary me-2"></i
-                            >Opening Hours: Mon - Tues : 6.00 am - 10.00 pm,
-                            Sunday Closed
-                        </small>
+                        <!-- <small class="py-2"><i class="far fa-clock text-primary me-2"></i>Opening Hours:周一至周六: 9:00am - 9:00 pm, 週日公休</small> -->
                     </div>
                 </div>
                 <div class="col-md-6 text-center text-lg-end">
@@ -107,7 +103,7 @@
         >
             <a href="index.html" class="navbar-brand p-0">
                 <h1 class="m-0 text-primary">
-                    <i class="fa fa-tooth me-2"></i>DentCare
+                    <img id="LOGO" src="img/LOGO.png" alt="Logo" />牙樂多
                 </h1>
             </a>
             <button
@@ -120,48 +116,114 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active"
-                        >Home</a
-                    >
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="service.html" class="nav-item nav-link">Service</a>
+                    <!-- 連結的部分最後還要再更改 -->
                     <div class="nav-item dropdown">
                         <a
                             href="#"
                             class="nav-link dropdown-toggle"
                             data-bs-toggle="dropdown"
-                            >Pages</a
+                            >診所介紹</a
                         >
                         <div class="dropdown-menu m-0">
-                            <a href="price.html" class="dropdown-item"
-                                >Pricing Plan</a
+                            <a href="clinic.html" class="dropdown-item"
+                                >環境介紹</a
                             >
-                            <a href="team.html" class="dropdown-item"
-                                >Our Dentist</a
-                            >
-                            <a href="testimonial.html" class="dropdown-item"
-                                >Testimonial</a
-                            >
-                            <a href="appointment.html" class="dropdown-item"
-                                >Appointment</a
+                            <a href="device.html" class="dropdown-item"
+                                >設備介紹</a
                             >
                         </div>
                     </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+
+                    <a href="team.html" class="nav-item nav-link">醫療團隊</a>
+
+                    <div class="nav-item dropdown">
+                        <a
+                            href="#"
+                            class="nav-link dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            >預約看診</a
+                        >
+                        <div class="dropdown-menu m-0">
+                            <a href="price.html" class="dropdown-item"
+                                >預約門診時間</a
+                            >
+                            <a href="team.html" class="dropdown-item"
+                                >就診紀錄查詢</a
+                            >
+                            <a href="testimonial.html" class="dropdown-item"
+                                >預約查詢</a
+                            >
+                            <a href="appointment.html" class="dropdown-item"
+                                >醫生看診進度</a
+                            >
+                            <a
+                                href="appointment.html"
+                                class="dropdown-item"
+                                data-bs-toggle="dropdown"
+                                >就診報到</a
+                            >
+                            <div class="dropdown-menu m-0">
+                                <a href="service.html" class="dropdown-item"
+                                    >視訊看診</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a
+                            href="#"
+                            class="nav-link dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            >購物商城</a
+                        >
+                        <div class="dropdown-menu m-0">
+                            <a href="shopping.html" class="dropdown-item"
+                                >商品列表</a
+                            >
+                            <a href="about.html" class="dropdown-item"
+                                >購物車</a
+                            >
+                            <a href="about.html" class="dropdown-item"
+                                >結帳資訊</a
+                            >
+                        </div>
+                    </div>
+
+                    <div class="nav-item dropdown">
+                        <a
+                            href="#"
+                            class="nav-link dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            >募資平台</a
+                        >
+                        <div class="dropdown-menu m-0">
+                            <a href="about.html" class="dropdown-item"
+                                >發起提案</a
+                            >
+                            <a href="about.html" class="dropdown-item"
+                                >提案總覽</a
+                            >
+                        </div>
+                    </div>
+                    <a href="contact.html" class="nav-item nav-link"
+                        >聯絡我們</a
+                    >
                 </div>
-                <button
-                    type="button"
-                    class="btn text-dark"
-                    data-bs-toggle="modal"
-                    data-bs-target="#searchModal"
-                >
-                    <i class="fa fa-search"></i>
-                </button>
-                <a
-                    href="appointment.html"
-                    class="btn btn-primary py-2 px-4 ms-3"
-                    >Appointment</a
-                >
+
+                <!-- <a href="appointment.html" class="btn btn-primary py-2 px-4 ms-3">小幫手<i class="fa-solid fa-comment-dots"></i></a> -->
+                <div class="nav-item">
+                    <a href="appointment.html" class="nav-item nav-link">
+                        <i class="fa-solid fa-comment-dots"></i>小幫手
+                    </a>
+                </div>
+
+                <div class="nav-item">
+                    <a href="memberLogin.html" class="nav-item nav-link">
+                        <i class="fa-solid fa-circle-user"></i>登入
+                    </a>
+                </div>
+                <!-- <button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa-solid fa-circle-user"></i>登入</button> -->
             </div>
         </nav>
         <!-- Navbar End -->
@@ -194,20 +256,18 @@
                 <!-- /.login-logo -->
                 <div class="card card-outline card-primary">
                     <div class="card-header text-center">
-                        <a href="../../index2.html" class="h1">
-                            <h3 class="card-title">牙樂多牙醫診所</h3>
-                        </a>
+                        <h3 class="card-title">牙樂多牙醫診所</h3>
                     </div>
                     <div class="card-body">
-                        <p class="login-box-msg">註冊會員</p>
-
                         <form>
                             <div class="input-group mb-3">
                                 <input
                                     type="text"
                                     id="memID"
                                     class="form-control"
-                                    placeholder="請輸入帳號"
+                                    placeholder="請輸入帳號(大小寫英文數字長度必需在6到20之間)"
+                                    pattern="[(a-zA-Z0-9_)]{6,20}"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -224,6 +284,7 @@
                                     id="memPassword"
                                     class="form-control"
                                     placeholder="請輸入密碼"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -240,6 +301,7 @@
                                     id="memPasswordConfirm"
                                     class="form-control"
                                     placeholder="請再次輸入密碼"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -255,13 +317,17 @@
                                     type="text"
                                     id="memLastName"
                                     class="form-control"
-                                    placeholder="姓氏"
+                                    placeholder="姓氏(最多10個字元)"
+                                    pattern="[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,10}"
+                                    required
                                 />
                                 <input
                                     type="text"
                                     id="memFirstName"
                                     class="form-control"
-                                    placeholder="名字"
+                                    placeholder="名字(最多10個字元)"
+                                    pattern="[(\u4e00-\u9fa5)(a-zA-Z0-9_)]{1,10}"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -274,10 +340,12 @@
                             </div>
                             <div class="input-group mb-3">
                                 <input
-                                    type="date"
-                                    id="memBirth"
-                                    class="form-control"
                                     placeholder="出生日期"
+                                    class="form-control"
+                                    type="text"
+                                    onfocus="(this.type='date')"
+                                    id="memBirth"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -295,6 +363,7 @@
                                     type="email"
                                     id="memEmail"
                                     class="form-control"
+                                    pattern="[\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3}"
                                     placeholder="信箱"
                                 />
                                 <div class="input-group-append">
@@ -310,10 +379,12 @@
                             </div>
                             <div class="input-group mb-3">
                                 <input
-                                    type="text"
+                                    type="tel"
                                     id="memCellPhone"
                                     class="form-control"
+                                    pattern="[0-9]{10}"
                                     placeholder="手機號碼"
+                                    required
                                 />
                                 <div class="input-group-append">
                                     <div
@@ -341,7 +412,7 @@
                                 </div>
                             </div>
 
-                            <div class="input-group mb-3">
+                            <!-- <div class="input-group mb-3">
                                 <input
                                     type="text"
                                     class="form-control"
@@ -359,31 +430,30 @@
                                         />
                                     </div>
                                 </div>
-                            </div>
-
+                            </div> -->
                             <div class="row">
-                                <div class="col-8" style="width: 35%">
+                                <button
+                                    type="submit"
+                                    id="btn_signup"
+                                    class="btn btn-primary"
+                                >
+                                    註冊
+                                </button>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-8" style="width: 35%">
                                     <div class="icheck-primary">
                                         <input type="checkbox" id="remember" />
                                         <label for="remember">
                                             記住我(未啟用)
                                         </label>
                                     </div>
-                                </div>
+                                </div> -->
                                 <!-- /.col -->
                                 <!-- <div class="col-4">
                                         <button type="submit" class="btn btn-primary btn-block">註冊</button>
                                     </div> -->
                                 <!-- 按鈕開始 -->
-                                <button
-                                    type="button"
-                                    id="btn_signup"
-                                    class="btn btn-primary"
-                                    data-toggle="modal"
-                                    data-target="#exampleModal"
-                                >
-                                    註冊
-                                </button>
 
                                 <!-- Modal -->
                                 <div
@@ -453,82 +523,33 @@
         <div
             class="container-fluid bg-dark text-light py-5 wow fadeInUp"
             data-wow-delay="0.3s"
-            style="margin-top: -75px"
+            style="margin-top: -45px"
         >
             <div class="container pt-5">
                 <div class="row g-5 pt-4">
-                    <div class="col-lg-3 col-md-6">
-                        <h3 class="text-white mb-4">Quick Links</h3>
+                    <div class="col-lg-1 col-md-6"></div>
+
+                    <div class="col-lg-2 col-md-6">
+                        <h3 class="text-white mb-4"></h3>
                         <div class="d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Home</a
+                            <!-- 連結的部分最後還要再更改 -->
+                            <a href="team.html" class="nav-item nav-link"
+                                >醫療團隊</a
                             >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >About Us</a
+                            <a href="price.html" class="nav-item nav-link"
+                                >預約看診</a
                             >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Our Services</a
+                            <a href="about.html" class="nav-item nav-link"
+                                >購物商城</a
                             >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Latest Blog</a
-                            >
-                            <a class="text-light" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Contact Us</a
+                            <a href="about.html" class="nav-item nav-link"
+                                >募資平台</a
                             >
                         </div>
                     </div>
+
                     <div class="col-lg-3 col-md-6">
-                        <h3 class="text-white mb-4">Popular Links</h3>
-                        <div class="d-flex flex-column justify-content-start">
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Home</a
-                            >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >About Us</a
-                            >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Our Services</a
-                            >
-                            <a class="text-light mb-2" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Latest Blog</a
-                            >
-                            <a class="text-light" href="#"
-                                ><i
-                                    class="bi bi-arrow-right text-primary me-2"
-                                ></i
-                                >Contact Us</a
-                            >
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h3 class="text-white mb-4">Get In Touch</h3>
+                        <h3 class="text-white mb-4">聯絡牙樂多</h3>
                         <p class="mb-2">
                             <i class="bi bi-geo-alt text-primary me-2"></i>123
                             Street, New York, USA
@@ -542,34 +563,59 @@
                             >+012 345 67890
                         </p>
                     </div>
-                    <div class="col-lg-3 col-md-6">
-                        <h3 class="text-white mb-4">Follow Us</h3>
-                        <div class="d-flex">
-                            <a
-                                class="btn btn-lg btn-primary btn-lg-square rounded me-2"
-                                href="#"
-                                ><i class="fab fa-twitter fw-normal"></i
-                            ></a>
-                            <a
-                                class="btn btn-lg btn-primary btn-lg-square rounded me-2"
-                                href="#"
-                                ><i class="fab fa-facebook-f fw-normal"></i
-                            ></a>
-                            <a
-                                class="btn btn-lg btn-primary btn-lg-square rounded me-2"
-                                href="#"
-                                ><i class="fab fa-linkedin-in fw-normal"></i
-                            ></a>
-                            <a
-                                class="btn btn-lg btn-primary btn-lg-square rounded"
-                                href="#"
-                                ><i class="fab fa-instagram fw-normal"></i
-                            ></a>
+
+                    <div
+                        class="col-xl-6 col-lg-6 wow slideInUp"
+                        data-wow-delay="0.1s"
+                    >
+                        <div class="bg-light rounded h-100 p-5">
+                            <div class="section-title">
+                                <h5
+                                    class="position-relative d-inline-block text-primary text-uppercase"
+                                >
+                                    Opening Hours
+                                </h5>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2">
+                                <i
+                                    class="fa-solid fa-stethoscope text-primary me-3"
+                                ></i>
+                                <div class="text-start">
+                                    <h5 class="mb-0">周一至周五</h5>
+                                    <span
+                                        >9:00am-12:00pm <br />3:00-9:00pm</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center mb-2">
+                                <i
+                                    class="fa-solid fa-stethoscope text-primary me-3"
+                                ></i>
+                                <div class="text-start">
+                                    <h5 class="mb-0">週六Saturday</h5>
+                                    <span
+                                        >9:00am-12:00pm <br />3:00-6:00pm</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-center">
+                                <i
+                                    class="fa-solid fa-door-closed text-primary me-3"
+                                ></i>
+                                <div class="text-start">
+                                    <h5 class="mb-0">週日</h5>
+                                    <span>公休</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div
             class="container-fluid text-light py-4"
             style="background: #051225"

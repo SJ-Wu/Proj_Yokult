@@ -562,47 +562,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <!-- /.card-header -->
                                     <div class="card-body">
                                         <table
-                                            id="example2"
+                                            id="memberTable"
                                             class="table table-bordered table-hover"
                                         >
                                             <thead>
                                                 <tr>
-                                                    <th>會員帳號</th>
+                                                    <th>帳號</th>
                                                     <th>電子信箱</th>
-                                                    <th>會員姓名</th>
+                                                    <th>姓名</th>
                                                     <th>出生日期</th>
                                                     <th>手機號碼</th>
-                                                    <th>聯絡電話</th>
                                                     <th>居住地址</th>
                                                     <th>操作</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>tga10227</td>
-                                                    <td>
-                                                        tibame1010@gmail.com
-                                                    </td>
-                                                    <td>吳昇儒</td>
-                                                    <td>2000.01.01</td>
-                                                    <td>0910-123-456</td>
-                                                    <td>02-22223333</td>
-                                                    <td>
-                                                        台北市大安區羅斯福路100號
-                                                    </td>
-                                                    <td>
-                                                        <button
-                                                            class="btn-xs btn-light"
-                                                        >
-                                                            重設密碼
-                                                        </button>
-                                                        <button
-                                                            class="btn-xs btn-light"
-                                                        >
-                                                            刪除會員
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                            <tbody id="memberList">
+                                                <!-- javascript render memberlist -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -640,9 +615,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <!-- jQuery -->
         <script src="plugins/jquery/jquery.min.js"></script>
+        <!-- Axios -->
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- Bootstrap 4 -->
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <!-- AdminLTE App -->
         <script src="js/adminlte.min.js"></script>
+        <script src="js/admin_member.js"></script>
     </body>
 </html>
