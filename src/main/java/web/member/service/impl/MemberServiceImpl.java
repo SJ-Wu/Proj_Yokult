@@ -15,6 +15,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 	
 	@Override
+	public Member getOne(String account) {
+		return dao.selectByMemberID(account);
+	}
+	
+	@Override
 	public List<Member> getAll() {
 		return dao.selectAll();
 	}

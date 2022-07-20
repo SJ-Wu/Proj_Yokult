@@ -34,6 +34,12 @@ public class MemberDaoHibernate implements MemberDao {
 	}
 
 	@Override
+	public Member selectByMemberID(String account) {
+		Member resultMember = (Member)this.getSession().get(Member.class, account);
+		return (resultMember != null) ? resultMember : null;
+	}
+	
+	@Override
 	public Member selectByMemberIdAndPassword(Member member) {
 		Member resultMember = (Member)this.getSession().get(Member.class, member.getMemID());
 		if (resultMember != null) {

@@ -5,6 +5,8 @@ import java.util.List;
 import web.member.vo.Member;
 
 public interface MemberService {
+	Member getOne(String account);
+	
 	List<Member> getAll();
 	
 	Integer register(Member member);

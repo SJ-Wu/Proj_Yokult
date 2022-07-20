@@ -38,10 +38,24 @@ public class memberServlet extends HttpServlet {
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		try {
-			List<Member> members = service.getAll();
-			if (members != null) {
-				respObject.addProperty("msg", "success");
-				respObject.add("members", gson.toJsonTree(members));
+			pathInfo = req.getPathInfo();
+			infos = pathInfo.split("/");
+			if (infos.length > 0 && !infos[1].isEmpty()) {
+				Member member = service.getOne(infos[1]);
+				if (member != null) {
+					respObject.addProperty("msg", "success");
+					respObject.add("member", gson.toJsonTree(member));
+				} else {
+					respObject.addProperty("msg", "fail");
+				}
+			} else {
+				List<Member> members = service.getAll();
+				if (members != null) {
+					respObject.addProperty("msg", "success");
+					respObject.add("members", gson.toJsonTree(members));
+				} else {
+					respObject.addProperty("msg", "fail");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -72,7 +86,7 @@ public class memberServlet extends HttpServlet {
 					respObject.addProperty("msg", "success");
 					// Referenced from
 					// https://stackoverflow.com/questions/22585970/how-to-add-an-object-as-a-property-of-a-jsonobject-object
-					respObject.add("member", new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJsonTree(member));
+					respObject.add("member", gson.toJsonTree(member));
 				} else {
 					respObject.addProperty("msg", "fail");
 				}
