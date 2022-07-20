@@ -14,7 +14,16 @@ public interface PatientDAO {
 	
 	//查詢列出病患身份證字號為?預約狀態為?()的病患table所有欄位
 	//病歷也在這裡查
-	public List<Patient> selectPatientBypatientIdcard(String patientIdcard, Integer checkinCondition);
+	public List<Patient> selectPatientByIdcardAndCheckinCondition(Patient patient);
+	
+	//查詢列出病患身份證字號為? getCheckinCondition=?的病患所有欄位
+	public List<Patient> selectPatientByIdcard(Patient patient);
+	
+	//查詢列出病患會員為? 的病患所有欄位 
+	public List<Patient> selectPatientBymemId(Patient patient);
+	
+	public List<Patient> selectAll();
+	
 	
 	//(刪除/修改)病患身份證字號為A123456788 看診預約日期為=?? 預約狀態為=?
 	// 刪除病患身份證字號為A123456788 看診預約日期為??=? 預約狀態為? =1

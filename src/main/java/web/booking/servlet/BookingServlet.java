@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import web.booking.service.BookingService;
 import web.booking.service.BookingServiceImpl;
@@ -29,6 +31,9 @@ public class BookingServlet extends HttpServlet {
     public BookingServlet() {
         super();
     }
+    
+    //最後再來分類doXXX
+    
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		//開啟跨網域，html才能接收到servlet傳出的東西
@@ -37,10 +42,17 @@ public class BookingServlet extends HttpServlet {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
-		BookingServlet servlet = new BookingServlet();
+//		BookingServlet servlet = new BookingServlet();???
 		
+		out.append(gson.toJson(sendJsonOfDoctorScheduleAndDoctorName(gson, br)));
 //		out.append(gson.toJson(receiveBookingRequest(gson, br, "TGA001")));
-		out.append(gson.toJson(servlet.patientCheckin(gson, br)));
+//		out.append(gson.toJson(servlet.patientCheckin(gson, br)));
+//		out.append(gson.toJson(bookingQuery(gson, "TGA001")));
+//		out.append(gson.toJson(cancelBooking(gson, br)));
+		
+		
+		
+		
 		br.close();
 		out.close();
 	}
@@ -106,13 +118,55 @@ public class BookingServlet extends HttpServlet {
 			//送到前端要把JsonObject轉json
 			jsonObject.addProperty("msg", "sendSchedule success");
 			jsonObject.add("schedule", drNameScheduleJsonObject);
+			System.out.println("sendSchedule success");
 			return jsonObject;
 		} catch (NamingException e) {
 			System.out.println("NamingException at sendJsonOfDoctorScheduleAndDoctorName()");
 			jsonObject.addProperty("msg", "sendSchedule failure");
+			System.out.println("sendSchedule failure");
 			e.printStackTrace();
 			return jsonObject;
 		}
+	}
+	
+	//查詢某會員預約資訊
+	private JsonObject bookingQuery(Gson gson, String memId) {
+		Patient patient = new Patient();
+		patient.setMemId(memId);
+		//patient傳給service service再查出預約日期
+		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
+		JsonObject jsonObject = new JsonObject();
+		try {
+			List<Patient> list = bookingServiceImpl.getPatientBooking(patient);
+			if(list != null) {
+				jsonObject.addProperty("msg", "bookingQuery sucess");
+				jsonObject.add("list", gson.toJsonTree(list, new TypeToken<List<Patient>>() {}.getType()).getAsJsonArray());
+				return jsonObject;
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		jsonObject.addProperty("msg", "you have no unchecked booking data");
+		return jsonObject;
+	}
+	//取消預約
+	
+	private JsonObject cancelBooking(Gson gson, Reader br) {
+		Patient patient = gson.fromJson(br, Patient.class);
+		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
+		JsonObject jsonObject = new JsonObject();
+		//傳入一筆要改變預約的patient
+		try {
+			int result = bookingServiceImpl.patientCancel(patient);
+			if(result == 1) {
+				jsonObject.addProperty("msg", "cancel success");
+				return jsonObject;
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		jsonObject.addProperty("msg", "cancel failure");
+		return jsonObject;
 	}
 	
 	private void setHeaders(HttpServletResponse response) {

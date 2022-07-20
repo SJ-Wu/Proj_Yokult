@@ -1,0 +1,137 @@
+{
+	"info": {
+		"_postman_id": "ded4b7bd-2cc8-446a-b5c5-24ad5670ff23",
+		"name": "Yokult_booking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Booking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \r\n    \"patientIdcard\":\"F123555667\",\r\n    \"bookingDate\":\"2022-07-17\",\r\n    \"amPm\": \"早\",\r\n    \"doctorId\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSchedule",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"date1\":\"2022-07-15\",\r\n\"date2\":\"2022-08-01\",\r\n\"doctorId\":1\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelBooking",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"patientIdcard\": \"F12355566\",\r\n    \"bookingDate\": \"2022-07-17\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"booking",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
