@@ -1,6 +1,7 @@
 package web.member.controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -34,8 +35,7 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		setHeaders(req, resp);
 		JsonObject respObject = new JsonObject();
 		try {
 			pathInfo = req.getPathInfo();
@@ -65,9 +65,7 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
-
+		setHeaders(req, resp);
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		try {
@@ -100,8 +98,7 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		setHeaders(req, resp);
 		pathInfo = req.getPathInfo();
 		infos = pathInfo.split("/");
 		JsonObject respObject = new JsonObject();
@@ -123,12 +120,13 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		// System.out.println("getCharacterEncoding: "+req.getCharacterEncoding());
+		setHeaders(req, resp);
 		pathInfo = req.getPathInfo();
 		infos = pathInfo.split("/");
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
+		System.out.println(member);
 		if ("modify".equals(infos[1])) {
 			try {
 				if (service.modify(member) > 0) {
@@ -149,10 +147,15 @@ public class memberServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		setHeaders(resp);
+		setHeaders(req, resp);
 	}
 
-	private void setHeaders(HttpServletResponse response) {
+	private void setHeaders(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+		if (request.getCharacterEncoding() == null) {
+			request.setCharacterEncoding("UTF-8");
+		}
+
 		// 重要
 		response.setContentType("application/json;charset=UTF-8");
 		response.setHeader("Cache-control", "no-cache, no-store");
