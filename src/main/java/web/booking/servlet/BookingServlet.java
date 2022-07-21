@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -43,21 +44,22 @@ public class BookingServlet extends HttpServlet {
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
-
-//回傳醫師上班時間 /api/0.01/booking/drSchedule
+		
 		if ("drSchedule".equals(infos[1])) {
-			out.append(gson.toJson(sendJsonOfDoctorScheduleAndDoctorName(gson, br)));
+	//回傳醫師上班時間 /api/0.01/booking/drSchedule
+			out.append(gson.toJson(sendJsonOfDoctorScheduleAndDoctorName(gson, request)));
 			br.close();
 			out.close();
 			return;
 		} else if("bookingQuery".equals(infos[1])) {
 //查詢某會員預約資訊/api/0.01/booking/bookingQuery
 			//===========還沒拿到會員資料==========!!!!!!!!!!!!!!!!!!
-			out.append(gson.toJson(bookingQuery(gson, br)));
+			out.append(gson.toJson(bookingQuery(gson, request)));
 			br.close();
 			out.close();
 			return;
 		}
+
 
 		br.close();
 		out.close();
@@ -85,7 +87,7 @@ public class BookingServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
-		}
+		} 
 	
 	}
 	
@@ -153,8 +155,14 @@ public class BookingServlet extends HttpServlet {
 	}
 	
 	//回傳醫師上班時間
-	private JsonObject sendJsonOfDoctorScheduleAndDoctorName(Gson gson, Reader br) {
-		PatientBookingVO vo = gson.fromJson(br, PatientBookingVO.class);
+	private JsonObject sendJsonOfDoctorScheduleAndDoctorName(Gson gson, HttpServletRequest request) {
+//		PatientBookingVO vo = gson.fromJson(br, PatientBookingVO.class);
+//		System.out.println(vo);
+		String date1sql = request.getParameter("date1").replace("/", "-");
+		String date2sql = request.getParameter("date2").replace("/", "-");
+//		System.out.println(date1sql);
+//		System.out.println(date2sql);
+		PatientBookingVO vo = new PatientBookingVO(Date.valueOf(date1sql), Date.valueOf(date2sql),Integer.valueOf(request.getParameter("doctorId")));
 		JsonObject jsonObject = new JsonObject();
 		//把東西轉成GSON丟出
 		BookingService bookingService = new BookingServiceImpl();
@@ -178,10 +186,10 @@ public class BookingServlet extends HttpServlet {
 	}
 	
 	//查詢某會員預約資訊
-	private JsonObject bookingQuery(Gson gson, Reader br) {
-//		Patient patient = new Patient();
-//		patient.setMemId(memId);
-		Patient patient = gson.fromJson(br, Patient.class);
+	private JsonObject bookingQuery(Gson gson, HttpServletRequest request) {
+		Patient patient = new Patient();
+		patient.setMemId(request.getParameter("memId"));
+//		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
 		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 		JsonObject jsonObject = new JsonObject();
