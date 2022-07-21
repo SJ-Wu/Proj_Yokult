@@ -1,11 +1,13 @@
 package web.member.service;
 
-import java.util.Set;
+import java.util.List;
 
 import web.member.vo.Member;
 
 public interface MemberService {
-	Set<Member> getAll();
+	Member getOne(String account);
+	
+	List<Member> getAll();
 	
 	Integer register(Member member);
 

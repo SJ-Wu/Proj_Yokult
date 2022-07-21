@@ -1,9 +1,9 @@
-package web.member.servlet;
+package web.member.controller;
 
 import java.io.IOException;
-import java.util.Set;
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
-import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,6 +14,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
+import model.hibernate.HibernateUtil;
+import web.member.dao.impl.MemberDaoHibernate;
 import web.member.service.MemberService;
 import web.member.service.impl.MemberServiceImpl;
 import web.member.vo.Member;
@@ -27,16 +29,33 @@ public class memberServlet extends HttpServlet {
 	private MemberService service;
 
 	@Override
+	public void init() throws ServletException {
+		service = new MemberServiceImpl(new MemberDaoHibernate(HibernateUtil.getSessionFactory()));
+	}
+
+	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		setHeaders(req, resp);
 		JsonObject respObject = new JsonObject();
 		try {
-			service = new MemberServiceImpl();
-			Set<Member> members = service.getAll();
-			if (members != null) {
-				respObject.addProperty("msg", "success");
-				respObject.add("members", gson.toJsonTree(members));
+			pathInfo = req.getPathInfo();
+			infos = pathInfo.split("/");
+			if (infos.length > 0 && !infos[1].isEmpty()) {
+				Member member = service.getOne(infos[1]);
+				if (member != null) {
+					respObject.addProperty("msg", "success");
+					respObject.add("member", gson.toJsonTree(member));
+				} else {
+					respObject.addProperty("msg", "fail");
+				}
+			} else {
+				List<Member> members = service.getAll();
+				if (members != null) {
+					respObject.addProperty("msg", "success");
+					respObject.add("members", gson.toJsonTree(members));
+				} else {
+					respObject.addProperty("msg", "fail");
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,13 +65,10 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
-
+		setHeaders(req, resp);
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		try {
-			service = new MemberServiceImpl();
 			pathInfo = req.getPathInfo();
 			infos = pathInfo.split("/");
 			if ("register".equals(infos[1])) {
@@ -68,12 +84,12 @@ public class memberServlet extends HttpServlet {
 					respObject.addProperty("msg", "success");
 					// Referenced from
 					// https://stackoverflow.com/questions/22585970/how-to-add-an-object-as-a-property-of-a-jsonobject-object
-					respObject.add("member", new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJsonTree(member));
+					respObject.add("member", gson.toJsonTree(member));
 				} else {
 					respObject.addProperty("msg", "fail");
 				}
 			}
-		} catch (NamingException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
@@ -82,15 +98,13 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		setHeaders(req, resp);
 		pathInfo = req.getPathInfo();
 		infos = pathInfo.split("/");
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		if ("remove".equals(infos[1])) {
 			try {
-				MemberService service = new MemberServiceImpl();
 				Integer status = service.remove(member);
 				if (status > 0) {
 					respObject.addProperty("msg", "success");
@@ -106,21 +120,21 @@ public class memberServlet extends HttpServlet {
 
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
+		// System.out.println("getCharacterEncoding: "+req.getCharacterEncoding());
+		setHeaders(req, resp);
 		pathInfo = req.getPathInfo();
 		infos = pathInfo.split("/");
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
+		System.out.println(member);
 		if ("modify".equals(infos[1])) {
 			try {
-				MemberService service = new MemberServiceImpl();
 				if (service.modify(member) > 0) {
 					respObject.addProperty("msg", "success");
 				} else {
 					respObject.addProperty("msg", "fail");
 				}
-			} catch (NamingException e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			System.out.println(gson.toJson(respObject));
@@ -133,10 +147,15 @@ public class memberServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		setHeaders(resp);
+		setHeaders(req, resp);
 	}
 
-	private void setHeaders(HttpServletResponse response) {
+	private void setHeaders(HttpServletRequest request, HttpServletResponse response)
+			throws UnsupportedEncodingException {
+		if (request.getCharacterEncoding() == null) {
+			request.setCharacterEncoding("UTF-8");
+		}
+
 		// 重要
 		response.setContentType("application/json;charset=UTF-8");
 		response.setHeader("Cache-control", "no-cache, no-store");

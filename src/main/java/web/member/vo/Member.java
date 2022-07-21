@@ -1,19 +1,40 @@
 package web.member.vo;
 
-import java.io.Serializable;
 import java.sql.Date;
 
-public class Member implements Serializable {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "MEMBER")
+public class Member {
+	@Id
+	@Column(name = "MEMID")
 	private String memID;
+	
+	@Column(name = "PASSWORD")
 	private String memPassword;
+	
+	@Column(name = "EMAIL")
 	private String memEmail;
+	
+	@Column(name = "FIRSTNAME")
 	private String memFirstName;
+	
+	@Column(name = "LASTNAME")
 	private String memLastName;
+	
+	@Column(name = "BIRTH", nullable = true)
 	private Date memBirth;
+	
+	@Column(name = "CELLPHONE", length = 10)
 	private String memCellPhone;
+	
+	@Column(name = "ADDR", nullable = true)
 	private String memAddress;
+
 
 	@Override
 	public String toString() {
