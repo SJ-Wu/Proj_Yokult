@@ -1,14 +1,21 @@
 window.onload = () => {
-    axios.get("/js/member_center.json", {}).then((response) => {
-        console.log(response.data);
-        let msg = response.data["msg"];
-        if (msg === "success") {
-            let member = {};
-            member = response.data["member"];
-            console.log(member);
-            addList(member);
-        }
-    });
+    axios
+        .get(
+            `http://localhost:8080/Proj_Yokult/api/0.01/member/${sessionStorage.getItem(
+                "account"
+            )}`,
+            {}
+        )
+        .then((response) => {
+            console.log(response.data);
+            let msg = response.data["msg"];
+            if (msg === "success") {
+                let member = {};
+                member = response.data["member"];
+                console.log(member);
+                addList(member);
+            }
+        });
     $("#memberInfo").on("click", "#btn_modify_member", (e) => {
         let member = {};
         member["memID"] = document.getElementById("mem_id").value;

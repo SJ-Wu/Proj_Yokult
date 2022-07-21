@@ -16,11 +16,10 @@ window.onload = (e) => {
                     let member = response.data["member"];
                     let firstName = member["memFirstName"];
                     let lastName = member["memLastName"];
+                    sessionStorage.setItem("account", member["memID"]);
                     alert(`${lastName} ${firstName}歡迎`);
-                    //TODO: Add session property
                     //TODO: index header show account
-                    // window.location.replace("../memberCenter.html");
-                    window.location.replace("../index.html");
+                    window.location.replace("../memberCenter.html");
                 } else {
                     alert("登入失敗");
                 }

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -27,6 +28,7 @@ public class memberServlet extends HttpServlet {
 	private String pathInfo;
 	private String[] infos;
 	private MemberService service;
+	private HttpSession session;
 
 	@Override
 	public void init() throws ServletException {
@@ -42,10 +44,11 @@ public class memberServlet extends HttpServlet {
 			infos = pathInfo.split("/");
 			if (infos.length > 0 && !infos[1].isEmpty()) {
 				Member member = service.getOne(infos[1]);
-				if (member != null) {
+				if (member != null && (member.getMemID().equals((String) session.getAttribute("account")))) {
 					respObject.addProperty("msg", "success");
 					respObject.add("member", gson.toJsonTree(member));
-				} else {
+				}
+				else {
 					respObject.addProperty("msg", "fail");
 				}
 			} else {
@@ -57,7 +60,9 @@ public class memberServlet extends HttpServlet {
 					respObject.addProperty("msg", "fail");
 				}
 			}
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
@@ -75,6 +80,8 @@ public class memberServlet extends HttpServlet {
 				Integer status = service.register(member);
 				if (status > 0) {
 					respObject.addProperty("msg", "success");
+					session = req.getSession();
+					session.setAttribute("account", member.getMemID());
 				} else {
 					respObject.addProperty("msg", "fail");
 				}
@@ -82,6 +89,8 @@ public class memberServlet extends HttpServlet {
 				member = service.login(member);
 				if (member != null) {
 					respObject.addProperty("msg", "success");
+					session = req.getSession();
+					session.setAttribute("account", member.getMemID());
 					// Referenced from
 					// https://stackoverflow.com/questions/22585970/how-to-add-an-object-as-a-property-of-a-jsonobject-object
 					respObject.add("member", gson.toJsonTree(member));
