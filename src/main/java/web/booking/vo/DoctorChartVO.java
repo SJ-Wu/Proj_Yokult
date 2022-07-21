@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class DoctorChartVO implements Serializable {
 	private Integer doctorId;
-	private String memId;
+	private String memID;
 	private String patientIdcard;
 	private java.sql.Date bookingDate;
 	
@@ -21,10 +21,10 @@ public class DoctorChartVO implements Serializable {
 		this.doctorId = doctorId;
 	}
 	public String getMemId() {
-		return memId;
+		return memID;
 	}
-	public void setMemId(String memId) {
-		this.memId = memId;
+	public void setMemId(String memID) {
+		this.memID = memID;
 	}
 	public String getPatientIdcard() {
 		return patientIdcard;

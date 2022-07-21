@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -93,11 +94,11 @@ public class BookingServlet extends HttpServlet {
 	
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		String pathInfo = request.getPathInfo();
 		String[] infos = pathInfo.split("/");
 		//開啟跨網域，html才能接收到servlet傳出的東西
-		setHeaders(response);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
@@ -133,13 +134,27 @@ public class BookingServlet extends HttpServlet {
 	}
 	
 	//新增掛號資料方法 
-	private JsonObject receiveBookingRequest(Gson gson, Reader br, String memId) {
+	private JsonObject receiveBookingRequest(Gson gson, Reader br, String memID) {
 		BookingService bookingService = new BookingServiceImpl();
 		Patient patient = gson.fromJson(br, Patient.class);
 		int bookingNumber = 0;
 		JsonObject jsonObject = new JsonObject();
+//		System.out.println(patient);
+		if((patient.getPatientIdcard().length() == 0)) {
+			jsonObject.addProperty("msg", "IDCARD didn't key in");
+			return jsonObject;
+		}
+		if((patient.getBookingDate() == null)) {
+			jsonObject.addProperty("msg", "TIME didn't key in");
+			return jsonObject;
+		}
+		
+		if((patient.getPatientIdcard() != null) && (!patient.getPatientIdcard().matches("^[A-Z]{1}[1-2]{1}[0-9]{8}$"))) {
+			jsonObject.addProperty("msg", "PatientIdcard wrong format");
+			return jsonObject;
+		}
 		try {
-			bookingNumber = bookingService.setPatientBooking(memId, patient);
+			bookingNumber = bookingService.setPatientBooking(memID, patient);
 		} catch (NamingException e) {
 			System.out.println("receiveBookingRequest failure");
 			e.printStackTrace();
@@ -188,16 +203,18 @@ public class BookingServlet extends HttpServlet {
 	//查詢某會員預約資訊
 	private JsonObject bookingQuery(Gson gson, HttpServletRequest request) {
 		Patient patient = new Patient();
-		patient.setMemId(request.getParameter("memId"));
+		patient.setMemID(request.getParameter("memID"));
 //		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
 		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 		JsonObject jsonObject = new JsonObject();
 		try {
-			List<Patient> list = bookingServiceImpl.getPatientBooking(patient);
+			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);
 			if(list != null) {
 				jsonObject.addProperty("msg", "bookingQuery sucess");
-				jsonObject.add("list", gson.toJsonTree(list, new TypeToken<List<Patient>>() {}.getType()).getAsJsonArray());
+				jsonObject.add("list", gson.toJsonTree(list, new TypeToken<List<HashMap<String, Object>>>() {}.getType()).getAsJsonArray());
+				System.out.println("bookingQuery sucess");
+				System.out.println(list);
 				return jsonObject;
 			}
 		} catch (NamingException e) {
@@ -240,8 +257,8 @@ public class BookingServlet extends HttpServlet {
 		response.addHeader("Access-Control-Max-Age", "86400");
 	}
 	
-//	@Override
-//	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		setHeaders(resp);
-//	}
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		setHeaders(resp);
+	}
 }

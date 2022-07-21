@@ -20,7 +20,7 @@ public class Patient implements Serializable {
 	private Integer serialNumber;
 	
 //	@Column(name = "MEMID")
-	private String memId;
+	private String memID;
 	
 //	@Column(name = "PATIENT_IDCARD")
 	private String patientIdcard;
@@ -51,11 +51,11 @@ public class Patient implements Serializable {
 	}
 
 	//has serialNumber
-	public Patient(Integer serialNumber, String memId, String patientIdcard, Date bookingDate, String amPm,
+	public Patient(Integer serialNumber, String memID, String patientIdcard, Date bookingDate, String amPm,
 			Integer bookingNumber, String doctorAlphabet, Integer doctorId, Integer checkinCondition, String chart) {
 		super();
 		this.serialNumber = serialNumber;
-		this.memId = memId;
+		this.memID = memID;
 		this.patientIdcard = patientIdcard;
 		this.bookingDate = bookingDate;
 		this.amPm = amPm;
@@ -66,10 +66,10 @@ public class Patient implements Serializable {
 		this.chart = chart;
 	}
 	// no serialNumber
-	public Patient(String memId, String patientIdcard, Date bookingDate, String amPm, Integer bookingNumber,
+	public Patient(String memID, String patientIdcard, Date bookingDate, String amPm, Integer bookingNumber,
 			String doctorAlphabet, Integer doctorId, Integer checkinCondition, String chart) {
 		super();
-		this.memId = memId;
+		this.memID = memID;
 		this.patientIdcard = patientIdcard;
 		this.bookingDate = bookingDate;
 		this.amPm = amPm;
@@ -82,7 +82,7 @@ public class Patient implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Patient [serialNumber=" + serialNumber + ", memId=" + memId + ", patientIdcard=" + patientIdcard
+		return "Patient [serialNumber=" + serialNumber + ", memID=" + memID + ", patientIdcard=" + patientIdcard
 				+ ", bookingDate=" + bookingDate + ", amPm=" + amPm + ", bookingNumber=" + bookingNumber
 				+ ", doctorAlphabet=" + doctorAlphabet + ", doctorId=" + doctorId + ", checkinCondition="
 				+ checkinCondition + ", chart=" + chart + "]";
@@ -96,12 +96,12 @@ public class Patient implements Serializable {
 		this.serialNumber = serialNumber;
 	}
 
-	public String getMemId() {
-		return memId;
+	public String getMemID() {
+		return memID;
 	}
 
-	public void setMemId(String memId) {
-		this.memId = memId;
+	public void setMemID(String memID) {
+		this.memID = memID;
 	}
 
 	public String getPatientIdcard() {

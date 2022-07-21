@@ -7,7 +7,7 @@ import web.booking.vo.Patient;
 
 public interface PatientDAO {
 	//新增一筆醫師看診日期=? 醫師看診時段=? 病患身份證字號為=? 醫師編號=? 的掛號資料在PATIENT
-	public int insertBookingIntoPatient(String memId,  Patient patient) ;
+	public int insertBookingIntoPatient(String memID,  Patient patient) ;
 	
 	//查詢特定醫師號碼的所數量
 	public int selectCountByDoctor(Date date, int doctorId);
@@ -20,7 +20,7 @@ public interface PatientDAO {
 	public List<Patient> selectPatientByIdcard(Patient patient);
 	
 	//查詢列出病患會員為? 的病患所有欄位 
-	public List<Patient> selectPatientBymemId(Patient patient);
+	public List<Patient> selectPatientBymemID(Patient patient);
 	
 	public List<Patient> selectAll();
 	

@@ -2,13 +2,12 @@ package web.booking.service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
-
-import org.apache.taglibs.standard.lang.jstl.test.ParserTest;
 
 import web.booking.dao.DoctorDAOImpl;
 import web.booking.dao.DoctorScheduleDAOImpl;
@@ -48,7 +47,7 @@ public class BookingServiceImpl implements BookingService {
 	//組裝會員編號和要booking的時段，並回傳是否新增成功 把object資料拿出來
 	//在這邊計算掛幾號
 	@Override
-	public int setPatientBooking(String memId, Patient patient) throws NamingException {
+	public int setPatientBooking(String memID, Patient patient) throws NamingException {
 		PatientDAOImpl patientDAO = new PatientDAOImpl();
 		//先查詢是否有此筆掛號
 		if(patient.getBookingDate() == null) {
@@ -71,7 +70,7 @@ public class BookingServiceImpl implements BookingService {
 	 	if(patientCount != -1) {
 			patient.setBookingNumber(patientCount+1);
 		}
-	 	int rowcount = patientDAO.insertBookingIntoPatient(memId, patient);
+	 	int rowcount = patientDAO.insertBookingIntoPatient(memID, patient);
 		if (rowcount == -1) {
 			return -1;
 		} else {
@@ -104,11 +103,12 @@ public class BookingServiceImpl implements BookingService {
 		return map;
 	}
 
-	//回傳病人未報到的所有欄位 有的話回傳list 沒有回null
+	//回傳病人未報到的所有欄位 加上醫生姓名 有的話回傳list 沒有回null
 	@Override
-	public List<Patient> getPatientBooking(Patient patient) throws NamingException {
+	public List<HashMap<String, Object>> getPatientBooking(Patient patient) throws NamingException {
 		PatientDAOImpl dao = new PatientDAOImpl();
-		List<Patient> list = dao.selectPatientBymemId(patient);
+		DoctorDAOImpl drdao = new DoctorDAOImpl();
+		List<Patient> list = dao.selectPatientBymemID(patient);
 		if (list != null) {
 			for (int i = list.size()-1; i >= 0; i--) {
 				if(list.get(i).getCheckinCondition() != 0) {
@@ -116,7 +116,22 @@ public class BookingServiceImpl implements BookingService {
 				};
 			}
 			if (list.size()!=0 ) {
-				return list;
+				List<HashMap<String, Object>> listofmap = new ArrayList<HashMap<String, Object>>();
+				for(Patient vo : list) {
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("serialNumber", vo.getSerialNumber());
+					map.put("memID", vo.getMemID());
+					map.put("patientIdcard", vo.getPatientIdcard());
+					map.put("bookingDate", vo.getBookingDate());
+					map.put("amPm", vo.getAmPm());
+					map.put("bookingNumber", vo.getBookingNumber());
+					map.put("doctorName",drdao.selectDoctorNameById(vo.getDoctorId()));
+					map.put("checkinCondition", vo.getCheckinCondition());
+					
+					listofmap.add(map);
+				}
+				
+				return listofmap;
 			}
 		}
 		return null;
@@ -127,7 +142,7 @@ public class BookingServiceImpl implements BookingService {
 	public List<Patient> getChart(Patient patient) throws NamingException {
 		PatientDAOImpl dao = new PatientDAOImpl();
 		patient.setBookingNumber(1);
-		dao.selectPatientBymemId(patient);
+		dao.selectPatientBymemID(patient);
 		return null;
 	}
 	
