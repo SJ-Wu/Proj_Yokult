@@ -37,11 +37,11 @@ public class BookingServlet extends HttpServlet {
     //最後再來分類doXXX
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		String pathInfo = request.getPathInfo();
 		String[] infos = pathInfo.split("/");
 		//開啟跨網域，html才能接收到servlet傳出的東西
-		setHeaders(response);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
@@ -54,7 +54,6 @@ public class BookingServlet extends HttpServlet {
 			return;
 		} else if("bookingQuery".equals(infos[1])) {
 //查詢某會員預約資訊/api/0.01/booking/bookingQuery
-			//===========還沒拿到會員資料==========!!!!!!!!!!!!!!!!!!
 			out.append(gson.toJson(bookingQuery(gson, request)));
 			br.close();
 			out.close();
@@ -117,9 +116,9 @@ public class BookingServlet extends HttpServlet {
 		//讀進資料
 		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳入處理checkin方法
-		BookingServiceImpl bookingService = new BookingServiceImpl();
 		int result = 0;;
 		try {
+			BookingServiceImpl bookingService = new BookingServiceImpl();
 			result = bookingService.patientCheckIn(patient);
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -135,7 +134,6 @@ public class BookingServlet extends HttpServlet {
 	
 	//新增掛號資料方法 
 	private JsonObject receiveBookingRequest(Gson gson, Reader br, String memID) {
-		BookingService bookingService = new BookingServiceImpl();
 		Patient patient = gson.fromJson(br, Patient.class);
 		int bookingNumber = 0;
 		JsonObject jsonObject = new JsonObject();
@@ -149,11 +147,12 @@ public class BookingServlet extends HttpServlet {
 			return jsonObject;
 		}
 		
-		if((patient.getPatientIdcard() != null) && (!patient.getPatientIdcard().matches("^[A-Z]{1}[1-2]{1}[0-9]{8}$"))) {
+		if(!patient.getPatientIdcard().matches("^[A-Z]{1}[1-2]{1}[0-9]{8}$")) {
 			jsonObject.addProperty("msg", "PatientIdcard wrong format");
 			return jsonObject;
 		}
 		try {
+			BookingService bookingService = new BookingServiceImpl();
 			bookingNumber = bookingService.setPatientBooking(memID, patient);
 		} catch (NamingException e) {
 			System.out.println("receiveBookingRequest failure");
@@ -180,8 +179,8 @@ public class BookingServlet extends HttpServlet {
 		PatientBookingVO vo = new PatientBookingVO(Date.valueOf(date1sql), Date.valueOf(date2sql),Integer.valueOf(request.getParameter("doctorId")));
 		JsonObject jsonObject = new JsonObject();
 		//把東西轉成GSON丟出
-		BookingService bookingService = new BookingServiceImpl();
 		try {
+			BookingService bookingService = new BookingServiceImpl();
 			Map<String, Object> map = bookingService.getDoctorScheduleAndDoctorName(vo.getDate1(), vo.getDate2(), vo.getDoctorId());
 												//toJsonTree方式把直接map物件轉JSONTREE 再轉JsonObject
 			JsonObject drNameScheduleJsonObject = gson.toJsonTree(map).getAsJsonObject();
@@ -206,9 +205,9 @@ public class BookingServlet extends HttpServlet {
 		patient.setMemID(request.getParameter("memID"));
 //		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
-		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 		JsonObject jsonObject = new JsonObject();
 		try {
+			BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);
 			if(list != null) {
 				jsonObject.addProperty("msg", "bookingQuery sucess");
@@ -227,10 +226,10 @@ public class BookingServlet extends HttpServlet {
 //取消預約
 	private JsonObject cancelBooking(Gson gson, Reader br) {
 		Patient patient = gson.fromJson(br, Patient.class);
-		BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 		JsonObject jsonObject = new JsonObject();
 		//傳入一筆要改變預約的patient
 		try {
+			BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
 			int result = bookingServiceImpl.patientCancel(patient);
 			if(result == 1) {
 				jsonObject.addProperty("msg", "cancel success");
