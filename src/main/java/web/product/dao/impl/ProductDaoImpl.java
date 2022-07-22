@@ -10,11 +10,10 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.member.vo.Member;
 import web.product.dao.ProductDao;
 import web.product.vo.Product;
 
-public abstract class ProductDaoImpl implements ProductDao {
+public class ProductDaoImpl implements ProductDao {
 	
 	private DataSource datasource;
 
@@ -22,7 +21,8 @@ public abstract class ProductDaoImpl implements ProductDao {
 		datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 	
-	final String SELECTALL = "Select PROID,PRONAME,PROSTOCK,PROPRICE,PROSPECS,PROBRAND,PROPICTURE,PROCATEGORY from PRODUCT";
+//	final String SELECTALL = "Select PROID,PRONAME,PROSTOCK,PROPRICE,PROSPECS,PROBRAND,PROPICTURE,PROCATEGORY from PRODUCT";
+	final String SELECTALL = "Select PROID,PRONAME,PROSTOCK,PROPRICE,PROSPECS,PROBRAND,PROCATEGORY from PRODUCT";
 	@Override
 	public Set<Product> selectAll() {
 		try(Connection conn = datasource.getConnection();
@@ -38,7 +38,7 @@ public abstract class ProductDaoImpl implements ProductDao {
 					p.setProPrice(rs.getInt("PROPRICE"));
 					p.setProSpecs(rs.getString("PROSPECS"));
 					p.setProBrand(rs.getString("PROBRAND"));
-					p.setProPicture(rs.getBytes("PROPICTURE"));
+//					p.setProPicture(rs.getBytes("PROPICTURE"));
 					p.setProCategory(rs.getString("PROCATEGORY"));
 					products.add(p);
 					System.out.println(p);
@@ -48,6 +48,26 @@ public abstract class ProductDaoImpl implements ProductDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
+	}
+	@Override
+	public Integer insert(Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Product selectByProductIdAndProduct(Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Integer update(Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public Integer delete(Product product) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
