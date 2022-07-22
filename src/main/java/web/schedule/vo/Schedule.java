@@ -1,8 +1,10 @@
 package web.schedule.vo;
 
-import java.util.Date;
+import java.io.Serializable;
+import java.sql.Date;
 
-public class Schedule {
+
+public class Schedule implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	private Date scheduleDate;
