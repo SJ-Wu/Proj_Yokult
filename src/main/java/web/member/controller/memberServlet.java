@@ -41,14 +41,13 @@ public class memberServlet extends HttpServlet {
 		JsonObject respObject = new JsonObject();
 		try {
 			pathInfo = req.getPathInfo();
-			infos = pathInfo.split("/");
-			if (infos.length > 0 && !infos[1].isEmpty()) {
+			if (req.getPathInfo() != null) {
+				infos = pathInfo.split("/");
 				Member member = service.getOne(infos[1]);
 				if (member != null && (member.getMemID().equals((String) session.getAttribute("account")))) {
 					respObject.addProperty("msg", "success");
 					respObject.add("member", gson.toJsonTree(member));
-				}
-				else {
+				} else {
 					respObject.addProperty("msg", "fail");
 				}
 			} else {
