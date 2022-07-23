@@ -83,7 +83,7 @@ public class BookingServlet extends HttpServlet {
 			return;
 		} else if("receiveBookingRequest".equals(infos[1])) {
 //新增掛號/api/0.01/booking/receiveBookingRequest
-			out.append(gson.toJson(receiveBookingRequest(gson, br, "TGA001")));			
+			out.append(gson.toJson(receiveBookingRequest(gson, br)));			
 			br.close();
 			out.close();
 			return;
@@ -117,23 +117,29 @@ public class BookingServlet extends HttpServlet {
 		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳入處理checkin方法
 		int result = 0;;
+		JsonObject jsonObject = new JsonObject();
 		try {
 			BookingServiceImpl bookingService = new BookingServiceImpl();
+			
+			String pID = bookingService.getIdcardBymemID(patient);
+			if(!pID.equals(patient.getPatientIdcard())) {
+				jsonObject.addProperty("msg", "not correct IDcard");
+				return jsonObject;
+			}
 			result = bookingService.patientCheckIn(patient);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		JsonObject jsonObject = new JsonObject();
 		if (result == 1) {
 			jsonObject.addProperty("msg", "checkin success");
 		} else {
-			jsonObject.addProperty("msg", "checkin failure");
+			jsonObject.addProperty("msg", "you have no booking today");
 		}
 		return jsonObject;
 	}
 	
 	//新增掛號資料方法 
-	private JsonObject receiveBookingRequest(Gson gson, Reader br, String memID) {
+	private JsonObject receiveBookingRequest(Gson gson, Reader br) {
 		Patient patient = gson.fromJson(br, Patient.class);
 		int bookingNumber = 0;
 		JsonObject jsonObject = new JsonObject();
@@ -153,7 +159,7 @@ public class BookingServlet extends HttpServlet {
 		}
 		try {
 			BookingService bookingService = new BookingServiceImpl();
-			bookingNumber = bookingService.setPatientBooking(memID, patient);
+			bookingNumber = bookingService.setPatientBooking(patient);
 		} catch (NamingException e) {
 			System.out.println("receiveBookingRequest failure");
 			e.printStackTrace();

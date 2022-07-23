@@ -12,7 +12,7 @@ import web.booking.vo.Patient;
 public interface BookingService {
 
 	//組裝會員編號和要booking的時段，並回傳是否新增成功 把object資料拿出來
-	public int setPatientBooking(String memID, Patient patient) throws NamingException;
+	public int setPatientBooking(Patient patient) throws NamingException;
 
 	// 組裝日期 醫師有上班的時段和姓名
 	public Map<String, Object> getDoctorScheduleAndDoctorName(Date date1, Date date2, Integer doctorId) throws NamingException;

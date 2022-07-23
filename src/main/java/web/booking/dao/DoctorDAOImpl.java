@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -58,6 +60,31 @@ public class DoctorDAOImpl implements DoctorDAO {
 			return vo;
 		} catch (SQLException e) {
 			System.out.println("get Doctor by id failure");
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public List<Doctor> selectAll() {
+		String sql = "SELECT DOCTOR_ALPHABET, DOCTOR_ID,  DOCTOR_NAME, DOCTOR_PHOTO, DOCTOR_CERTIFICATE, DOCTOR_EMAIL ,DOCTOR_PASSWARD FROM DOCTOR ;";
+		try ( Connection connection =  dataSource.getConnection();){
+			PreparedStatement ps = connection.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			List<Doctor> list = new ArrayList<Doctor>();
+			while(rs.next()) {
+				Doctor vo = new Doctor();	
+				vo.setDoctorAlphabet(rs.getString(1));
+				vo.setDoctorId(rs.getInt(2));
+				vo.setDoctorName(rs.getString(3));
+				vo.setDoctorPhoto(rs.getBytes(4));
+				vo.setDoctorCertificate(rs.getString(5));
+				vo.setDoctorEmail(rs.getString(6));
+				vo.setDoctorPassword(rs.getString(7));
+				list.add(vo);
+			}
+			return list;
+		} catch (SQLException e) {
+			System.out.println("get Doctor all failure");
 			e.printStackTrace();
 		}
 		return null;

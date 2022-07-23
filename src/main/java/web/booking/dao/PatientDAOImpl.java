@@ -22,12 +22,12 @@ public class PatientDAOImpl implements PatientDAO {
 	}
 
 	@Override
-	public int insertBookingIntoPatient(String memID, Patient patient) {
+	public int insertBookingIntoPatient(Patient patient) {
 		String sql = "INSERT INTO PATIENT(MEMID, PATIENT_IDCARD, BOOKING_DATE, AMPM, BOOKING_NUMBER, DOCTOR_ID) VALUES (?, ?, ?, ?, ?, ?);";
 			try(Connection connection = dataSource.getConnection();
 					PreparedStatement ps = connection.prepareStatement(sql);) {
 				
-				ps.setString(1, memID);
+				ps.setString(1, patient.getMemID());
 				ps.setString(2, patient.getPatientIdcard());
 				ps.setDate(3, patient.getBookingDate());
 				ps.setString(4, patient.getAmPm());

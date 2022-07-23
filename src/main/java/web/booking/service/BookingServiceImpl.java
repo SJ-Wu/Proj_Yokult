@@ -27,7 +27,7 @@ public class BookingServiceImpl implements BookingService  {
 		doctorDAOImpl = new DoctorDAOImpl();
 	}
 	
-	//報到 patient checkin方法 成功回傳1(影響筆數) 失敗回傳-1
+	//報到 patient checkin方法 成功回傳1(影響筆數) 失敗回傳0 或 -1
 	@Override
 	public int patientCheckIn(Patient patient) throws NamingException {
 		patient.setCheckinCondition(1);
@@ -51,8 +51,8 @@ public class BookingServiceImpl implements BookingService  {
 	//組裝會員編號和要booking的時段，並回傳是否新增成功 把object資料拿出來
 	//在這邊計算掛幾號
 	@Override
-	public int setPatientBooking(String memID, Patient patient) throws NamingException {
-		//先查詢是否有此筆掛號
+	public int setPatientBooking(Patient patient) throws NamingException {
+		//先查詢是否有掛號日期
 		if(patient.getBookingDate() == null) {
 			return -1;
 		}
@@ -73,7 +73,7 @@ public class BookingServiceImpl implements BookingService  {
 	 	if(patientCount != -1) {
 			patient.setBookingNumber(patientCount+1);
 		}
-	 	int rowcount = patientDAOImpl.insertBookingIntoPatient(memID, patient);
+	 	int rowcount = patientDAOImpl.insertBookingIntoPatient(patient);
 		if (rowcount == -1) {
 			return -1;
 		} else {
@@ -145,7 +145,7 @@ public class BookingServiceImpl implements BookingService  {
 		patientDAOImpl.selectPatientBymemID(patient);
 		return null;
 	}
-	
+	//查身分證字號
 	public String getIdcardBymemID(Patient patient) {
 		List<Patient> list = patientDAOImpl.selectPatientBymemID(patient);
 		if(list.size() != 0) {
