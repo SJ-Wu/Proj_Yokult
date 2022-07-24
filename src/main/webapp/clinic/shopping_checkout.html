@@ -481,25 +481,20 @@
                     >
                         <h4 class="text-white mb-4">請選擇付款方式</h4>
                         <div class="checkout__input__checkbox">
-                            <label for="cash">
-                                現金
-                                <input type="checkbox" id="cash" />
-                                <span class="checkmark"></span>
-                            </label>
+                            <input type="radio" name="payment" id="cash" />
+                            <label for="cash"> 現金 </label>
                         </div>
                         <div class="checkout__input__checkbox">
-                            <label for="credit-card">
-                                信用卡
-                                <input type="checkbox" id="credit-card" />
-                                <span class="checkmark"></span>
-                            </label>
+                            <input
+                                type="radio"
+                                name="payment"
+                                id="credit-card"
+                            />
+                            <label for="credit-card"> 信用卡 </label>
                         </div>
                         <div class="checkout__input__checkbox">
-                            <label for="paypal">
-                                電子支付
-                                <input type="checkbox" id="paypal" />
-                                <span class="checkmark"></span>
-                            </label>
+                            <input type="radio" name="payment" id="paypal" />
+                            <label for="paypal"> 電子支付 </label>
                         </div>
                         <button class="btn btn-danger w-100 py-3" type="submit">
                             確認送出
