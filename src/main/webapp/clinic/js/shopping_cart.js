@@ -3,6 +3,7 @@ window.onload = (e) => {
     orederlist.forEach((order) => {
         addList(order);
     });
+    subtotal();
     // memberList initialization
     // axios
     //     .get("http://localhost:8080/Proj_Yokult/api/0.01/member")
@@ -55,21 +56,32 @@ window.onload = (e) => {
             .text(product_price * newVal);
         console.log(newVal);
         console.log(product_price, total_price);
+        subtotal();
     });
     //從購車中刪除
-    var myArray = [
-        { proid: 1, name: "MARVIS 義大利經典牙膏85ml(銀-亮白)" },
-        { proid: 2, name: "BlackIsWhite酷黑淨白牙刷組" },
-        { proid: 3, name: "舒酸定強效抗敏牙膏" },
-    ];
-    myArray.splice(0, 1);
-    console.log(myArray);
-    //   加入購物車
-    $("#the_btn1").on("click", function () {
-        // 取得欄位的值
-        alert($("select[name='the_select']").text());
+    $("#shoppingcart_orderlist").on("click", ".btn_delete", (e) => {
+        $(e.target)
+            .closest("tr")
+            .fadeOut(1000, () => {
+                $(e.target).closest("tr").remove();
+            });
+        subtotal();
     });
+    // //   加入購物車
+    // $("#the_btn1").on("click", function () {
+    //     // 取得欄位的值
+    //     alert($("select[name='the_select']").text());
+    // });
 };
+
+function subtotal() {
+    let subtotal = 0;
+    document.querySelectorAll(".total_price").forEach((e) => {
+        subtotal += parseInt(e.innerText);
+    });
+    console.log(subtotal);
+    document.getElementById("subtotal").innerText = subtotal;
+}
 
 function addList(order) {
     let list = `<tr>
@@ -93,7 +105,7 @@ function addList(order) {
         order["proprice"] * order["quantity"]
     }</span></td>
     <td class="shoping_cart_item_close">
-        <span class="fa-solid fa-xmark"></span>
+        <span class="fa-solid fa-xmark btn_delete"></span>
     </td>
     </tr>`;
     $("#shoppingcart_orderlist").append(list);

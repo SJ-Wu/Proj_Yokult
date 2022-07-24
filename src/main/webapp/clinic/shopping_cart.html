@@ -250,12 +250,6 @@
                                 <a href="#" class="primary-btn cart-btn"
                                     >繼續購買</a
                                 >
-                                <a
-                                    href="#"
-                                    class="primary-btn cart-btn cart-btn-right"
-                                    ><span class="icon_loading"></span>
-                                    更新購物車</a
-                                >
                             </div>
                         </div>
                     </div>
@@ -308,8 +302,13 @@
                             <div class="shoping__checkout">
                                 <h5>購物車總金額</h5>
                                 <ul>
-                                    <li>小計 <span>NT$454</span></li>
-                                    <li>總計 <span>NT$454</span></li>
+                                    <li>
+                                        小計 NT$<span id="subtotal">454</span>
+                                    </li>
+                                    <li>
+                                        運費 NT$<span id="delivery">0</span>
+                                    </li>
+                                    <li>總計 NT$<span id="total">454</span></li>
                                 </ul>
                                 <a href="#" class="primary-btn">結帳</a>
                             </div>
