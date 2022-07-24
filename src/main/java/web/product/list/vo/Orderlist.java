@@ -7,7 +7,7 @@ public class Orderlist {
 	private String oderProductid;// 商品ID
 	private Integer oderUnitprice;// 單價
 	private Integer oderQuantity;// 數量
-	private static String oderID;// 訂單編號
+	private String oderID;// 訂單編號
 
 	public Orderlist() {
 
@@ -51,7 +51,7 @@ public class Orderlist {
 		this.oderQuantity = oderQuantity;
 	}
 
-	public static String getOderID() {
+	public String getOderID() {
 		return oderID;
 	}
 
