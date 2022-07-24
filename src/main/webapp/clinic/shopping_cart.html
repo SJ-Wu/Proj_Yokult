@@ -258,43 +258,50 @@
                             <div class="shoping__continue">
                                 <div class="shoping__discount">
                                     <h5>快速查詢</h5>
-                                    <form action="#">
-                                        <input
-                                            type="text"
-                                            placeholder="請輸入商品名稱"
-                                        />
-                                        <button type="submit" class="site-btn">
-                                            查詢
-                                        </button>
-                                    </form>
-                                    <div>
+                                </div>
+
+                                <form action="#">
+                                    <input
+                                        type="text"
+                                        placeholder="請輸入商品名稱"
+                                    />
+                                    <button type="submit" class="site-btn">
+                                        查詢
+                                    </button>
+                                </form>
+                                <div>
+                                    <form id="delivery_form">
                                         <h5 class="mt-5">配送方式</h5>
                                         <label for="acc-or">
                                             <input
-                                                name="deliver"
+                                                name="deliver_radio"
                                                 type="radio"
-                                                id="acc-or"
+                                                id="pickup"
+                                                value="0"
                                             />
                                             現場取貨
                                             <span class="checkmark"></span>
 
                                             <input
-                                                name="deliver"
+                                                name="deliver_radio"
                                                 type="radio"
-                                                id="acc-or"
+                                                id="mailing"
+                                                value="50"
                                             />
                                             郵寄
                                             <span class="checkmark"></span>
 
                                             <input
-                                                name="deliver"
+                                                name="deliver_radio"
                                                 type="radio"
-                                                id="acc-or"
+                                                id="shipping"
+                                                value="100"
+                                                checked
                                             />
                                             宅配
                                             <span class="checkmark"></span>
                                         </label>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>

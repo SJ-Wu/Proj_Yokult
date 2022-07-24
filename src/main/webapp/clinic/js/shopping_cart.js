@@ -57,6 +57,7 @@ window.onload = (e) => {
         console.log(newVal);
         console.log(product_price, total_price);
         subtotal();
+        totalaccount();
     });
     //從購車中刪除
     $("#shoppingcart_orderlist").on("click", ".btn_delete", (e) => {
@@ -66,7 +67,21 @@ window.onload = (e) => {
                 $(e.target).closest("tr").remove();
             });
         subtotal();
+        totalaccount();
     });
+
+    // 運費選擇
+    document
+        .getElementById("delivery_form")
+        .addEventListener("click", function (event) {
+            if (event.target && event.target.matches("input[type='radio']")) {
+                document.getElementById("delivery").innerText =
+                    event.target.value;
+            }
+            totalaccount();
+        });
+    // 計算總和
+    totalaccount();
     // //   加入購物車
     // $("#the_btn1").on("click", function () {
     //     // 取得欄位的值
@@ -74,6 +89,15 @@ window.onload = (e) => {
     // });
 };
 
+//計算總和
+function totalaccount() {
+    let total = 0;
+    total += parseInt(document.getElementById("subtotal").innerText);
+    total += parseInt(document.getElementById("delivery").innerText);
+    document.getElementById("total").innerText = total;
+}
+
+// 計算小計
 function subtotal() {
     let subtotal = 0;
     document.querySelectorAll(".total_price").forEach((e) => {
@@ -83,6 +107,7 @@ function subtotal() {
     document.getElementById("subtotal").innerText = subtotal;
 }
 
+// 加入列表
 function addList(order) {
     let list = `<tr>
     <td class="shoping_cart_item">
