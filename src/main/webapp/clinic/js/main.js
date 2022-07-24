@@ -109,28 +109,4 @@
             '<i class="bi bi-arrow-right"></i>',
         ],
     });
-    /*-------------------
-		Quantity change 數量遞增遞減
-	--------------------- */
-    var proQty = $(".pro-qty");
-    proQty.on("click", ".qtybtn", function () {
-        var $button = $(this);
-        var oldValue = $button.parent().find("input").val();
-        if ($button.hasClass("inc")) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        $button.parent().find("input").val(newVal);
-    });
-    //   加入購物車
-    $("#the_btn1").on("click", function () {
-        // 取得欄位的值
-        alert($("select[name='the_select']").val());
-    });
 })(jQuery);
