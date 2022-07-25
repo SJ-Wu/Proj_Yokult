@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="Fund_PROPOSAL")
-public class ProposalBean implements Serializable{
+public class ProposalBean implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer	proposalID;
@@ -28,6 +28,28 @@ public class ProposalBean implements Serializable{
 	private String proposalPageContent;
 	private Integer memID;
 	
+	public ProposalBean() {}
+	
+	public ProposalBean(Integer proposalID, String proposalName, String proposalHostName, Integer proposalGoal,
+			Integer proposalCategoryID, Date proposalStartedDateTime, Date proposalEndedDateTime, Integer statusID,
+			String proposalEmail, String proposalCellphone, String proposalSummary, String proposalPageContent,
+			Integer memID) {
+		super();
+		this.proposalID = proposalID;
+		this.proposalName = proposalName;
+		this.proposalHostName = proposalHostName;
+		this.proposalGoal = proposalGoal;
+		this.proposalCategoryID = proposalCategoryID;
+		this.proposalStartedDateTime = proposalStartedDateTime;
+		this.proposalEndedDateTime = proposalEndedDateTime;
+		this.statusID = statusID;
+		this.proposalEmail = proposalEmail;
+		this.proposalCellphone = proposalCellphone;
+		this.proposalSummary = proposalSummary;
+		this.proposalPageContent = proposalPageContent;
+		this.memID = memID;
+	}
+
 	@Override
 	public String toString() {
 		return "ProposalBean [proposalID=" + proposalID + ", proposalName=" + proposalName + ", proposalHostName="

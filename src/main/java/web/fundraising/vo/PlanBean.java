@@ -24,12 +24,29 @@ public class PlanBean implements Serializable {
 	private Integer statusID;
 	private Integer	propoID;
 //	private String planAttendeeCount;
-	@Override
+
+	public PlanBean() {}
+
+	public PlanBean(Integer planID, String planName, Integer planAmount, String planContent, String planPostNote,
+			Date planStartedDate, String planEndedDate, Integer statusID, Integer propoID) {
+		super();
+		this.planID = planID;
+		this.planName = planName;
+		this.planAmount = planAmount;
+		this.planContent = planContent;
+		this.planPostNote = planPostNote;
+		this.planStartedDate = planStartedDate;
+		this.planEndedDate = planEndedDate;
+		this.statusID = statusID;
+		this.propoID = propoID;
+	}
+	
 	public String toString() {
 		return "PlanBean [planID=" + planID + ", planName=" + planName + ", planAmount=" + planAmount + ", planContent="
 				+ planContent + ", planPostNote=" + planPostNote + ", planStartedDate=" + planStartedDate
 				+ ", planEndedDate=" + planEndedDate + ", statusID=" + statusID + ", propoID=" + propoID + "]";
 	}
+	
 	public Integer getPlanID() {
 		return planID;
 	}

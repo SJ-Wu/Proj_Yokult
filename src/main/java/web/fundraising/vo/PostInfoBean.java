@@ -22,7 +22,22 @@ public class PostInfoBean implements Serializable {
 	private String postAddress;
 	private Integer memID;
 	
+	public PostInfoBean() {}
 	
+	public PostInfoBean(Integer postID, String postFisrtName, String postLastName, String postCellphone, Integer cityID,
+			Integer districtID, String postAddress, Integer memID) {
+		super();
+		this.postID = postID;
+		this.postFisrtName = postFisrtName;
+		this.postLastName = postLastName;
+		this.postCellphone = postCellphone;
+		this.cityID = cityID;
+		this.districtID = districtID;
+		this.postAddress = postAddress;
+		this.memID = memID;
+	}
+
+
 	@Override
 	public String toString() {
 		return "PostInfo [postID=" + postID + ", postFisrtName=" + postFisrtName + ", postLastName=" + postLastName

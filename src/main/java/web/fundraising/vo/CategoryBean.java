@@ -13,6 +13,14 @@ public class CategoryBean implements Serializable {
 	private String categoryID;
 	private String categoryName;
 	
+	public CategoryBean() {}
+	
+	public CategoryBean(String categoryID, String categoryName) {
+		super();
+		this.categoryID = categoryID;
+		this.categoryName = categoryName;
+	}
+
 	@Override
 	public String toString() {
 		return "CategoryBean [categoryID=" + categoryID + ", categoryName=" + categoryName + "]";

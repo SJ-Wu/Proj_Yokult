@@ -5,8 +5,8 @@ use `YOKULT`;
 -- 建立訂單資料
 create table `Fund_ORDER`(
 	`orderID` integer auto_increment not null primary key comment '訂單編號',
-	`orderInvoiceNumber` varchar(11) not null comment '發票編號',
-	`orderTimeStampt` datetime not null comment '訂單時間',
+	`orderInvoiceNumber` varchar(11) not null unique comment '發票編號',
+	`orderTimeStamp` datetime not null comment '訂單時間',
 	`orderAmount` integer not null comment '訂單金額',
 	`proposalID` integer not null comment '提案編號',
 	`planID` integer not null comment '方案編號',
@@ -17,7 +17,7 @@ create table `Fund_ORDER`(
 -- 存入資料
 insert into `Fund_ORDER`(
 	`orderInvoiceNumber`,
-	`orderTimeStampt`,
+	`orderTimeStamp`,
 	`orderAmount`,
 	`proposalID`,
 	`planID` ,

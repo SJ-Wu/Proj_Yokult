@@ -4,7 +4,7 @@ use `YOKULT`;
 
 -- 提案階段
 create table `Fund_STATUS`(
-	`statusID` varchar(2) not null comment '階段編號',
+	`statusID` varchar(2) not null primary key comment '階段編號',
 	`statusName` varchar(10) not null comment '階段名稱'
 );
 

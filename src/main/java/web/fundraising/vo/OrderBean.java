@@ -2,6 +2,7 @@ package web.fundraising.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,17 +17,52 @@ public class OrderBean implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer orderID;
 	private String orderInvoiceNumber;
-	private Date orderTimeStampt;
+	private Date orderTimeStamp;
 	private Integer orderAmount;
 	private Integer proposalID;
 	private Integer planID;
 	private String memID;
 	private Integer postID;
+	//new java.sql.Date(System.currentTimeMillis());    <-----取得當前時間毫秒數
+//	long long1 = System.currentTimeMillis();
+//	java.sql.Timestamp ts = new java.sql.Timestamp(long1);
+//	System.out.println(ts);
+//	java.text.DateFormat df = new java.text.SimpleDateFormat("yyyy-mm-dd hh:mm:ss:SSS");
+//	String str = df.format(ts);
+//	System.out.println(str);
 	
+
+	public OrderBean() {}
+
+	public OrderBean(String orderInvoiceNumber, Date orderTimeStamp, Integer orderAmount,
+			Integer proposalID, Integer planID, String memID, Integer postID) {
+		super();
+		this.orderInvoiceNumber = orderInvoiceNumber;
+		this.orderTimeStamp = orderTimeStamp;
+		this.orderAmount = orderAmount;
+		this.proposalID = proposalID;
+		this.planID = planID;
+		this.memID = memID;
+		this.postID = postID;
+	}
+	
+	public OrderBean(Integer orderID, String orderInvoiceNumber, Date orderTimeStamp, Integer orderAmount,
+			Integer proposalID, Integer planID, String memID, Integer postID) {
+		super();
+		this.orderID = orderID;
+		this.orderInvoiceNumber = orderInvoiceNumber;
+		this.orderTimeStamp = orderTimeStamp;
+		this.orderAmount = orderAmount;
+		this.proposalID = proposalID;
+		this.planID = planID;
+		this.memID = memID;
+		this.postID = postID;
+	}
+
 	@Override
 	public String toString() {
-		return "OrderBean [orderID=" + orderID + ", orderInvoiceNumber=" + orderInvoiceNumber + ", orderTimeStampt="
-				+ orderTimeStampt + ", orderAmount=" + orderAmount + ", proposalID=" + proposalID + ", planID=" + planID
+		return "OrderBean [orderID=" + orderID + ", orderInvoiceNumber=" + orderInvoiceNumber + ", orderTimeStamp="
+				+ orderTimeStamp + ", orderAmount=" + orderAmount + ", proposalID=" + proposalID + ", planID=" + planID
 				+ ", memID=" + memID + ", postID=" + postID + "]";
 	}
 	
@@ -42,11 +78,11 @@ public class OrderBean implements Serializable {
 	public void setOrderInvoiceNumber(String orderInvoiceNumber) {
 		this.orderInvoiceNumber = orderInvoiceNumber;
 	}
-	public Date getOrderTimeStampt() {
-		return orderTimeStampt;
+	public Date getOrderTimeStamp() {
+		return orderTimeStamp;
 	}
-	public void setOrderTimeStampt(Date orderTimeStampt) {
-		this.orderTimeStampt = orderTimeStampt;
+	public void setOrderTimeStamp(Date orderTimeStamp) {
+		this.orderTimeStamp = orderTimeStamp;
 	}
 	public Integer getOrderAmount() {
 		return orderAmount;

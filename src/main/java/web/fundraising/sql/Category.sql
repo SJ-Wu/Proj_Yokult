@@ -4,14 +4,14 @@ use `YOKULT`;
 
 -- 提案類別
 create table `Fund_CATEGORY`(
-	`categoryID` varchar(2) not null comment '分類編號',
-	`ategoryName` varchar(10) not null comment '分類名稱'
+	`categoryID` varchar(2) not null primary key comment '分類編號',
+	`categoryName` varchar(10) not null comment '分類名稱'
 );
 
 -- 存入資料
 insert into `Fund_CATEGORY`(
 	`categoryID`, 
-    `ategoryName`
+    `categoryName`
 ) values
 (1, '潔牙物品'),
 (2, '牙齒矯治'),

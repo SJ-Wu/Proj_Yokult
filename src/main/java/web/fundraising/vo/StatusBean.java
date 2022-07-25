@@ -10,18 +10,26 @@ import javax.persistence.Table;
 @Table(name="Fund_STATUS")
 public class StatusBean implements Serializable {
 	@Id
-	private Integer statusID;
+	private String statusID;
 	private String statusName;
 	
+	public StatusBean() {}
+
+	public StatusBean(String statusID, String statusName) {
+		super();
+		this.statusID = statusID;
+		this.statusName = statusName;
+	}
+
 	@Override
 	public String toString() {
 		return "ProposalStatus [statusID=" + statusID + ", statusName=" + statusName + "]";
 	}
 	
-	public Integer getStatusID() {
+	public String getStatusID() {
 		return statusID;
 	}
-	public void setStatusID(Integer statusID) {
+	public void setStatusID(String statusID) {
 		this.statusID = statusID;
 	}
 	public String getStatusName() {
