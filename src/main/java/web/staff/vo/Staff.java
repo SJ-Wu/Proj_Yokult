@@ -2,100 +2,94 @@ package web.staff.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 
 public class Staff implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 
-	private String staffName;
-	private String staffEmail;
-	private String staffIdNumber;
-	private Date staffBirthday;
-	private String staffPhone;
-	private byte[] staffPicture;
-	private String annualLeave;
-	private String personalLeave;
-	private String officialLeave;
-
+	private String staff_id;
+	private String staff_name;
+	private String staff_email;
+	private String staff_idnumber;
+	private Date staff_birthday;
+	private String staff_phone;
+	private byte[] staff_picture;
+	private String annual_leave;
+	private String personal_leave;
+	private String official_leave;
 	@Override
 	public String toString() {
-		return "staff [  staffEmail=" + staffEmail + ", staffIdNumber=" + staffIdNumber + "]";
+		return "Staff [staff_id=" + staff_id + ", staff_name=" + staff_name + ", staff_email=" + staff_email
+				+ ", staff_idnumber=" + staff_idnumber + ", staff_birthday=" + staff_birthday + ", staff_phone="
+				+ staff_phone + ", staff_picture=" + Arrays.toString(staff_picture) + ", annual_leave=" + annual_leave
+				+ ", personal_leave=" + personal_leave + ", official_leave=" + official_leave + "]";
 	}
-
-	public String getStaffName() {
-		return staffName;
+	public String getStaff_id() {
+		return staff_id;
 	}
-
-	public void setStaffName(String staffName) {
-		this.staffName = staffName;
+	public void setStaff_id(String staff_id) {
+		this.staff_id = staff_id;
 	}
-
-	public String getStaffEmail() {
-		return staffEmail;
+	public String getStaff_name() {
+		return staff_name;
 	}
-
-	public void setStaffEmail(String staffEmail) {
-		this.staffEmail = staffEmail;
+	public void setStaff_name(String staff_name) {
+		this.staff_name = staff_name;
 	}
-
-	public String getStaffIdNumber() {
-		return staffIdNumber;
+	public String getStaff_email() {
+		return staff_email;
 	}
-
-	public void setStaffIdNumber(String staffIdNumber) {
-		this.staffIdNumber = staffIdNumber;
+	public void setStaff_email(String staff_email) {
+		this.staff_email = staff_email;
 	}
-
-	public Date getStaffBirthday() {
-		return staffBirthday;
+	public String getStaff_idnumber() {
+		return staff_idnumber;
 	}
-
-	public void setStaffBirthday(Date staffBirthday) {
-		this.staffBirthday = staffBirthday;
+	public void setStaff_idnumber(String staff_idnumber) {
+		this.staff_idnumber = staff_idnumber;
 	}
-
-	public String getStaffPhone() {
-		return staffPhone;
+	public Date getStaff_birthday() {
+		return staff_birthday;
 	}
-
-	public void setStaffPhone(String staffPhone) {
-		this.staffPhone = staffPhone;
+	public void setStaff_birthday(Date staff_birthday) {
+		this.staff_birthday = staff_birthday;
 	}
-
-	public byte[] getStaffPicture() {
-		return staffPicture;
+	public String getStaff_phone() {
+		return staff_phone;
 	}
-
-	public void setStaffPicture(byte[] staffPicture) {
-		this.staffPicture = staffPicture;
+	public void setStaff_phone(String staff_phone) {
+		this.staff_phone = staff_phone;
 	}
-
-	public String getAnnualLeave() {
-		return annualLeave;
+	public byte[] getStaff_picture() {
+		return staff_picture;
 	}
-
-	public void setAnnualLeave(String annualLeave) {
-		this.annualLeave = annualLeave;
+	public void setStaff_picture(byte[] staff_picture) {
+		this.staff_picture = staff_picture;
 	}
-
-	public String getPersonalLeave() {
-		return personalLeave;
+	public String getAnnual_leave() {
+		return annual_leave;
 	}
-
-	public void setPersonalLeave(String personalLeave) {
-		this.personalLeave = personalLeave;
+	public void setAnnual_leave(String annual_leave) {
+		this.annual_leave = annual_leave;
 	}
-
-	public String getOfficialLeave() {
-		return officialLeave;
+	public String getPersonal_leave() {
+		return personal_leave;
 	}
-
-	public void setOfficialLeave(String officialLeave) {
-		this.officialLeave = officialLeave;
+	public void setPersonal_leave(String personal_leave) {
+		this.personal_leave = personal_leave;
 	}
-
+	public String getOfficial_leave() {
+		return official_leave;
+	}
+	public void setOfficial_leave(String official_leave) {
+		this.official_leave = official_leave;
+	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	
+	
 
 }

@@ -1,25 +1,25 @@
 -- 創建資料庫
-CREATE DATABASE `YOKULT`;
+CREATE DATABASE `yokult`;
 
-USE `YOKULT`;
+USE `yokult`;
 
 -- 員工資料
-DROP TABLE IF EXISTS `SHIFT_SCHEDULE`;
+DROP TABLE IF EXISTS `shift_schedule`;
 
-CREATE TABLE `SHIFT_SCHEDULE` (
-`SCHEDULE_DATE` DATE NOT NULL COMMENT '日期',
-  `STAFF_ID` varchar(50) NOT NULL COMMENT '員工編號',
-  `TYPEOFLEAVE` varchar(50) NOT NULL COMMENT '假別',
-  `MORNINGSHIFT_NIGHTSHIFT` varchar(50) NOT NULL COMMENT '早班晚班',
-  FOREIGN KEY (`SCHEDULE_DATE`)
-  REFERENCES `SCHEDULE` (`SCHEDULE_DATE`),
-  FOREIGN KEY (`STAFF_ID`)
-  REFERENCES `STAFF` (`STAFF_ID`))
+CREATE TABLE `shift_schedule` (
+`schedule_date` DATE NOT NULL COMMENT '日期',
+  `staff_id` varchar(50) NOT NULL COMMENT '員工編號',
+  `shiftschedule_type_of_leave` varchar(50) NOT NULL COMMENT '假別',
+  `shiftschedule_morningshift_nightshift` varchar(50) NOT NULL COMMENT '早班晚班',
+  FOREIGN KEY (`schedule_date`)
+  REFERENCES `schedule` (`schedule_date`),
+  FOREIGN KEY (`staff_id`)
+  REFERENCES `staff` (`staff_id`))
   comment = '排班';
 
 INSERT INTO 
-  `SHIFT_SCHEDULE` (`SCHEDULE_DATE`, `STAFF_ID`, `TYPEOFLEAVE`, `MORNINGSHIFT_NIGHTSHIFT`)
+  `shift_schedule` (`schedule_date`, `staff_id`, `shiftschedule_type_of_leave`, `shiftschedule_morningshift_nightshift`)
 VALUES
-  ('2022-08-01', 'TGA001', 'ANNUAL_LEAVE', '早班'),
-  ('2022-08-02', 'TGA002', 'PERSONAL_LEAVE', '晚班'),
-  ('2022-08-03', 'TGA003', 'OFFICIAL_LEAVE', '早班');
+  ('2022-08-01', 'tga001', 'annual_leave', '早班'),
+  ('2022-08-02', 'tga002', 'personal_leave', '晚班'),
+  ('2022-08-03', 'tga003', 'official_leave', '早班');

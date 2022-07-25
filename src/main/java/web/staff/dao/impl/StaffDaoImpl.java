@@ -10,18 +10,17 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.member.vo.Member;
 import web.staff.dao.StaffDao;
 import web.staff.vo.Staff;
 
 public class StaffDaoImpl implements StaffDao {
 	private DataSource datasource;
 
-	public StaffDaoImpl() throws NamingException {
+	public StaffDaoImpl() throws NamingException{
 		datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 
-	final String SELECTALL = "Select STAFF_NAME, STAFF_EMAIL, STAFF_IDNUMBER, STAFF_BIRTHDAY, STAFF_PHONE, STAFF_PICTURE  from STAFF;";
+	final String SELECTALL = "select staff_id ,staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone, staff_picture  from staff;";
 
 	@Override
 	public Set<Staff> selectAll() {
@@ -32,12 +31,13 @@ public class StaffDaoImpl implements StaffDao {
 				while (rs.next()) {
 
 					Staff s = new Staff();
-					s.setStaffName(rs.getString("STAFF_NAME"));
-					s.setStaffEmail(rs.getString("STAFF_EMAIL"));
-					s.setStaffIdNumber(rs.getString("STAFF_IDNUMBER"));
-					s.setStaffBirthday(rs.getDate("STAFF_BIRTHDAY"));
-					s.setStaffPhone(rs.getString("STAFF_PHONE"));
-					s.setStaffPicture(rs.getBytes("STAFF_PICTURE"));
+					s.setStaff_id(rs.getString("staff_id"));
+					s.setStaff_name(rs.getString("staff_name"));
+					s.setStaff_email(rs.getString("staff_email"));
+					s.setStaff_idnumber(rs.getString("staff_idnumber"));
+					s.setStaff_birthday(rs.getDate("staff_birthday"));
+					s.setStaff_phone(rs.getString("staff_phone"));
+					s.setStaff_picture(rs.getBytes("staff_picture"));
 
 					staffs.add(s);
 					System.out.println(s);
@@ -54,14 +54,15 @@ public class StaffDaoImpl implements StaffDao {
 	public Integer insert(Staff staff) {
 		try (Connection conn = datasource.getConnection();
 				PreparedStatement ps = conn.prepareStatement(
-						"insert into STAFF (STAFF_NAME, STAFF_EMAIL, STAFF_IDNUMBER, STAFF_BIRTHDAY, STAFF_PHONE, STAFF_PICTURE)"
-								+ "values (?, ?, ?, ?, ?, ?);");) {
-			ps.setString(1, staff.getStaffName());
-			ps.setString(2, staff.getStaffEmail());
-			ps.setString(3, staff.getStaffIdNumber());
-			ps.setDate(4, staff.getStaffBirthday());
-			ps.setString(5, staff.getStaffPhone());
-			ps.setBytes(6, staff.getStaffPicture());
+						"insert into staff (staff_id, staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone, staff_picture)"
+								+ "values (?, ?, ?, ?, ?, ?, ?);");) {
+			ps.setString(1, staff.getStaff_id());
+			ps.setString(2, staff.getStaff_name());
+			ps.setString(3, staff.getStaff_email());
+			ps.setString(4, staff.getStaff_idnumber());
+			ps.setDate(5, staff.getStaff_birthday());
+			ps.setString(6, staff.getStaff_phone());
+			ps.setBytes(7, staff.getStaff_picture());
 			int rowCount = ps.executeUpdate();
 			System.out.println("insert " + rowCount + "staff.");
 			return rowCount;
@@ -71,24 +72,24 @@ public class StaffDaoImpl implements StaffDao {
 		return -1;
 	}
 
-	final String SELECT = "Select STAFF_NAME, STAFF_EMAIL, STAFF_IDNUMBER, STAFF_BIRTHDAY, STAFF_PHONE from STAFF where STAFF_NAME = ? and STAFF_EMAIL = ? and STAFF_IDNUMBER = ?";
+	final String SELECT = "Select staff_id, staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone from staff where staff_id = ?  and staff_idnumber = ? ;";
 
 	@Override
-	public Staff selectByStaffEmailAndIdNumber(Staff staff) {
+	public Staff selectByStaff_idAndstaff_idnumber(Staff staff) {
 		try (Connection conn = datasource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECT);) {
-			pstmt.setString(1, staff.getStaffName());
-			pstmt.setString(2, staff.getStaffEmail());
-			pstmt.setString(3, staff.getStaffIdNumber());
+			pstmt.setString(1, staff.getStaff_id());
+			pstmt.setString(2, staff.getStaff_idnumber());
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
 					System.out.println("存取成功");
 					Staff resultStaff = new Staff();
-					resultStaff.setStaffName(rs.getString("STAFF_NAME"));
-					resultStaff.setStaffEmail(rs.getString("STAFF_EMAIL"));
-					resultStaff.setStaffIdNumber(rs.getString("STAFF_IDNUMBER"));
-					resultStaff.setStaffBirthday(rs.getDate("STAFF_BIRTHDAY"));
-					resultStaff.setStaffPhone(rs.getString("STAFF_PHONE"));
-					resultStaff.setStaffPicture(rs.getBytes("STAFF_PICTURE"));
+					resultStaff.setStaff_id(rs.getString("staff_id"));
+					resultStaff.setStaff_name(rs.getString("staff_name"));
+					resultStaff.setStaff_email(rs.getString("staff_email"));
+					resultStaff.setStaff_idnumber(rs.getString("staff_idnumber"));
+					resultStaff.setStaff_birthday(rs.getDate("staff_birthday"));
+					resultStaff.setStaff_phone(rs.getString("staff_phone"));
+//					resultStaff.setStaff_picture(rs.getBytes("staff_picture"));
 
 					return resultStaff;
 				}
@@ -98,18 +99,39 @@ public class StaffDaoImpl implements StaffDao {
 		}
 		return null;
 	}
+	
+	final String SELECTMAXID = "SELECT staff_id FROM yokult.staff order by staff_id desc LIMIT 1;";
 
-	final String UPDATE = "update STAFF set STAFF_NAME = ?, STAFF_EMAIL = ?, STAFF_BIRTHDAY = ?, STAFF_PHONE = ? where STAFF = ?;";
+	public String getMaxId() {
+		try (Connection conn = datasource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECTMAXID);) {
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					System.out.println("成功");
+					return rs.getString("staff_id");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return "";
+
+	}
+	
+	
+	
+	final String UPDATE = "update staff set staff_name = ?, staff_email = ?,staff_idnumber = ?,  staff_birthday = ?, staff_phone = ? where staff_id = ?;";
 
 	@Override
 	public Integer update(Staff staff) {
 		try (Connection conn = datasource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(UPDATE);) {
-			pstmt.setString(1, staff.getStaffName());
-			pstmt.setString(2, staff.getStaffEmail());
-			pstmt.setString(3, staff.getStaffIdNumber());
-			pstmt.setDate(4, staff.getStaffBirthday());
-			pstmt.setString(5, staff.getStaffPhone());
-			pstmt.setBytes(6, staff.getStaffPicture());
+			pstmt.setString(1, staff.getStaff_name());
+			pstmt.setString(2, staff.getStaff_email());
+			pstmt.setString(3, staff.getStaff_idnumber());
+			pstmt.setDate(4, staff.getStaff_birthday());
+			pstmt.setString(5, staff.getStaff_phone());
+//			pstmt.setBytes(6, staff.getStaff_picture());
+			pstmt.setString(6, staff.getStaff_id());
 
 			int rowCount = pstmt.executeUpdate();
 			System.out.println(rowCount + " row(s) updated!!");
@@ -120,12 +142,12 @@ public class StaffDaoImpl implements StaffDao {
 		return -1;
 	}
 
-	final String DELETE = "delete from STAFF where STAFF_NAME = ?;";
+	final String DELETE = "delete from staff where staff_id = ?;";
 
 	@Override
-	public Integer delete(Staff staff) {
+	public Integer delete(String staffId) {
 		try (Connection conn = datasource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(DELETE);) {
-			pstmt.setString(1, staff.getStaffName());
+			pstmt.setString(1, staffId);
 			int rowCount = pstmt.executeUpdate();
 			System.out.println(rowCount + " row(s) deleted!!");
 			return rowCount;

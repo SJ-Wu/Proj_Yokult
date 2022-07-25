@@ -22,9 +22,6 @@ import web.staff.vo.Staff;
 public class StaffServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-	private String pathInfo;
-	private String[] infos;
-	private StaffService service;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +29,7 @@ public class StaffServlet extends HttpServlet {
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		try {
-			service = new StaffServiceImpl();
+			StaffService service = new StaffServiceImpl();
 			Set<Staff> staffs = service.getAll();
 			if (staffs != null) {
 				respObject.addProperty("msg", "success");
@@ -44,88 +41,66 @@ public class StaffServlet extends HttpServlet {
 		resp.getWriter().append(gson.toJson(respObject));
 	}
 
+//登入
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
+		Staff staff = gson.fromJson(req.getReader(), Staff.class);
+		System.out.println(gson.toJson(staff));
+		try {
+			StaffService service = new StaffServiceImpl();
+			Staff rsStaff = service.login(staff);
 
+			if (rsStaff != null) {
+				resp.getWriter().append(gson.toJson(rsStaff));
+			} else {
+				resp.getWriter().append(gson.toJson("false"));
+			}
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+//刪除
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
+		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		Staff staff = gson.fromJson(req.getReader(), Staff.class);
 		try {
-			service = new StaffServiceImpl();
-			pathInfo = req.getPathInfo();
-			infos = pathInfo.split("/");
-			if ("register".equals(infos[1])) {
-				Integer status = service.register(staff);
-				if (status > 0) {
-					respObject.addProperty("msg", "success");
-				} else {
-					respObject.addProperty("msg", "fail");
-				}
-			} else if ("login".equals(infos[1])) {
-				staff = service.login(staff);
-				if (staff != null) {
-					respObject.addProperty("msg", "success");
-					// Referenced from
-					// https://stackoverflow.com/questions/22585970/how-to-add-an-object-as-a-property-of-a-jsonobject-object
-					respObject.add("staff", new GsonBuilder().setDateFormat("yyyy-MM-dd").create().toJsonTree(staff));
-				} else {
-					respObject.addProperty("msg", "fail");
-				}
+			StaffService service = new StaffServiceImpl();
+			Integer status = service.remove(staff);
+			if (status > 0) {
+				respObject.addProperty("msg", "success");
+			} else {
+				respObject.addProperty("msg", "fail");
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
-
 	}
 
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
-		pathInfo = req.getPathInfo();
-		infos = pathInfo.split("/");
-		JsonObject respObject = new JsonObject();
-		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-		if ("remove".equals(infos[1])) {
-			try {
-				StaffService service = new StaffServiceImpl();
-				Integer status = service.remove(staff);
-				if (status > 0) {
-					respObject.addProperty("msg", "success");
-				} else {
-					respObject.addProperty("msg", "fail");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			resp.getWriter().append(gson.toJson(respObject));
-		}
-	}
-
+//新增，修改
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
-		pathInfo = req.getPathInfo();
-		infos = pathInfo.split("/");
+		req.setCharacterEncoding("UTF-8");
 		JsonObject respObject = new JsonObject();
 		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-		if ("modify".equals(infos[1])) {
-			try {
-				StaffService service = new StaffServiceImpl();
-				if (service.modify(staff) > 0) {
-					respObject.addProperty("msg", "success");
-				} else {
-					respObject.addProperty("msg", "fail");
-				}
-			} catch (NamingException e) {
-				e.printStackTrace();
-			}
-			System.out.println(gson.toJson(respObject));
-			resp.getWriter().append(gson.toJson(respObject));
+
+		try {
+			StaffService service = new StaffServiceImpl();
+			String msg = service.addOrModify(staff);
+			respObject.addProperty("msg", msg);
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
+		resp.getWriter().append(gson.toJson(respObject));
+
 	}
 
 	/*

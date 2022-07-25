@@ -7,11 +7,9 @@ import web.staff.vo.Staff;
 public interface StaffService {
 	Set<Staff> getAll();
 	
-	Integer register(Staff staff);
+	String addOrModify(Staff staff);
 
 	Staff login(Staff staff);
-
-	Integer modify(Staff staff);
 
 	Integer remove(Staff staff);
 

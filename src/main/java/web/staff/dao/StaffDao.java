@@ -7,8 +7,9 @@ import web.staff.vo.Staff;
 
 public interface StaffDao {
 	Integer insert (Staff staff);
-	Staff selectByStaffEmailAndIdNumber(Staff staff);
 	Set<Staff> selectAll() ;
 	Integer update (Staff staff);
-	Integer delete (Staff staff) ;
+	Integer delete (String staffId) ;
+	Staff selectByStaff_idAndstaff_idnumber(Staff staff);
+	String getMaxId();
 }
