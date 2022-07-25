@@ -146,6 +146,7 @@ public class BookingServiceImpl implements BookingService  {
 		return null;
 	}
 	//查身分證字號
+	@Override
 	public String getIdcardBymemID(Patient patient) {
 		List<Patient> list = patientDAOImpl.selectPatientBymemID(patient);
 		if(list.size() != 0) {
@@ -155,6 +156,53 @@ public class BookingServiceImpl implements BookingService  {
 		return null;
 	}
 	
-
+	//列出病患 報到狀態=1的日期
+	@Override
+	public List<Date> getChartDates(Patient patient){
+		String Idcard = getIdcardBymemID(patient);
+		patient.setPatientIdcard(Idcard);
+		patient.setCheckinCondition(1);
+		System.out.println("service: getChartDates start");
+		List<Patient> list = patientDAOImpl.selectPatientByIdcardAndCheckinCondition(patient);
+		List<Date> listOfDate = new ArrayList<Date>();
+		if( list != null) {
+			for (Patient vo : list) {
+				listOfDate.add(vo.getBookingDate());
+			}
+			System.out.println("service: getChartDates finish");
+			return listOfDate;
+		}
+		return null;
+	}
+	//回傳一個已報到 指定時間 身分證 的病歷
+	@Override
+	public Map<String, String> showOneChart(Patient patient){
+		String Idcard = getIdcardBymemID(patient);
+		patient.setCheckinCondition(1);
+		patient.setPatientIdcard(Idcard);
+		System.out.println("service: start showOneChart");
+		System.out.println(patient.getBookingDate());
+		System.out.println(Idcard);
+		List<Patient> list = patientDAOImpl.selectPatientByIdcardAndCheckinCondition(patient);
+		Map<String, String> map = new HashMap<String, String>();
+		for(Patient vo : list) {
+			System.out.println(patient.getBookingDate());
+			System.out.println(vo.getBookingDate());
+			if(patient.getBookingDate().toString().equals(vo.getBookingDate().toString())) {
+				String drname = doctorDAOImpl.selectDoctorNameById(vo.getDoctorId());
+				map.put("doctorName", drname);
+				map.put("chart", vo.getChart());
+				System.out.println(vo.getChart());
+			}
+		
+		}
+		if(map.size() != 0) {
+			return map;
+		}
+		return null;
+		
+	}
+//	getChart	
+	
 
 }

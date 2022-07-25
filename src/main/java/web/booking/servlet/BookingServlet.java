@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
 import java.io.Writer;
+import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +59,13 @@ public class BookingServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
+		} else if("chartQuery".equals(infos[1])) {
+//查詢會員看過診日期/api/0.01/booking/bookingQuery get
+			out.append(gson.toJson(chartQueryDate(gson, request)));
+			br.close();
+			out.close();
+			return;
 		}
-
 
 		br.close();
 		out.close();
@@ -87,8 +93,14 @@ public class BookingServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
+		} else if("chartQuery".equals(infos[1])) {
+//回傳就診紀錄日期查詢的醫師和病歷/api/0.01/booking/chartQuery
+			out.append(gson.toJson(chartQuery(gson, br)));			
+			br.close();
+			out.close();
+			return;
 		} 
-	
+			
 	}
 	
 	@Override
@@ -235,7 +247,7 @@ public class BookingServlet extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		//傳入一筆要改變預約的patient
 		try {
-			BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
+			BookingService bookingServiceImpl = new BookingServiceImpl();
 			int result = bookingServiceImpl.patientCancel(patient);
 			if(result == 1) {
 				jsonObject.addProperty("msg", "cancel success");
@@ -245,6 +257,53 @@ public class BookingServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		jsonObject.addProperty("msg", "cancel failure");
+		return jsonObject;
+	}
+	
+	//回傳就診紀錄查詢的日期
+	private JsonObject chartQueryDate(Gson gson, HttpServletRequest request) {
+//		Patient patient = gson.fromJson(br, Patient.class);
+		Patient patient = new Patient();
+		
+		String memID = request.getParameter("memID");
+		System.out.println("servlet: chartQueryDate for: " + memID);
+		patient.setMemID(memID);
+		JsonObject jsonObject = new JsonObject();
+		BookingService bookingServiceImpl = null;
+		try {
+			bookingServiceImpl = new BookingServiceImpl();
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<Date> list =  bookingServiceImpl.getChartDates(patient);
+		if(list != null && list.size() != 0) {
+			jsonObject.addProperty("msg", "return date success");
+			jsonObject.add("list", gson.toJsonTree(list, new TypeToken<List<Date>>() {}.getType()));
+		} else {
+			jsonObject.addProperty("msg", "you don't see doctor yet");
+		}
+		return jsonObject;
+	}
+	
+	//回傳就診紀錄日期查詢 的醫師和病歷Map
+	private JsonObject chartQuery(Gson gson, Reader br) {
+		Patient patient = gson.fromJson(br, Patient.class);
+		System.out.println("servlet: chartQuery for: " + patient.getMemID());
+		JsonObject jsonObject = new JsonObject();
+		BookingService bookingServiceImpl = null;
+		try {
+			bookingServiceImpl = new BookingServiceImpl();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		Map<String, String> map =  bookingServiceImpl.showOneChart(patient);
+		if(map != null && map.size() != 0) {
+			jsonObject.addProperty("msg", "return chart success");
+			jsonObject.add("map", gson.toJsonTree(map, new TypeToken<Map<String, String>>() {}.getType()).getAsJsonObject());
+		} else {
+			jsonObject.addProperty("msg", "you don't see doctor yet");
+		}
 		return jsonObject;
 	}
 	

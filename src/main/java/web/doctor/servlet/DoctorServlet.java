@@ -20,10 +20,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import web.booking.service.DoctorServiceIImpl;
+import web.booking.service.BookingService;
+import web.booking.service.BookingServiceImpl;
 import web.booking.vo.Doctor;
 import web.booking.vo.DoctorChartVO;
 import web.booking.vo.Patient;
+import web.doctor.service.DoctorService;
+import web.doctor.service.DoctorServiceImpl;
 
 @WebServlet("/api/0.01/doctor/*")
 public class DoctorServlet extends HttpServlet {
@@ -52,6 +55,7 @@ public class DoctorServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setHeaders(response);
+		request.setCharacterEncoding("UTF-8");
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
@@ -71,21 +75,38 @@ public class DoctorServlet extends HttpServlet {
 			out.close();
 			return;
 			
+		}else if ("saveChart".equals(infos[1])) {
+			out.append(gson.toJson(saveChart(gson, br)));
+			br.close();
+			out.close();
+			return;
+			
 		}
+		
 	}
 	
 	//儲存前端傳來的病歷紀錄
-	private JsonObject updateChart(Gson gson, Reader br) {
-		DoctorServiceIImpl doctorServiceIImpl = null;
+	private JsonObject saveChart(Gson gson, Reader br) {
+		System.out.println("servlet: save chart start");
+		DoctorServiceImpl doctorServiceImpl = null;
 		try {
-			doctorServiceIImpl = new DoctorServiceIImpl();
+			doctorServiceImpl = new DoctorServiceImpl();
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
 		Patient patient = gson.fromJson(br, Patient.class);
 		JsonObject jsonObject = new JsonObject();
+		String reg = "^[A-Z]{1}[01]{1}[0-9]{8}$";
+		String regDate = "[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}";
+		//過濾
+		if(!patient.getPatientIdcard().matches(reg)) {
+			jsonObject.addProperty("msg","no idcard");
+		}
+		if(!patient.getBookingDate().toString().matches(regDate)) {
+			jsonObject.addProperty("msg","no Date");
+		}
 		int result = 0;
-		result = doctorServiceIImpl.updateChart(patient);
+		result = doctorServiceImpl.updateChart(patient);
 		if (result == 1) {
 			jsonObject.addProperty("msg", "updateChart success");
 		} else {
@@ -96,9 +117,9 @@ public class DoctorServlet extends HttpServlet {
 	
 	//回傳index_doctor_chart.html 的 病患身分證字號
 	private JsonObject getDrPatientIdcard(Gson gson, HttpServletRequest request) {
-		DoctorServiceIImpl doctorServiceIImpl = null;
+		DoctorServiceImpl doctorServiceIImpl = null;
 		try {
-			doctorServiceIImpl = new DoctorServiceIImpl();
+			doctorServiceIImpl = new DoctorServiceImpl();
 		} catch (NamingException e1) {
 			e1.printStackTrace();
 		}
@@ -127,9 +148,9 @@ public class DoctorServlet extends HttpServlet {
 
 	//回傳index_doctor_chart.html 的  依據所選的醫師和有報到的病患的身分證字號 回傳看診日期選單
 	private JsonObject getDrPatientDates(Gson gson, Reader br) {
-		DoctorServiceIImpl doctorServiceIImpl = null;
+		DoctorService doctorServiceImpl = null;
 		try {
-			doctorServiceIImpl = new DoctorServiceIImpl();
+			doctorServiceImpl = new DoctorServiceImpl();
 		} catch (NamingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -142,7 +163,7 @@ public class DoctorServlet extends HttpServlet {
 //		System.out.println(patient);		
 		JsonObject jsonObject = new JsonObject();
 		try {
-			List<Date> list = doctorServiceIImpl.returnDrPatientDates(doctor, patient);
+			List<Date> list = doctorServiceImpl.returnDrPatientDates(doctor, patient);
 			if (list != null) {
 				jsonObject.addProperty("msg", "get patient dates success");
 				jsonObject.add("list", gson.toJsonTree(list, new TypeToken<List<Date>>() {}.getType()).getAsJsonArray());
@@ -166,9 +187,9 @@ public class DoctorServlet extends HttpServlet {
 	
 	//顯示原本的病歷紀錄
 	private JsonObject returnChart(Gson gson, Reader br) {
-		DoctorServiceIImpl doctorServiceIImpl = null;
+		DoctorService doctorServiceImpl = null;
 		try {
-			doctorServiceIImpl = new DoctorServiceIImpl();
+			doctorServiceImpl = new DoctorServiceImpl();
 		} catch (NamingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -181,7 +202,7 @@ public class DoctorServlet extends HttpServlet {
 		patient.setBookingDate(doctorChartVO.getBookingDate());
 		JsonObject jsonObject = new JsonObject();
 		try {
-			Patient patientChart = doctorServiceIImpl.returnDrPatientChart(doctor, patient);
+			Patient patientChart = doctorServiceImpl.returnDrPatientChart(doctor, patient);
 			if (patientChart != null) {
 				jsonObject.addProperty("msg", "returnChart success");
 				jsonObject.addProperty("list", gson.toJson(patientChart.getChart()));
@@ -195,6 +216,10 @@ public class DoctorServlet extends HttpServlet {
 		
 		return jsonObject;
 	}
+	
+
+	
+	
 	
 	private void setHeaders(HttpServletResponse response) {
 		// 重要

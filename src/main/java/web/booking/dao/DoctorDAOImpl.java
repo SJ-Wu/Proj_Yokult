@@ -65,6 +65,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 		return null;
 	}
 	
+	@Override
 	public List<Doctor> selectAll() {
 		String sql = "SELECT DOCTOR_ALPHABET, DOCTOR_ID,  DOCTOR_NAME, DOCTOR_PHOTO, DOCTOR_CERTIFICATE, DOCTOR_EMAIL ,DOCTOR_PASSWARD FROM DOCTOR ;";
 		try ( Connection connection =  dataSource.getConnection();){

@@ -33,4 +33,13 @@ public interface BookingService {
 	//查詢列出病患身份證字號為? getCheckinCondition=1 的病患所有欄位 的病歷資料
 	public List<Patient> getChart(Patient patient) throws NamingException;
 	
+	//查身分證字號
+	String getIdcardBymemID(Patient patient);
+	
+	//列出病患 報到狀態=1的日期
+	List<Date> getChartDates(Patient patient);
+	
+	//回傳一個已報到 指定時間 身分證 的病歷
+	Map<String, String> showOneChart(Patient patient);
+	
 }
