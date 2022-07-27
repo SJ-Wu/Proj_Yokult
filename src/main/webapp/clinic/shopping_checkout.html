@@ -333,7 +333,6 @@
                         <div class="card card-primary collapsed-card">
                             <div class="card-header">
                                 <h3 class="card-title">展開明細</h3>
-
                                 <div class="card-tools">
                                     <button
                                         type="button"
@@ -346,35 +345,21 @@
                                 <!-- /.card-tools -->
                             </div>
                             <!-- /.card-header -->
-                            <div class="card-body">The body of the card</div>
+                            <div class="card-body" style="color: black">
+                                <ol id="orderlist">
+                                    <!-- javaScript -->
+                                </ol>
+                            </div>
                             <!-- /.card-body -->
                         </div>
-                        <div class="checkout__order__products">
-                            商品<span>總金額</span>
-                        </div>
-                        <ul>
-                            <li>
-                                Black Is White 酷黑淨白牙刷組<span>NT$450</span>
-                            </li>
-                            <li>
-                                MARVIS 義大利經典牙膏85ml(銀-亮白)<span
-                                    >NT$679</span
-                                >
-                            </li>
-                            <li>
-                                【LION 獅王】NONIO終結口氣漱口水(600ml)<span
-                                    >NT$474</span
-                                >
-                            </li>
-                        </ul>
                         <div class="checkout__order__subtotal">
-                            小計 <span>NT$750</span>
+                            商品總金額：NT$<span id="subtotal">0</span>
                         </div>
                         <div class="checkout__order__subtotal">
-                            運費 <span>NT$150</span>
+                            運費：NT$<span id="delivery">0</span>
                         </div>
                         <div class="checkout__order__total">
-                            總額 <span>NT$900</span>
+                            總額：NT$<span id="total">0</span>
                         </div>
                     </div>
                 </div>
@@ -685,10 +670,9 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
-        <!-- vickyTsai's JS -->
         <script src="js/materialize.js"></script>
-        <script src="js/patientBookingQueryJs.js"></script>
         <script src="js/adminlte.min.js"></script>
+        <script src="js/shopping_checkout.js"></script>
 
         <!-- 縣市串接 -->
         <script>

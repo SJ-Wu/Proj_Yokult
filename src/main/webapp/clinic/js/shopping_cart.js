@@ -1,4 +1,4 @@
-window.onload = (e) => {
+$(window).on("load", () => {
     //====測試session storage====//
     sessionStorage.setItem(
         "orderlist",
@@ -109,9 +109,9 @@ window.onload = (e) => {
             checkoutList.push(product);
         });
         sessionStorage.setItem("orderlist", JSON.stringify(checkoutList));
-        sessionStorage.setItem("delivery", JSON.stringify(delivery));
+        sessionStorage.setItem("delivery", delivery);
     });
-};
+});
 
 //計算總和
 function totalaccount() {
