@@ -221,6 +221,7 @@
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>商品圖片</th>
                                             <th class="shoping__product">
                                                 商品名稱
                                             </th>
@@ -278,6 +279,7 @@
                                                 type="radio"
                                                 id="pickup"
                                                 value="0"
+                                                checked
                                             />
                                             現場取貨
                                             <span class="checkmark"></span>
@@ -296,7 +298,6 @@
                                                 type="radio"
                                                 id="shipping"
                                                 value="100"
-                                                checked
                                             />
                                             宅配
                                             <span class="checkmark"></span>
@@ -310,14 +311,20 @@
                                 <h5>購物車總金額</h5>
                                 <ul>
                                     <li>
-                                        小計 NT$<span id="subtotal">454</span>
+                                        小計 NT$<span id="subtotal">0</span>
                                     </li>
                                     <li>
                                         運費 NT$<span id="delivery">0</span>
                                     </li>
-                                    <li>總計 NT$<span id="total">454</span></li>
+                                    <li>總計 NT$<span id="total">0</span></li>
                                 </ul>
-                                <a href="#" class="primary-btn">結帳</a>
+                                <a
+                                    href="shopping_checkout.html"
+                                    class="primary-btn"
+                                    id="btn_checkout"
+                                >
+                                    結帳
+                                </a>
                             </div>
                         </div>
                     </div>
