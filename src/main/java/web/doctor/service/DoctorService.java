@@ -23,4 +23,6 @@ public interface DoctorService {
 
 	List<Patient> filterPatient(Doctor doctor) throws NamingException;
 
+	int updateDr(Doctor doctor);
+
 }

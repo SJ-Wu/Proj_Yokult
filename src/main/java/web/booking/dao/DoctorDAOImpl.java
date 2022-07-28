@@ -44,7 +44,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 		String sql = "SELECT DOCTOR_ALPHABET, DOCTOR_ID,  DOCTOR_NAME, DOCTOR_PHOTO, DOCTOR_CERTIFICATE, DOCTOR_EMAIL ,DOCTOR_PASSWARD FROM DOCTOR WHERE DOCTOR_ID = ? ;";
 		try ( Connection connection =  dataSource.getConnection();){
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, doctor.getDoctorAlphabet());
+			ps.setInt(1, doctor.getDoctorId());
 			ResultSet rs = ps.executeQuery();
 						
 			Doctor vo = new Doctor();	
@@ -57,11 +57,13 @@ public class DoctorDAOImpl implements DoctorDAO {
 				vo.setDoctorEmail(rs.getString(6));
 				vo.setDoctorPassword(rs.getString(7));
 			}
+			System.out.println("DAO: get Doctor by id success");
 			return vo;
 		} catch (SQLException e) {
-			System.out.println("get Doctor by id failure");
+			System.out.println("DAO: get Doctor by id Exception");
 			e.printStackTrace();
 		}
+		System.out.println("DAO: get Doctor by id failure");
 		return null;
 	}
 	
@@ -92,22 +94,49 @@ public class DoctorDAOImpl implements DoctorDAO {
 	}
 
 
+//	@Override
+//	public int update(Doctor doctor) {
+//		//DOCTOR_ALPHABET = ?, DOCTOR_ID = ?, 沒有 因為自動填入
+//		String sql = "UPDATE DOCTOR SET   DOCTOR_NAME = ?, DOCTOR_PHOTO = ?, DOCTOR_CERTIFICATE = ?, DOCTOR_EMAIL = ? ,DOCTOR_PASSWARD = ? WHERE DOCTOR_ID = ? ; ";
+//		try ( Connection connection =  dataSource.getConnection();){
+//		PreparedStatement ps = connection.prepareStatement(sql);
+////		ps.setString(1, doctor.getDoctorAlphabet());
+////		ps.setInt(2, doctor.getDoctorId());
+//		ps.setString(1, doctor.getDoctorName());
+//		ps.setBytes(2, doctor.getDoctorPhoto());
+//		ps.setString(3, doctor.getDoctorCertificate());
+//		ps.setString(4, doctor.getDoctorEmail());
+//		ps.setString(5, doctor.getDoctorPassword());
+//		
+//		int rowcount = ps.executeUpdate();
+//		
+//		return rowcount;
+//		} catch (SQLException e) {
+//			System.out.println("update Doctor failure in dao");
+//			e.printStackTrace();
+//		}
+//		
+//		
+//		return -1;
+//	}
+	
 	@Override
-	public int update(Doctor doctor) {
+	public int updateDr(Doctor doctor) {
 		//DOCTOR_ALPHABET = ?, DOCTOR_ID = ?, 沒有 因為自動填入
-		String sql = "UPDATE DOCTOR SET   DOCTOR_NAME = ?, DOCTOR_PHOTO = ?, DOCTOR_CERTIFICATE = ?, DOCTOR_EMAIL = ? ,DOCTOR_PASSWARD = ? WHERE DOCTOR_ID = ? ; ";
+		//, DOCTOR_CERTIFICATE = ?, DOCTOR_EMAIL = ? ,DOCTOR_PASSWARD = ? 欄位刪減
+		String sql = "UPDATE DOCTOR SET   DOCTOR_NAME = ?, DOCTOR_PHOTO = ? WHERE DOCTOR_ID = ? ; ";
 		try ( Connection connection =  dataSource.getConnection();){
 		PreparedStatement ps = connection.prepareStatement(sql);
 //		ps.setString(1, doctor.getDoctorAlphabet());
-//		ps.setInt(2, doctor.getDoctorId());
 		ps.setString(1, doctor.getDoctorName());
 		ps.setBytes(2, doctor.getDoctorPhoto());
-		ps.setString(3, doctor.getDoctorCertificate());
-		ps.setString(4, doctor.getDoctorEmail());
-		ps.setString(5, doctor.getDoctorPassword());
+		ps.setInt(3, doctor.getDoctorId());
+//		ps.setString(3, doctor.getDoctorCertificate());
+//		ps.setString(4, doctor.getDoctorEmail());
+//		ps.setString(5, doctor.getDoctorPassword());
 		
 		int rowcount = ps.executeUpdate();
-		
+		System.out.println("doctorDao: updateDr success");
 		return rowcount;
 		} catch (SQLException e) {
 			System.out.println("update Doctor failure in dao");

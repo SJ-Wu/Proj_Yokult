@@ -18,8 +18,7 @@ public interface BookingService {
 	public Map<String, Object> getDoctorScheduleAndDoctorName(Date date1, Date date2, Integer doctorId) throws NamingException;
 
 	// Overloading組裝日期 醫師有上班的時段和姓名
-	public Map<String, Object> getDoctorScheduleAndDoctorName(String date1, String date2, String doctorId)
-			throws NamingException;
+//	public Map<String, Object> getDoctorScheduleAndDoctorName(String date1, String date2, String doctorId) throws NamingException;
 	
 	//patient checkin方法 成功回傳1(影響筆數) 失敗回傳-1
 	public int patientCheckIn(Patient patient)throws NamingException;

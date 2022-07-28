@@ -2,6 +2,7 @@ package web.doctor.service;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -13,6 +14,7 @@ import web.booking.dao.DoctorDAOImpl;
 import web.booking.dao.PatientDAO;
 import web.booking.dao.PatientDAOImpl;
 import web.booking.vo.Doctor;
+import web.booking.vo.DoctorConvert;
 import web.booking.vo.Patient;
 
 public class DoctorServiceImpl implements DoctorService {
@@ -24,6 +26,22 @@ public class DoctorServiceImpl implements DoctorService {
 		patientDAOImpl = new PatientDAOImpl();
 		doctorDAOImpl = new DoctorDAOImpl();
 		}
+
+	//回傳一個醫師資料
+	public DoctorConvert selectOne(Doctor doctor) {
+		Doctor vo = doctorDAOImpl.selectOne(doctor);
+		if(vo != null) {
+		byte[] photo = vo.getDoctorPhoto();
+		String photostr = Base64.getEncoder().encodeToString(photo);
+		DoctorConvert doctorConvert = new DoctorConvert();
+		doctorConvert.setDoctorId(vo.getDoctorId());
+		doctorConvert.setDoctorName(vo.getDoctorName());
+		doctorConvert.setDoctorPhoto(photostr);
+			return doctorConvert;
+		}
+		return null;
+	}
+
 	
 	@Override
 	public List<Doctor> getDoctorAll() {
@@ -44,6 +62,13 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public int updateChart(Patient patient)  {
 		int rowcount = patientDAOImpl.updateChart(patient);
+		return rowcount;
+	}
+	
+	//儲存醫師
+	@Override
+	public int updateDr(Doctor doctor)  {
+		int rowcount = doctorDAOImpl.updateDr(doctor);
 		return rowcount;
 	}
 	
@@ -114,6 +139,7 @@ public class DoctorServiceImpl implements DoctorService {
 		}
 		return null;
 	}
+
 	
 //	//過濾 某醫生的已經報到病人們
 //	public List<Patient> filterPatientDate(Doctor doctor) throws NamingException{

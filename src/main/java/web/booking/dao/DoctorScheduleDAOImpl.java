@@ -49,6 +49,8 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 				+ "AND DOCTOR_STATUS = 1 AND DOCTOR_SCHEDULE_DATE BETWEEN ? AND ? ORDER BY DOCTOR_SCHEDULE_DATE;";
 		try (Connection connection = dataSource.getConnection()){
 			PreparedStatement ps = connection.prepareStatement(sql);
+			System.out.println("data1= "+ date1);
+			System.out.println("data2= "+ date2);
 			ps.setInt(1, doctorId);
 			ps.setDate(2, date1);
 			ps.setDate(3, date2);

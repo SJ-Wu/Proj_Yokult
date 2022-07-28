@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
+import java.util.Base64;
 import java.util.List;
 import java.util.Set;
 
@@ -20,10 +22,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import web.booking.service.BookingService;
-import web.booking.service.BookingServiceImpl;
 import web.booking.vo.Doctor;
 import web.booking.vo.DoctorChartVO;
+import web.booking.vo.DoctorConvert;
 import web.booking.vo.Patient;
 import web.doctor.service.DoctorService;
 import web.doctor.service.DoctorServiceImpl;
@@ -36,9 +37,9 @@ public class DoctorServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
 		//開啟跨網域，html才能接收到servlet傳出的東西
-		setHeaders(response);
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		BufferedReader br = request.getReader();
 		PrintWriter out = response.getWriter();
@@ -75,15 +76,31 @@ public class DoctorServlet extends HttpServlet {
 			out.close();
 			return;
 			
-		}else if ("saveChart".equals(infos[1])) {
+		} else if ("saveChart".equals(infos[1])) {
 			out.append(gson.toJson(saveChart(gson, br)));
+			br.close();
+			out.close();
+			return;
+			
+		} else if ("saveDr".equals(infos[1])) {
+			out.append(gson.toJson(saveDr(gson, br)));
+			br.close();
+			out.close();
+			return;
+			
+		} else if ("loadDr".equals(infos[1])) {
+			out.append(gson.toJson(loadDr(gson, br)));
 			br.close();
 			out.close();
 			return;
 			
 		}
 		
+		
+		
+		
 	}
+	
 	
 	//儲存前端傳來的病歷紀錄
 	private JsonObject saveChart(Gson gson, Reader br) {
@@ -101,9 +118,11 @@ public class DoctorServlet extends HttpServlet {
 		//過濾
 		if(!patient.getPatientIdcard().matches(reg)) {
 			jsonObject.addProperty("msg","no idcard");
+			return jsonObject;
 		}
 		if(!patient.getBookingDate().toString().matches(regDate)) {
 			jsonObject.addProperty("msg","no Date");
+			return jsonObject;
 		}
 		int result = 0;
 		result = doctorServiceImpl.updateChart(patient);
@@ -217,9 +236,78 @@ public class DoctorServlet extends HttpServlet {
 		return jsonObject;
 	}
 	
+	//儲存醫師資料
+	private JsonObject saveDr(Gson gson, Reader br) {
+		System.out.println("servlet: save dr start");
+		DoctorServiceImpl doctorServiceImpl = null;
+		try {
+			doctorServiceImpl = new DoctorServiceImpl();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		DoctorConvert doctorConvert = gson.fromJson(br, DoctorConvert.class);
+		JsonObject jsonObject = new JsonObject();
+		//過濾
+		if(doctorConvert.getDoctorName().length() == 0) {
+			jsonObject.addProperty("msg","no name");
+			return jsonObject;
+		}
+		if(doctorConvert.getDoctorPhoto() == null) {
+			jsonObject.addProperty("msg","no photo");
+			return jsonObject;
+		}
+		
+		int result = doctorServiceImpl.updateDr(doctorConverter(doctorConvert));
+		if (result == 1) {
+			jsonObject.addProperty("msg", "updateDr success");
+		} else {
+			jsonObject.addProperty("msg", "updateDr failure");
+		}
+		return jsonObject;
+	}
 
 	
+	//回傳醫師資料
+	private JsonObject loadDr(Gson gson, Reader br) {
+		System.out.println("servlet: load dr start");
+		DoctorServiceImpl doctorServiceImpl = null;
+		try {
+			doctorServiceImpl = new DoctorServiceImpl();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		Doctor doctor = gson.fromJson(br, Doctor.class);
+		JsonObject jsonObject = new JsonObject();
+
+		DoctorConvert vo = doctorServiceImpl.selectOne(doctor);
+		if (vo != null) {
+			
+			jsonObject.addProperty("msg", "load Dr success");
+			jsonObject.add("doctor",  gson.toJsonTree(vo));
+		} else {
+			jsonObject.addProperty("msg", "load Dr failure");
+		}
+		return jsonObject;
+	}
 	
+	private Doctor doctorConverter(DoctorConvert doctorConvert) {
+		Doctor doctor = new Doctor();
+		doctor.setDoctorName(doctorConvert.getDoctorName());
+		doctor.setDoctorId(doctorConvert.getDoctorId());
+		String str = doctorConvert.getDoctorPhoto();
+		if(str == null) {
+			return null;
+		}
+		str = str.substring(str.indexOf(",") + 1);
+		doctor.setDoctorPhoto(Base64.getDecoder().decode(str));
+//		doctor.setDoctorPhoto(doctorConvert.getDoctorPhoto().getBytes()); //bad idea
+		return doctor;
+	}
+	
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		setHeaders(resp);
+	}
 	
 	private void setHeaders(HttpServletResponse response) {
 		// 重要

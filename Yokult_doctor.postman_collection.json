@@ -23,7 +23,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/getDrPatientIdcard?doctorId=1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -34,7 +34,13 @@
 						"api",
 						"0.01",
 						"doctor",
-						""
+						"getDrPatientIdcard"
+					],
+					"query": [
+						{
+							"key": "doctorId",
+							"value": "1"
+						}
 					]
 				}
 			},
@@ -42,15 +48,12 @@
 		},
 		{
 			"name": "GetPatientDates",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"doctorId\": 1,\r\n    \"memId\":\"TGA001\"\r\n}",
+					"raw": "{\r\n    \"doctorId\": 1,\r\n    \"patientIdcard\":\"A123456788\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -58,7 +61,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/getDrPatientDates",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -69,7 +72,71 @@
 						"api",
 						"0.01",
 						"doctor",
-						""
+						"getDrPatientDates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCahrt",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"doctorId\": 1, \r\n    \"patientIdcard\" : \"A123456788\",\r\n    \"bookingDate\" : \"2022-07-12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/returnChart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"doctor",
+						"returnChart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "saveChart",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"doctorId\": 1,\r\n    \"patientIdcard\": \"A123456788\",\r\n    \"bookingDate\": \"2022-07-20\",\r\n    \"chart\": \"主訴:患者希望牙齒變白 診斷:無。 治療內容:上排牙齒冷光美白療程 建議:第一周會較痠痛，建議搭配抗敏感牙膏使用\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/doctor/saveChart",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"doctor",
+						"saveChart"
 					]
 				}
 			},

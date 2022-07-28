@@ -3,28 +3,34 @@ package web.booking.service;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.naming.NamingException;
-import javax.xml.crypto.dsig.spec.XPathType;
 
+import web.booking.dao.DoctorDAO;
 import web.booking.dao.DoctorDAOImpl;
+import web.booking.dao.DoctorScheduleDAO;
 import web.booking.dao.DoctorScheduleDAOImpl;
+import web.booking.dao.PatientDAO;
 import web.booking.dao.PatientDAOImpl;
+import web.booking.vo.Doctor;
 import web.booking.vo.DoctorSchedule;
 import web.booking.vo.Patient;
 
 public class BookingServiceImpl implements BookingService  {
 	//例外通常是放在service層 才能夠決定導向到哪裡去 不要在DAOimpl把exception處理掉
 	//		
-	private PatientDAOImpl patientDAOImpl;
-	private DoctorDAOImpl doctorDAOImpl;
+	private PatientDAO patientDAOImpl;
+	private DoctorDAO doctorDAOImpl;
+	private DoctorScheduleDAO doctorScheduleDAOImpl;
 	
 	public BookingServiceImpl() throws NamingException {
 		patientDAOImpl = new PatientDAOImpl();
 		doctorDAOImpl = new DoctorDAOImpl();
+		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
 	}
 	
 	//報到 patient checkin方法 成功回傳1(影響筆數) 失敗回傳0 或 -1
@@ -87,24 +93,36 @@ public class BookingServiceImpl implements BookingService  {
 		List<DoctorSchedule> listDr = new DoctorScheduleDAOImpl().selectDoctorSchedule(date1, date2, doctorId);
 		String drName = new DoctorDAOImpl().selectDoctorNameById(doctorId);
 		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("list", listDr);
-		map.put("name", drName);
-		return map;
-	}
-	
-	// Overloading組裝日期 醫師有上班的時段和姓名
-	@Override
-	public Map<String, Object> getDoctorScheduleAndDoctorName(String date1, String date2,String doctorId) throws NamingException {
-//		Integer.valueOf(doctorId);
-		List<DoctorSchedule> listDr = new DoctorScheduleDAOImpl().selectDoctorSchedule(java.sql.Date.valueOf(date1), java.sql.Date.valueOf(date2), Integer.valueOf(doctorId));
-		String drName = new DoctorDAOImpl().selectDoctorNameById(Integer.valueOf(doctorId));
+		Doctor doctor = new Doctor();
+		doctor.setDoctorId(Integer.valueOf(doctorId));
+		byte[] photo = doctorDAOImpl.selectOne(doctor).getDoctorPhoto();
+		String photostr = Base64.getEncoder().encodeToString(photo);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", listDr);
 		map.put("name", drName);
+		map.put("photo", photostr);
 		return map;
 	}
+	
+	// Overloading組裝日期 醫師有上班的時段和姓名
+//	@Override
+//	public Map<String, Object> getDoctorScheduleAndDoctorName(String date1, String date2,String doctorId) throws NamingException {
+////		Integer.valueOf(doctorId);
+//		List<DoctorSchedule> listDr = doctorScheduleDAOImpl.selectDoctorSchedule(java.sql.Date.valueOf(date1), java.sql.Date.valueOf(date2), Integer.valueOf(doctorId));
+//		String drName = doctorDAOImpl.selectDoctorNameById(Integer.valueOf(doctorId));
+//		Doctor doctor = new Doctor();
+//		doctor.setDoctorId(Integer.valueOf(doctorId));
+//		System.out.println("getDoctorId"+doctor.getDoctorId());
+//		byte[] photo = doctorDAOImpl.selectOne(doctor).getDoctorPhoto();
+//		String photostr = Base64.getEncoder().encodeToString(photo);
+//		System.out.println(photo);
+//		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("list", listDr);
+//		map.put("name", drName);
+//		map.put("photo", photostr);
+//		return map;
+//	}
 
 	//回傳病人未報到的所有欄位 加上醫生姓名 有的話回傳list 沒有回null
 	@Override

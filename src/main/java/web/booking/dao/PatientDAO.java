@@ -3,6 +3,7 @@ package web.booking.dao;
 import java.sql.Date;
 import java.util.List;
 
+import web.booking.vo.Doctor;
 import web.booking.vo.Patient;
 
 public interface PatientDAO {
@@ -38,6 +39,7 @@ public interface PatientDAO {
 	
 	//update病歷
 	public int updateChart(Patient patient);
+
 	
 		
 }

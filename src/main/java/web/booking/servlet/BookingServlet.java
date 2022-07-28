@@ -200,7 +200,7 @@ public class BookingServlet extends HttpServlet {
 		try {
 			BookingService bookingService = new BookingServiceImpl();
 			Map<String, Object> map = bookingService.getDoctorScheduleAndDoctorName(vo.getDate1(), vo.getDate2(), vo.getDoctorId());
-												//toJsonTree方式把直接map物件轉JSONTREE 再轉JsonObject
+			//toJsonTree方式把直接map物件轉JSONTREE 再轉JsonObject
 			JsonObject drNameScheduleJsonObject = gson.toJsonTree(map).getAsJsonObject();
 //			System.out.println(drNameScheduleJsonObject);
 			//送到前端要把JsonObject轉json
