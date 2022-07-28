@@ -12,6 +12,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Fund_PLAN")
 public class PlanBean implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer planID;
@@ -19,8 +23,8 @@ public class PlanBean implements Serializable {
 	private Integer planAmount;
 	private String planContent;
 	private String planPostNote;
-	private Date planStartedDate;
-	private String planEndedDate;
+	private Date planStartedDateTime;
+	private Date planEndedDateTime;
 	private Integer statusID;
 	private Integer	propoID;
 //	private String planAttendeeCount;
@@ -28,23 +32,36 @@ public class PlanBean implements Serializable {
 	public PlanBean() {}
 
 	public PlanBean(Integer planID, String planName, Integer planAmount, String planContent, String planPostNote,
-			Date planStartedDate, String planEndedDate, Integer statusID, Integer propoID) {
+			Date planStartedDateTime, Date planEndedDateTime, Integer statusID, Integer propoID) {
 		super();
 		this.planID = planID;
 		this.planName = planName;
 		this.planAmount = planAmount;
 		this.planContent = planContent;
 		this.planPostNote = planPostNote;
-		this.planStartedDate = planStartedDate;
-		this.planEndedDate = planEndedDate;
+		this.planStartedDateTime = planStartedDateTime;
+		this.planEndedDateTime = planEndedDateTime;
+		this.statusID = statusID;
+		this.propoID = propoID;
+	}
+	
+	public PlanBean(String planName, Integer planAmount, String planContent, String planPostNote,
+			Date planStartedDateTime, Date planEndedDateTime, Integer statusID, Integer propoID) {
+		super();
+		this.planName = planName;
+		this.planAmount = planAmount;
+		this.planContent = planContent;
+		this.planPostNote = planPostNote;
+		this.planStartedDateTime = planStartedDateTime;
+		this.planEndedDateTime = planEndedDateTime;
 		this.statusID = statusID;
 		this.propoID = propoID;
 	}
 	
 	public String toString() {
 		return "PlanBean [planID=" + planID + ", planName=" + planName + ", planAmount=" + planAmount + ", planContent="
-				+ planContent + ", planPostNote=" + planPostNote + ", planStartedDate=" + planStartedDate
-				+ ", planEndedDate=" + planEndedDate + ", statusID=" + statusID + ", propoID=" + propoID + "]";
+				+ planContent + ", planPostNote=" + planPostNote + ", planStartedDateTime=" + planStartedDateTime
+				+ ", planEndedDateTime=" + planEndedDateTime + ", statusID=" + statusID + ", propoID=" + propoID + "]";
 	}
 	
 	public Integer getPlanID() {
@@ -78,16 +95,16 @@ public class PlanBean implements Serializable {
 		this.planPostNote = planPostNote;
 	}
 	public Date getPlanStartedDate() {
-		return planStartedDate;
+		return planStartedDateTime;
 	}
-	public void setPlanStartedDate(Date planStartedDate) {
-		this.planStartedDate = planStartedDate;
+	public void setPlanStartedDate(Date planStartedDateTime) {
+		this.planStartedDateTime = planStartedDateTime;
 	}
-	public String getPlanEndedDate() {
-		return planEndedDate;
+	public Date getPlanEndedDate() {
+		return planEndedDateTime;
 	}
-	public void setPlanEndedDate(String planEndedDate) {
-		this.planEndedDate = planEndedDate;
+	public void setPlanEndedDate(Date planEndedDateTime) {
+		this.planEndedDateTime = planEndedDateTime;
 	}
 	public Integer getStatusID() {
 		return statusID;

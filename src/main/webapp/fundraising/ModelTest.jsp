@@ -21,6 +21,7 @@
 	<thead>
 		<th>model名稱</th> <td>｜</td> <th>執行測試</th>
 	</thead>
+	
 	<tbody>
 		<td>募資類別（Category）</td>
 		<td>：</td>
@@ -39,7 +40,18 @@
 			</a>
 		</th>
 	</tbody>
-		<tbody>
+	
+	<tbody>
+		<td>募資方案（Plan）</td>
+		<td>：</td>
+		<th>
+			<a href="<%= path%>/fundraising/PlanTest.jsp">
+				<input type="button" value="測試"></input>
+			</a>
+		</th>
+	</tbody>
+		
+	<tbody>
 		<td>募資階段（Status）</td>
 		<td>：</td>
 		<th>
@@ -48,6 +60,7 @@
 			</a>
 		</th>
 	</tbody>
+		
 </table>
 
 </body>
