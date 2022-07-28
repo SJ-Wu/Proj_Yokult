@@ -1,19 +1,7 @@
 package web.fundraising.dao;
 
-import static web.fundraising.common.CommonJDBC.URL;
-import static web.fundraising.common.CommonJDBC.USER;
-import static web.fundraising.common.CommonJDBC.PASSWORD;
-
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Session;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 

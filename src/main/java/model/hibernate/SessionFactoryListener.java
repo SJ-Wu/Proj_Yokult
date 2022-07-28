@@ -9,8 +9,9 @@ public class SessionFactoryListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		HibernateUtil.getSessionFactory();
 		System.out.println("SesionContext initialization!");
+		HibernateUtil.getSessionFactory();
+		System.out.println("SesionContext initialization End!");
 	}
 
 	@Override

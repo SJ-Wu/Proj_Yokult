@@ -11,5 +11,7 @@
 		<property name="hibernate.hbm2ddl.auto">validate</property>
 		<property name="hibernate.show_sql">true</property>
 		<mapping class="web.member.vo.Member" />
+		<mapping class="web.fundraising.vo.PlanBean" />
+		
 	</session-factory>
 </hibernate-configuration>

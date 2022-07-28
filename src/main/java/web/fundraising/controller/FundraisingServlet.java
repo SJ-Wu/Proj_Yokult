@@ -9,9 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.SessionFactory;
-
-import web.fundraising.common.HibernateUtil;
 
 @WebServlet("/fundraising")
 public class FundraisingServlet extends HttpServlet {
@@ -26,7 +23,7 @@ public class FundraisingServlet extends HttpServlet {
 
 //	    StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure().build();
 //	    SessionFactory sessionFactory = new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
-	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+//	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 	    
 //	    Session session = sessionFactory.getCurrentSession();
 //	    Transaction trx = session.beginTransaction();
@@ -59,6 +56,6 @@ public class FundraisingServlet extends HttpServlet {
 //	    trx.commit();
 //	    session.close();
 //	    sessionFactory.close();
-	    HibernateUtil.closeSessionFactory();
+//	    HibernateUtil.closeSessionFactory();
 	}
 }
