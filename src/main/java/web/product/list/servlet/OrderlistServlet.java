@@ -119,7 +119,7 @@ public class OrderlistServlet extends HttpServlet {
 	
 	//修改
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		pathInfo = req.getPathInfo();
 		infos = pathInfo.split("/");

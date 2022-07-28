@@ -1,4 +1,9 @@
 $(window).on("load", () => {
+    let orderlist;
+    let delivery;
+    let payment = {};
+    let consignee = {};
+    let paymethod;
     //====測試session storage====//
     sessionStorage.setItem(
         "orderlist",
@@ -26,15 +31,70 @@ $(window).on("load", () => {
     }]`
     );
     sessionStorage.setItem("delivery", "mailing");
-    let orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
+    orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
     orderlist.forEach((order) => {
         addList(order);
     });
-    let delivery = sessionStorage.getItem("delivery");
+    delivery = sessionStorage.getItem("delivery");
     getDelivery(delivery);
     subtotal();
     totalaccount();
+
+    // 收貨人同付款
+    $("#same-payment").on("click", () => {
+        if ($("#same-payment").is(":checked")) {
+            payment = getPaymentInfo();
+            $("#consignee-name").val(payment["name"]);
+            $("#consignee-cellphone").val(payment["cellphone"]);
+            $("#consignee-phone").val(payment["phone"] ?? "");
+        }
+    });
+
+    // 結帳按鈕
+    $("#btn-checkout").on("click", () => {
+        payment = getPaymentInfo();
+        consignee = getConsigneeInfo(payment);
+        paymethod = $('input[name="payment"]:checked').val();
+        axios
+            .post("http://localhost:8080/Proj_Yokult/Checkout", {
+                payment,
+                consignee,
+                paymethod,
+            })
+            .then((response) => {
+                // let msg = response.data["msg"];
+                // if (msg === "success") {
+                //     alert("付款成功");
+                // } else {
+                //     alert("付款失敗");
+                // }
+                console.log(response);
+            })
+            .catch((error) => console.log(error));
+    });
 });
+
+// 取得付款資訊
+function getPaymentInfo() {
+    let payment = {};
+    payment["name"] = $("#payment-name").val();
+    payment["cellphone"] = $("#payment-cellphone").val();
+    payment["phone"] = $("#payment-phone").val() ?? "";
+    payment["creditcard-number"] = $("#payment-creditcard-number").val();
+    payment["creditcard-code"] = $("#payment-creditcard-code").val();
+    return payment;
+}
+
+// 取得收貨人資訊
+function getConsigneeInfo(payment) {
+    let consignee = {};
+    consignee["name"] = $("#consignee-name").val();
+    consignee["cellphone"] = $("#consignee-cellphone").val();
+    consignee["phone"] = $("#consignee-phone").val() ?? "";
+    consignee["city"] = $("#consignee-city option:selected").val() ?? "";
+    consignee["dist"] = $("#consignee-dist option:selected").val() ?? "";
+    return consignee;
+}
 
 function getDelivery(delivery) {
     if (delivery === "pickup") {

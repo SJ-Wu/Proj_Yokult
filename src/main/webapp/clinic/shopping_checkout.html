@@ -200,7 +200,7 @@
                         "
                     >
                         <h4 class="text-white mb-4">付款資訊</h4>
-                        <form>
+                        <form id="form-payment">
                             <div class="row g-3">
                                 <div class="col-12 col-sm-6">
                                     <input
@@ -208,6 +208,8 @@
                                         class="form-control bg-light border-0"
                                         placeholder="姓名"
                                         style="height: 55px"
+                                        id="payment-name"
+                                        value="龍蝦"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -216,6 +218,8 @@
                                         class="form-control bg-light border-0"
                                         placeholder="手機號碼"
                                         style="height: 55px"
+                                        id="payment-cellphone"
+                                        value="0987654321"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -224,6 +228,7 @@
                                         class="form-control bg-light border-0"
                                         placeholder="市話 (可不填)"
                                         style="height: 55px"
+                                        id="payment-phone"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -232,6 +237,8 @@
                                         class="form-control bg-light border-0"
                                         placeholder="信用卡號碼"
                                         style="height: 55px"
+                                        id="payment-creditcard-number"
+                                        value="1111-1111-1111-1111"
                                     />
                                 </div>
                                 <div class="col-12 col-sm-6">
@@ -253,41 +260,67 @@
                                                 name="月"
                                                 id="月"
                                             >
-                                                <option value="月">月</option>
-                                                <option value="月">01</option>
-                                                <option value="月">02</option>
-                                                <option value="月">03</option>
-                                                <option value="月">04</option>
-                                                <option value="月">05</option>
-                                                <option value="月">06</option>
-                                                <option value="月">07</option>
-                                                <option value="月">08</option>
-                                                <option value="月">09</option>
-                                                <option value="月">10</option>
-                                                <option value="月">11</option>
-                                                <option value="月">12</option>
+                                                <option value="Month">
+                                                    月
+                                                </option>
+                                                <option value="Jan">01</option>
+                                                <option value="Feb">02</option>
+                                                <option value="Mar">03</option>
+                                                <option value="Feb">04</option>
+                                                <option value="May">05</option>
+                                                <option value="Jun">06</option>
+                                                <option value="Jul">07</option>
+                                                <option value="Aug">08</option>
+                                                <option value="Sep">09</option>
+                                                <option value="Oct">10</option>
+                                                <option value="Nov">11</option>
+                                                <option value="Dec">12</option>
                                             </select>
                                         </div>
                                         <div class="col-6">
                                             <select
                                                 class="form-select bg-light border-0"
                                                 style="height: 55px"
-                                                name="年"
+                                                name="year"
                                                 id="年"
                                             >
-                                                <option value="年">年</option>
-                                                <option value="年">2023</option>
-                                                <option value="年">2024</option>
-                                                <option value="年">2025</option>
-                                                <option value="年">2026</option>
-                                                <option value="年">2027</option>
-                                                <option value="年">2028</option>
-                                                <option value="年">2029</option>
-                                                <option value="年">2030</option>
-                                                <option value="年">2031</option>
-                                                <option value="年">2032</option>
-                                                <option value="年">2033</option>
-                                                <option value="年">2034</option>
+                                                <option value="Year">年</option>
+                                                <option value="2023">
+                                                    2023
+                                                </option>
+                                                <option value="2024">
+                                                    2024
+                                                </option>
+                                                <option value="2025">
+                                                    2025
+                                                </option>
+                                                <option value="2026">
+                                                    2026
+                                                </option>
+                                                <option value="2027">
+                                                    2027
+                                                </option>
+                                                <option value="2028">
+                                                    2028
+                                                </option>
+                                                <option value="2029">
+                                                    2029
+                                                </option>
+                                                <option value="2030">
+                                                    2030
+                                                </option>
+                                                <option value="2031">
+                                                    2031
+                                                </option>
+                                                <option value="2032">
+                                                    2032
+                                                </option>
+                                                <option value="2033">
+                                                    2033
+                                                </option>
+                                                <option value="2034">
+                                                    2034
+                                                </option>
                                             </select>
                                         </div>
                                     </div>
@@ -298,21 +331,10 @@
                                         class="form-control bg-light border-0"
                                         placeholder="信用卡後三碼"
                                         style="height: 55px"
+                                        id="payment-creditcard-code"
+                                        value="123"
                                     />
                                 </div>
-                                <!-- <div class="col-12 col-sm-6">
-                                    <select
-                                        class="form-select bg-light border-0"
-                                        style="height: 55px"
-                                    >
-                                        <option selected="">
-                                            Select A Service
-                                        </option>
-                                        <option value="1">Service 1</option>
-                                        <option value="2">Service 2</option>
-                                        <option value="3">Service 3</option>
-                                    </select>
-                                </div> -->
                             </div>
                         </form>
                     </div>
@@ -364,12 +386,20 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <div class="bg-dark d-flex flex-column p-5">
+                    <div
+                        class="bg-secondary h-100 d-flex flex-column p-5 wow zoomIn"
+                        data-wow-delay="0.6s"
+                        style="
+                            visibility: visible;
+                            animation-delay: 0.6s;
+                            animation-name: zoomIn;
+                        "
+                    >
                         <h3 class="text-white mb-3">收貨人資訊</h3>
                         <div class="checkout__input__checkbox">
-                            <label for="payment" style="color: white">
+                            <label for="same-payment" style="color: white">
                                 同付款人資訊
-                                <input type="checkbox" id="payment" />
+                                <input type="checkbox" id="same-payment" />
                                 <span class="checkmark"></span>
                             </label>
                         </div>
@@ -380,6 +410,7 @@
                                     class="form-control bg-light border-0"
                                     placeholder="姓名"
                                     style="height: 55px"
+                                    id="consignee-name"
                                 />
                             </div>
                             <div class="col-12 col-sm-6">
@@ -388,6 +419,7 @@
                                     class="form-control bg-light border-0"
                                     placeholder="手機號碼"
                                     style="height: 55px"
+                                    id="consignee-cellphone"
                                 />
                             </div>
                             <div class="col-12 col-sm-6">
@@ -396,6 +428,7 @@
                                     class="form-control bg-light border-0"
                                     placeholder="市話 (可不填)"
                                     style="height: 55px"
+                                    id="consignee-phone"
                                 />
                             </div>
                             <div class="col-12 col-sm-6">
@@ -406,7 +439,7 @@
                                             class="form-select bg-light border-0"
                                             style="height: 55px"
                                             name="city"
-                                            id="city"
+                                            id="consignee-city"
                                         >
                                             <option value="cityarea">
                                                 請選擇縣市
@@ -427,8 +460,8 @@
                                         <select
                                             class="form-select bg-light border-0"
                                             style="height: 55px"
-                                            name="city"
-                                            id="area"
+                                            name="dist"
+                                            id="consignee-dist"
                                         >
                                             <!-- <option value="中正區">
                                                 中正區
@@ -466,7 +499,12 @@
                     >
                         <h4 class="text-white mb-4">請選擇付款方式</h4>
                         <div class="checkout__input__checkbox">
-                            <input type="radio" name="payment" id="cash" />
+                            <input
+                                type="radio"
+                                name="payment"
+                                id="cash"
+                                value="cash"
+                            />
                             <label for="cash"> 現金 </label>
                         </div>
                         <div class="checkout__input__checkbox">
@@ -474,14 +512,23 @@
                                 type="radio"
                                 name="payment"
                                 id="credit-card"
+                                value="card"
                             />
                             <label for="credit-card"> 信用卡 </label>
                         </div>
                         <div class="checkout__input__checkbox">
-                            <input type="radio" name="payment" id="paypal" />
+                            <input
+                                type="radio"
+                                name="payment"
+                                id="paypal"
+                                value="paypal"
+                            />
                             <label for="paypal"> 電子支付 </label>
                         </div>
-                        <button class="btn btn-danger w-100 py-3" type="submit">
+                        <button
+                            class="btn btn-danger w-100 py-3"
+                            id="btn-checkout"
+                        >
                             確認送出
                         </button>
                     </div>
@@ -667,7 +714,7 @@
         <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
         <script src="lib/twentytwenty/jquery.event.move.js"></script>
         <script src="lib/twentytwenty/jquery.twentytwenty.js"></script>
-
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
         <script src="js/materialize.js"></script>
@@ -676,8 +723,8 @@
 
         <!-- 縣市串接 -->
         <script>
-            const city = document.querySelector("#city");
-            const area = document.querySelector("#area");
+            const city = document.querySelector("#consignee-city");
+            const area = document.querySelector("#consignee-dist");
             city.onchange = () => {
                 area.innerHTML = areaMap[city.value];
                 // switch (city.value) {
