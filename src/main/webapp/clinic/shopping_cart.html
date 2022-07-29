@@ -221,6 +221,7 @@
                                 <table>
                                     <thead>
                                         <tr>
+                                            <th>商品圖片</th>
                                             <th class="shoping__product">
                                                 商品名稱
                                             </th>
@@ -230,131 +231,8 @@
                                             <th></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td class="shoping__cart__item">
-                                                <img
-                                                    src="C:\Users\Tibame_T14\Desktop\topic\Yokult-br_front_end\fe\img\222.png"
-                                                    alt=""
-                                                />
-                                                <h5>
-                                                    Black Is White
-                                                    酷黑淨白牙刷組
-                                                </h5>
-                                            </td>
-                                            <td class="shoping__cart__price">
-                                                NT$450
-                                            </td>
-                                            <td class="shoping__cart__quantity">
-                                                <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <i
-                                                            class="fa-solid fa-minus dec qtybtn"
-                                                        ></i>
-                                                        <input
-                                                            type="text"
-                                                            value="1"
-                                                        />
-                                                        <i
-                                                            class="fa-solid fa-plus inc qtybtn"
-                                                        ></i>
-                                                    </div>
-                                                </div>
-                                            </td>
-
-                                            <td class="shoping__cart__total">
-                                                NT$450
-                                            </td>
-                                            <td
-                                                class="shoping__cart__item__close"
-                                            >
-                                                <span
-                                                    class="fa-solid fa-xmark"
-                                                ></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="shoping__cart__item">
-                                                <img
-                                                    src="C:\Users\Tibame_T14\Desktop\topic\Yokult-br_front_end\fe\img\000.jpg"
-                                                    alt=""
-                                                />
-                                                <h5>
-                                                    MARVIS
-                                                    義大利經典牙膏85ml(銀-亮白)
-                                                </h5>
-                                            </td>
-                                            <td class="shoping__cart__price">
-                                                NT$339
-                                            </td>
-                                            <td class="shoping__cart__quantity">
-                                                <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <i
-                                                            class="fa-solid fa-minus dec qtybtn"
-                                                        ></i>
-                                                        <input
-                                                            type="text"
-                                                            value="1"
-                                                        />
-                                                        <i
-                                                            class="fa-solid fa-plus inc qtybtn"
-                                                        ></i>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="shoping__cart__total">
-                                                NT$678
-                                            </td>
-                                            <td
-                                                class="shoping__cart__item__close"
-                                            >
-                                                <span
-                                                    class="fa-solid fa-xmark"
-                                                ></span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="shoping__cart__item">
-                                                <img
-                                                    src="C:\Users\Tibame_T14\Desktop\topic\Yokult-br_front_end\fe\img\111.jpg"
-                                                    alt=""
-                                                />
-                                                <h5>
-                                                    【LION
-                                                    獅王】NONIO終結口氣漱口水(600ml)
-                                                </h5>
-                                            </td>
-                                            <td class="shoping__cart__price">
-                                                NT$158
-                                            </td>
-                                            <td class="shoping__cart__quantity">
-                                                <div class="quantity">
-                                                    <div class="pro-qty">
-                                                        <i
-                                                            class="fa-solid fa-minus dec qtybtn"
-                                                        ></i>
-                                                        <input
-                                                            type="text"
-                                                            value="1"
-                                                        />
-                                                        <i
-                                                            class="fa-solid fa-plus inc qtybtn"
-                                                        ></i>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="shoping__cart__total">
-                                                NT$474
-                                            </td>
-                                            <td
-                                                class="shoping__cart__item__close"
-                                            >
-                                                <span
-                                                    class="fa-solid fa-xmark"
-                                                ></span>
-                                            </td>
-                                        </tr>
+                                    <tbody id="shoppingcart_orderlist">
+                                        <!-- javaScript -->
                                     </tbody>
                                 </table>
                             </div>
@@ -373,12 +251,6 @@
                                 <a href="#" class="primary-btn cart-btn"
                                     >繼續購買</a
                                 >
-                                <a
-                                    href="#"
-                                    class="primary-btn cart-btn cart-btn-right"
-                                    ><span class="icon_loading"></span>
-                                    更新購物車</a
-                                >
                             </div>
                         </div>
                     </div>
@@ -387,38 +259,50 @@
                             <div class="shoping__continue">
                                 <div class="shoping__discount">
                                     <h5>快速查詢</h5>
-                                    <form action="#">
-                                        <input
-                                            type="text"
-                                            placeholder="請輸入商品名稱"
-                                        />
-                                        <button type="submit" class="site-btn">
-                                            查詢
-                                        </button>
-                                    </form>
-                                    <div>
+                                </div>
+
+                                <form action="#">
+                                    <input
+                                        type="text"
+                                        placeholder="請輸入商品名稱"
+                                    />
+                                    <button type="submit" class="site-btn">
+                                        查詢
+                                    </button>
+                                </form>
+                                <div>
+                                    <form id="delivery_form">
                                         <h5 class="mt-5">配送方式</h5>
                                         <label for="acc-or">
+                                            <input
+                                                name="deliver_radio"
+                                                type="radio"
+                                                id="pickup"
+                                                value="0"
+                                                checked
+                                            />
                                             現場取貨
-                                            <input
-                                                type="checkbox"
-                                                id="acc-or"
-                                            />
                                             <span class="checkmark"></span>
+
+                                            <input
+                                                name="deliver_radio"
+                                                type="radio"
+                                                id="mailing"
+                                                value="50"
+                                            />
                                             郵寄
-                                            <input
-                                                type="checkbox"
-                                                id="acc-or"
-                                            />
                                             <span class="checkmark"></span>
-                                            宅配
+
                                             <input
-                                                type="checkbox"
-                                                id="acc-or"
+                                                name="deliver_radio"
+                                                type="radio"
+                                                id="shipping"
+                                                value="100"
                                             />
+                                            宅配
                                             <span class="checkmark"></span>
                                         </label>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -426,10 +310,21 @@
                             <div class="shoping__checkout">
                                 <h5>購物車總金額</h5>
                                 <ul>
-                                    <li>小計 <span>NT$454</span></li>
-                                    <li>總計 <span>NT$454</span></li>
+                                    <li>
+                                        小計 NT$<span id="subtotal">0</span>
+                                    </li>
+                                    <li>
+                                        運費 NT$<span id="delivery">0</span>
+                                    </li>
+                                    <li>總計 NT$<span id="total">0</span></li>
                                 </ul>
-                                <a href="#" class="primary-btn">結帳</a>
+                                <a
+                                    href="shopping_checkout.html"
+                                    class="primary-btn"
+                                    id="btn_checkout"
+                                >
+                                    結帳
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -619,8 +514,7 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
-        <!-- vickyTsai's JS -->
         <script src="js/materialize.js"></script>
-        <script src="js/patientBookingQueryJs.js"></script>
+        <script src="js/shopping_cart.js"></script>
     </body>
 </html>
