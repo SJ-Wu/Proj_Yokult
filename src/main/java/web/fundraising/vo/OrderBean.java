@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name="Fund_ORDER")
 public class OrderBean implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer orderID;
 	private String orderInvoiceNumber;
 	private Date orderTimeStamp;

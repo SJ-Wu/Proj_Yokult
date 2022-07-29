@@ -25,6 +25,7 @@ public class OpenSessionInViewFilter implements Filter{
 			transaction = session.beginTransaction();
 			chain.doFilter(request, response);
 			transaction.commit();
+			System.out.println("OpenSessionInViewFilter id opened.");
 		} catch (Exception e) {
 			transaction.rollback();
 			e.printStackTrace();
@@ -32,6 +33,7 @@ public class OpenSessionInViewFilter implements Filter{
 //			request.getRequestDispatcher("#").forward(request, response);
 		} finally {
 			session.close();
+			System.out.println("OpenSessionInViewFilter id closed.");
 		}
 	}
 }

@@ -17,7 +17,9 @@ create table `Fund_PROPOSAL`(
 	`proposalCellphone` varchar(10) not null comment '手機號碼',
 	`proposalSummary` varchar(500) not null comment '提案概要',
 	`proposalPageContent` varchar(200) not null comment '頁面內容檔案',
-	`memID` varchar(50) not null comment '會員帳號'
+	`memID` varchar(50) not null comment '會員帳號',
+    foreign key(`statusID`) references `Fund_STATUS`(`statusID`),
+    foreign key(`memID`) references `MEMBER`(`MEMID`)
 );
 
 
@@ -49,7 +51,7 @@ insert into `Fund_PROPOSAL` (
 '0912345678',
 '跟我們一起為偏鄉國小注入活力吧！',
 '\\src\\main\\java\\web\\fundraising\\sql\\file\\PageContent_1.docx',
-'test_account1'
+'TGA001'
 ),
 (
 '2023微笑曲線計畫｜為每個人打造獨一無二的微笑曲線', 
@@ -63,7 +65,7 @@ insert into `Fund_PROPOSAL` (
 '0987654321',
 '跟我們一起打造獨一無二的微笑曲線吧！',
 '\\src\\main\\java\\web\\fundraising\\sql\\file\\PageContent_2.docx',
-'test_account2'
+'TGA002'
 )
 
 

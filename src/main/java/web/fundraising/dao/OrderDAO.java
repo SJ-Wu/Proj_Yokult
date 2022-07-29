@@ -6,8 +6,8 @@ import web.fundraising.vo.OrderBean;
 
 public interface OrderDAO {
 	public abstract OrderBean insert(OrderBean orderBean);
-	public abstract Boolean delete(int id);
-	public abstract OrderBean update(int id, OrderBean orderBean);
-	public abstract OrderBean select(int id);
+	public abstract Boolean delete(Integer id);
+	public abstract OrderBean update(Integer id, OrderBean orderBean);
+	public abstract OrderBean select(Integer id);
 	public abstract List<OrderBean> selectAll();
 }

@@ -8,6 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 @WebServlet("/fundraising")
@@ -43,7 +44,13 @@ public class FundraisingServlet extends HttpServlet {
 //	    
 //	    String action = "";
 	    String destination = "";
-	        
+	    
+	    
+	       
+//	    if(SessionSaver.getSession() != null) {
+//	    	System.out.println("session is exist.");
+//	    }
+//	    req.setAttribute("session", req.getAttribute("session"));
 	    
 	    //測試model & SQL間是否無誤
 //	    if("ModelTest".equalsIgnoreCase(action)) {	    	

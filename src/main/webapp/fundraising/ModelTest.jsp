@@ -12,6 +12,7 @@
 </head>
 <body>
 <%
+	request.setAttribute("session", request.getAttribute("session"));
 	String path = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
 	//System.out.println(path);
 %>
@@ -56,6 +57,16 @@
 		<td>：</td>
 		<th>
 			<a href="<%= path%>/fundraising/StatusTest.jsp">
+				<input type="button" value="測試"></input>
+			</a>
+		</th>
+	</tbody>
+			
+	<tbody>
+		<td>寄送資訊（Post）</td>
+		<td>：</td>
+		<th>
+			<a href="<%= path%>/fundraising/PostTest.jsp">
 				<input type="button" value="測試"></input>
 			</a>
 		</th>

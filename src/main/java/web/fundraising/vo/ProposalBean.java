@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Table(name="Fund_PROPOSAL")
 public class ProposalBean implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer	proposalID;
 	private String proposalName;
 	private String proposalHostName;
@@ -30,7 +30,7 @@ public class ProposalBean implements Serializable {
 	
 	public ProposalBean() {}
 	
-	public ProposalBean(Integer proposalID, String proposalName, String proposalHostName, Integer proposalGoal,
+	public ProposalBean(String proposalName, String proposalHostName, Integer proposalGoal,
 			Integer proposalCategoryID, Date proposalStartedDateTime, Date proposalEndedDateTime, Integer statusID,
 			String proposalEmail, String proposalCellphone, String proposalSummary, String proposalPageContent,
 			Integer memID) {
@@ -63,9 +63,7 @@ public class ProposalBean implements Serializable {
 	public Integer getProposalID() {
 		return proposalID;
 	}
-	public void setProposalID(Integer proposalID) {
-		this.proposalID = proposalID;
-	}
+
 	public String getProposalName() {
 		return proposalName;
 	}

@@ -3,6 +3,7 @@ package web.fundraising.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +24,9 @@ public class PlanBean implements Serializable {
 	private Integer planAmount;
 	private String planContent;
 	private String planPostNote;
+	@Column(name = "planStartedDateTime", columnDefinition = "DATE")
 	private Date planStartedDateTime;
+	@Column(name = "planEndedDateTime", columnDefinition = "DATE")
 	private Date planEndedDateTime;
 	private String statusID;
 	private Integer	proposalID;

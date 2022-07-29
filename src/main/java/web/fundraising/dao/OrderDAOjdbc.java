@@ -21,117 +21,125 @@ public class OrderDAOjdbc implements OrderDAO {
 	@Override
 	public OrderBean insert(OrderBean orderBean) {
 		int rowCount = 0;
-		String sql = "insert into `Fund_Order`(" 
-				+ " `orderInvoiceNumber`,"
-				+ " `orderTimeStamp`,"
-				+ "	`orderAmount`,"
-				+ "	`proposalID`,"
-				+ " `planID`,"
-				+ " `memID`,"
-				+ " `postID`"
-				+ ")values(?, ?, ?, ?, ?, ?, ?);";
-		
-		try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				PreparedStatement ps = connection.prepareStatement(sql);
-				Statement stm = connection.createStatement()) {
-			ps.setString(1, orderBean.getOrderInvoiceNumber());
-			ps.setDate(2, orderBean.getOrderTimeStamp());
-			ps.setInt(3, orderBean.getOrderAmount());
-			ps.setInt(4, orderBean.getProposalID());
-			ps.setInt(5, orderBean.getPlanID());
-			ps.setString(6, orderBean.getMemID());
-			ps.setInt(7, orderBean.getPostID());
+		if(orderBean != null) {
+			String sql = "insert into `Fund_Order`(" 
+					+ " `orderInvoiceNumber`,"
+					+ " `orderTimeStamp`,"
+					+ "	`orderAmount`,"
+					+ "	`proposalID`,"
+					+ " `planID`,"
+					+ " `memID`,"
+					+ " `postID`"
+					+ ")values(?, ?, ?, ?, ?, ?, ?);";
 			
-			sql = ps.toString().split(": ")[1];
-			rowCount = stm.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);	
-			ResultSet rs = stm.getGeneratedKeys();
-		    rs.next();
-		    int key = rs.getInt(1);
-		    orderBean.setOrderID(key);
-		    
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		if(rowCount != 0) {
-			return orderBean;
-		}else {
-			return null;
-		}
-	}
-
-	@Override
-	public Boolean delete(int id) {
-		int rowCount = 0;
-		String sql = "delete from `Fund_Order` where `OrderID` = ?;";
-		try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				PreparedStatement ps = connection.prepareStatement(sql)) {
-			ps.setInt(1, id);
-			rowCount = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return rowCount != 0;
-	}
-
-	@Override
-	public OrderBean update(int id, OrderBean orderBean) {
-		int rowCount = 0;
-		String sql = "update `Fund_Order`"
-				+ " set"
-				+ " `orderInvoiceNumber` = ?,"
-				+ " `orderTimeStamp` = ?,"
-				+ "	`orderAmount` = ?,"
-				+ "	`proposalID` = ?,"
-				+ " `planID` = ?,"
-				+ " `memID` = ?,"
-				+ " `postID` = ?"
-				+ " where `OrderID` = ?";
-		try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setString(1, orderBean.getOrderInvoiceNumber());
-			ps.setDate(2, orderBean.getOrderTimeStamp());
-			ps.setInt(3, orderBean.getOrderAmount());
-			ps.setInt(4, orderBean.getProposalID());
-			ps.setInt(5, orderBean.getPlanID());
-			ps.setString(6, orderBean.getMemID());
-			ps.setInt(7, orderBean.getPostID());
-			ps.setInt(8, id);
-			
-			rowCount = ps.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		if(rowCount != 0) {
-			return orderBean;
-		}else {
-			return null;
-		}
-	}
-
-	@Override
-	public OrderBean select(int id) {
-		OrderBean orderBean = null;
-		String sql = "select * from `Fund_Order`"
-				+ " where `orderID` = ?";
-		try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
-				PreparedStatement ps = connection.prepareStatement(sql)){
-			ps.setInt(1, id);
-			ResultSet rs = ps.executeQuery();
-			if(rs.next()) {
-				String orderInvoiceNumber = rs.getString(2);
-				Date orderTimeStampt = rs.getDate(3);
-				Integer orderAmount = rs.getInt(4);
-				Integer proposalID = rs.getInt(5);
-				Integer planID = rs.getInt(6);
-				String memID = rs.getString(7);
-				Integer postID = rs.getInt(8);
+			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+					PreparedStatement ps = connection.prepareStatement(sql);
+					Statement stm = connection.createStatement()) {
+				ps.setString(1, orderBean.getOrderInvoiceNumber());
+				ps.setDate(2, orderBean.getOrderTimeStamp());
+				ps.setInt(3, orderBean.getOrderAmount());
+				ps.setInt(4, orderBean.getProposalID());
+				ps.setInt(5, orderBean.getPlanID());
+				ps.setString(6, orderBean.getMemID());
+				ps.setInt(7, orderBean.getPostID());
 				
-				orderBean = new OrderBean(
-						orderInvoiceNumber, orderTimeStampt, 
-						orderAmount, proposalID, planID, memID, postID);
+				sql = ps.toString().split(": ")[1];
+				rowCount = stm.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);	
+				ResultSet rs = stm.getGeneratedKeys();
+			    rs.next();
+			    int key = rs.getInt(1);
+			    orderBean.setOrderID(key);
+			    
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}
+		if(rowCount != 0) {
+			return orderBean;
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public Boolean delete(Integer id) {
+		int rowCount = 0;
+		if(id != null && id>0) {
+			String sql = "delete from `Fund_Order` where `OrderID` = ?;";
+			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+					PreparedStatement ps = connection.prepareStatement(sql)) {
+				ps.setInt(1, id);
+				rowCount = ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return rowCount != 0;		
+	}
+
+	@Override
+	public OrderBean update(Integer id, OrderBean orderBean) {
+		int rowCount = 0;
+		if(id != null && id > 0 && orderBean != null) {
+			String sql = "update `Fund_Order`"
+					+ " set"
+					+ " `orderInvoiceNumber` = ?,"
+					+ " `orderTimeStamp` = ?,"
+					+ "	`orderAmount` = ?,"
+					+ "	`proposalID` = ?,"
+					+ " `planID` = ?,"
+					+ " `memID` = ?,"
+					+ " `postID` = ?"
+					+ " where `OrderID` = ?";
+			try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+					PreparedStatement ps = connection.prepareStatement(sql)){
+				ps.setString(1, orderBean.getOrderInvoiceNumber());
+				ps.setDate(2, orderBean.getOrderTimeStamp());
+				ps.setInt(3, orderBean.getOrderAmount());
+				ps.setInt(4, orderBean.getProposalID());
+				ps.setInt(5, orderBean.getPlanID());
+				ps.setString(6, orderBean.getMemID());
+				ps.setInt(7, orderBean.getPostID());
+				ps.setInt(8, id);
+				
+				rowCount = ps.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(rowCount != 0) {
+			return orderBean;
+		}else {
+			return null;
+		}
+	}
+
+	@Override
+	public OrderBean select(Integer id) {
+		OrderBean orderBean = null;
+		if(id != null && id > 0) {
+			String sql = "select * from `Fund_Order`"
+					+ " where `orderID` = ?";
+			try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+					PreparedStatement ps = connection.prepareStatement(sql)){
+				ps.setInt(1, id);
+				ResultSet rs = ps.executeQuery();
+				if(rs.next()) {
+					String orderInvoiceNumber = rs.getString(2);
+					Date orderTimeStampt = rs.getDate(3);
+					Integer orderAmount = rs.getInt(4);
+					Integer proposalID = rs.getInt(5);
+					Integer planID = rs.getInt(6);
+					String memID = rs.getString(7);
+					Integer postID = rs.getInt(8);
+					
+					orderBean = new OrderBean(
+							orderInvoiceNumber, orderTimeStampt, 
+							orderAmount, proposalID, planID, memID, postID);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		return orderBean;
 	}

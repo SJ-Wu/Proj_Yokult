@@ -9,121 +9,86 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Fund_POSTINFO")
-public class PostInfoBean implements Serializable {
+@Table(name="Fund_POST")
+public class PostBean implements Serializable {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer postID;
 	private String postFisrtName;
 	private String postLastName;
 	private String postCellphone;
-	private Integer cityID;
-	private Integer districtID;
+	private String cityName;
+	private String districtName;
 	private String postAddress;
-	private Integer memID;
+	private String memID;
 	
-	public PostInfoBean() {}
 	
-	public PostInfoBean(Integer postID, String postFisrtName, String postLastName, String postCellphone, Integer cityID,
-			Integer districtID, String postAddress, Integer memID) {
-		super();
-		this.postID = postID;
-		this.postFisrtName = postFisrtName;
-		this.postLastName = postLastName;
-		this.postCellphone = postCellphone;
-		this.cityID = cityID;
-		this.districtID = districtID;
-		this.postAddress = postAddress;
-		this.memID = memID;
-	}
-
-
+	
 	@Override
 	public String toString() {
-		return "PostInfo [postID=" + postID + ", postFisrtName=" + postFisrtName + ", postLastName=" + postLastName
-				+ ", postCellphone=" + postCellphone + ", cityID=" + cityID + ", districtID=" + districtID
+		return "PostBean [postID=" + postID + ", postFisrtName=" + postFisrtName + ", postLastName=" + postLastName
+				+ ", postCellphone=" + postCellphone + ", cityName=" + cityName + ", districtName=" + districtName
 				+ ", postAddress=" + postAddress + ", memID=" + memID + "]";
 	}
 
-
-	public Integer getPostID() {
-		return postID;
-	}
-
-
-	public void setPostID(Integer postID) {
-		this.postID = postID;
-	}
-
-
-	public String getPostFisrtName() {
-		return postFisrtName;
-	}
-
-
-	public void setPostFisrtName(String postFisrtName) {
+	public PostBean() {}
+	
+	public PostBean(String postFisrtName, String postLastName, String postCellphone,
+			String cityName, String districtName, String postAddress, String memID) {
+		super();
 		this.postFisrtName = postFisrtName;
-	}
-
-
-	public String getPostLastName() {
-		return postLastName;
-	}
-
-
-	public void setPostLastName(String postLastName) {
 		this.postLastName = postLastName;
-	}
-
-
-	public String getPostCellphone() {
-		return postCellphone;
-	}
-
-
-	public void setPostCellphone(String postCellphone) {
 		this.postCellphone = postCellphone;
-	}
-
-
-	public Integer getCityID() {
-		return cityID;
-	}
-
-
-	public void setCityID(Integer cityID) {
-		this.cityID = cityID;
-	}
-
-
-	public Integer getDistrictID() {
-		return districtID;
-	}
-
-
-	public void setDistrictID(Integer districtID) {
-		this.districtID = districtID;
-	}
-
-
-	public String getPostAddress() {
-		return postAddress;
-	}
-
-
-	public void setPostAddress(String postAddress) {
+		this.cityName = cityName;
+		this.districtName = districtName;
 		this.postAddress = postAddress;
-	}
-
-
-	public Integer getMemID() {
-		return memID;
-	}
-
-
-	public void setMemID(Integer memID) {
 		this.memID = memID;
 	}
 	
-	
+	public Integer getPostID() {
+		return postID;
+	}
+	public String getPostFisrtName() {
+		return postFisrtName;
+	}
+	public void setPostFisrtName(String postFisrtName) {
+		this.postFisrtName = postFisrtName;
+	}
+	public String getPostLastName() {
+		return postLastName;
+	}
+	public void setPostLastName(String postLastName) {
+		this.postLastName = postLastName;
+	}
+	public String getPostCellphone() {
+		return postCellphone;
+	}
+	public void setPostCellphone(String postCellphone) {
+		this.postCellphone = postCellphone;
+	}
+	public String getCityName() {
+		return cityName;
+	}
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	public String getDistrictName() {
+		return districtName;
+	}
+	public void setDistrictName(String districtName) {
+		this.districtName = districtName;
+	}
+	public String getPostAddress() {
+		return postAddress;
+	}
+	public void setPostAddress(String postAddress) {
+		this.postAddress = postAddress;
+	}
+	public String getMemID() {
+		return memID;
+	}
+	public void setMemID(String memID) {
+		this.memID = memID;
+	}
+
 }

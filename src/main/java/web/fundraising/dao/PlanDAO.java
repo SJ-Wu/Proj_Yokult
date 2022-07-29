@@ -10,4 +10,5 @@ public interface PlanDAO {
 	public abstract PlanBean update(Integer id, PlanBean planBean);
 	public abstract PlanBean select(Integer id);
 	public abstract List<PlanBean> selectAll();
+//	public abstract void SessionClose();
 }
