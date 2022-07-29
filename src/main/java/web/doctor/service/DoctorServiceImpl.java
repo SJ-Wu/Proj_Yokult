@@ -11,23 +11,29 @@ import javax.naming.NamingException;
 
 import web.booking.dao.DoctorDAO;
 import web.booking.dao.DoctorDAOImpl;
+import web.booking.dao.DoctorScheduleDAO;
+import web.booking.dao.DoctorScheduleDAOImpl;
 import web.booking.dao.PatientDAO;
 import web.booking.dao.PatientDAOImpl;
 import web.booking.vo.Doctor;
 import web.booking.vo.DoctorConvert;
+import web.booking.vo.DoctorSchedule;
 import web.booking.vo.Patient;
 
 public class DoctorServiceImpl implements DoctorService {
 	//index_doctor_chart  填寫病歷 
 	private PatientDAO patientDAOImpl;
 	private DoctorDAO doctorDAOImpl;
+	private DoctorScheduleDAO doctorScheduleDAOImpl;
 	
 	public DoctorServiceImpl() throws NamingException {
 		patientDAOImpl = new PatientDAOImpl();
 		doctorDAOImpl = new DoctorDAOImpl();
+		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
 		}
 
 	//回傳一個醫師資料
+	@Override
 	public DoctorConvert selectOne(Doctor doctor) {
 		Doctor vo = doctorDAOImpl.selectOne(doctor);
 		if(vo != null) {
@@ -41,6 +47,8 @@ public class DoctorServiceImpl implements DoctorService {
 		}
 		return null;
 	}
+	
+	
 
 	
 	@Override
@@ -138,6 +146,24 @@ public class DoctorServiceImpl implements DoctorService {
 			return list;
 		}
 		return null;
+	}
+	
+	public int saveDrSchedule(List<DoctorSchedule> list) {
+		int result = 0;
+		for(DoctorSchedule doctorSchedule : list) {
+			if((doctorScheduleDAOImpl.selectSerialNum(doctorSchedule)) > 0) {
+				result = doctorScheduleDAOImpl.update(doctorSchedule);
+				if(result < 0) {
+					return result;
+				}
+			} else {
+				result = doctorScheduleDAOImpl.insert(doctorSchedule);
+				if(result < 0) {
+					return result;
+				}
+			}
+		}
+		return result;
 	}
 
 	

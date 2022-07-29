@@ -1,5 +1,7 @@
 package web.booking.vo;
 
+import java.util.List;
+
 public class DoctorConvert {
 //	@Column(name="DOCTOR_ALPHABET")
 	private String doctorAlphabet;
@@ -17,6 +19,15 @@ public class DoctorConvert {
 	private String doctorEmail;
 //	@Column(name = "DOCTOR_PASSWARD")
 	private String doctorPassword;
+	
+	private List<DoctorSchedule> listOfDoctorSchedule;
+	
+	public List<DoctorSchedule> getListOfDoctorSchedule() {
+		return listOfDoctorSchedule;
+	}
+	public void setListOfDoctorSchedule(List<DoctorSchedule> listOfDoctorSchedule) {
+		this.listOfDoctorSchedule = listOfDoctorSchedule;
+	}
 	public String getDoctorAlphabet() {
 		return doctorAlphabet;
 	}

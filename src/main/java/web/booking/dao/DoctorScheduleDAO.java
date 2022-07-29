@@ -23,4 +23,8 @@ public interface DoctorScheduleDAO {
 	
 	//修改看診時刻
 	public int update(DoctorSchedule doctorSchedule);
+	//選取一個DoctorSchedule
+	DoctorSchedule selectOne(DoctorSchedule doctorSchedule);
+
+	int selectSerialNum(DoctorSchedule doctorSchedule);
 }

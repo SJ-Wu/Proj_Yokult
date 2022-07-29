@@ -315,10 +315,10 @@ public class BookingServlet extends HttpServlet {
 		response.setHeader("Expires", "-1");
 
 		// 重要
-		response.addHeader("Access-Control-Allow-Origin", "*");
-		response.addHeader("Access-Control-Allow-Methods", "*");
-		response.addHeader("Access-Control-Allow-Headers", "*");
-		response.addHeader("Access-Control-Max-Age", "86400");
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "*");
+		response.setHeader("Access-Control-Allow-Headers", "*");
+		response.setHeader("Access-Control-Max-Age", "86400");
 	}
 	
 	@Override

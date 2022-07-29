@@ -89,17 +89,39 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 		}
 		return -1;
 	}
+	
+	@Override
+	public int selectSerialNum(DoctorSchedule doctorSchedule) {
+		String sql = "select * from DOCTOR_SCHEDULE where  DOCTOR_ID= ? and DOCTOR_SCHEDULE_DATE = ? and DOCTOR_AMPM = ? ;";
+		try ( Connection connection =  dataSource.getConnection();){
+		PreparedStatement ps = connection.prepareStatement(sql);
+		ps.setInt(1, doctorSchedule.getDoctorId());
+		ps.setDate(2, doctorSchedule.getDoctorScheduleDate());
+		ps.setString(3, doctorSchedule.getDoctorAmpm());
+		ResultSet rs = ps.executeQuery();
+		DoctorSchedule ds = new DoctorSchedule();
+		if(rs.next()) {
+			return rs.getInt(1);
+		}
+
+		} catch (SQLException e) {
+			System.out.println("insert DoctorSchedule failure in dao");
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
 
 
 	@Override
 	public int update(DoctorSchedule doctorSchedule) {
-		String sql ="UPDATE DOCTOR_SCHEDULE SET DOCTOR_SCHEDULE_DATE = ?, DOCTOR_AMPM = ? , DOCTOR_STATUS = ? WHERE DOCTOR_ID= ?;";
+		String sql ="UPDATE DOCTOR_SCHEDULE SET DOCTOR_STATUS = ? WHERE DOCTOR_ID= ? and DOCTOR_SCHEDULE_DATE = ? and DOCTOR_AMPM = ? ;";
 		try ( Connection connection =  dataSource.getConnection();){
 		PreparedStatement ps = connection.prepareStatement(sql);
-		ps.setDate(1, doctorSchedule.getDoctorScheduleDate());
-		ps.setString(2, doctorSchedule.getDoctorAmpm());
-		ps.setInt(3, doctorSchedule.getDoctorStatus());
-		ps.setInt(4, doctorSchedule.getDoctorId());
+		ps.setInt(1, doctorSchedule.getDoctorStatus());
+		ps.setInt(2, doctorSchedule.getDoctorId());
+		ps.setDate(3, doctorSchedule.getDoctorScheduleDate());
+		ps.setString(4, doctorSchedule.getDoctorAmpm());
 		
 		int rowcount = ps.executeUpdate();
 		return rowcount;
@@ -108,6 +130,13 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+
+	@Override
+	public DoctorSchedule selectOne(DoctorSchedule doctorSchedule) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

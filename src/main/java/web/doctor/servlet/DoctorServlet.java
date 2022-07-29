@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
@@ -25,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 import web.booking.vo.Doctor;
 import web.booking.vo.DoctorChartVO;
 import web.booking.vo.DoctorConvert;
+import web.booking.vo.DoctorSchedule;
 import web.booking.vo.Patient;
 import web.doctor.service.DoctorService;
 import web.doctor.service.DoctorServiceImpl;
@@ -93,14 +94,27 @@ public class DoctorServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
-			
 		}
-		
-		
-		
-		
 	}
+
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		setHeaders(response);
+		request.setCharacterEncoding("UTF-8");
+		//開啟跨網域，html才能接收到servlet傳出的東西
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		BufferedReader br = request.getReader();
+		PrintWriter out = response.getWriter();
+		String pathInfo = request.getPathInfo();
+		String[] infos = pathInfo.split("/");
 	
+//		/api/0.01/doctor/saveDrSchedule
+		if ("updateDrSchedule".equals(infos[1])) {
+			out.append(gson.toJson(updateDrSchedule(gson, br)));
+			br.close();
+			out.close();
+			return;
+		}
+	}
 	
 	//儲存前端傳來的病歷紀錄
 	private JsonObject saveChart(Gson gson, Reader br) {
@@ -286,6 +300,24 @@ public class DoctorServlet extends HttpServlet {
 			jsonObject.add("doctor",  gson.toJsonTree(vo));
 		} else {
 			jsonObject.addProperty("msg", "load Dr failure");
+		}
+		return jsonObject;
+	}
+	
+	private JsonObject updateDrSchedule(Gson gson, Reader br) {
+		DoctorServiceImpl doctorServiceImpl = null;
+		try {
+			doctorServiceImpl = new DoctorServiceImpl();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		DoctorConvert doctorConvert = gson.fromJson(br, DoctorConvert.class);
+		int result = doctorServiceImpl.saveDrSchedule(doctorConvert.getListOfDoctorSchedule());
+		JsonObject jsonObject = new JsonObject();
+		if(result > 0) {
+			jsonObject.addProperty("msg", "save DrSchedule success");
+		} else {
+			jsonObject.addProperty("msg", "save DrSchedule failure");
 		}
 		return jsonObject;
 	}

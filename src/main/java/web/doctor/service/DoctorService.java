@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.naming.NamingException;
 
 import web.booking.vo.Doctor;
+import web.booking.vo.DoctorConvert;
 import web.booking.vo.Patient;
 
 public interface DoctorService {
@@ -24,5 +25,7 @@ public interface DoctorService {
 	List<Patient> filterPatient(Doctor doctor) throws NamingException;
 
 	int updateDr(Doctor doctor);
+
+	DoctorConvert selectOne(Doctor doctor);
 
 }
