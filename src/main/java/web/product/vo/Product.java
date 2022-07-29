@@ -14,13 +14,13 @@ public class Product implements Serializable {
 	private Integer proPrice;
 	private String proSpecs;
 	private String proBrand;
-	private byte[] proPicture;
+	private String proPicture;
 	private String proCategory;
 	
 	@Override
 	public String toString() {
 		return "Product [proID=" + proID + ", proName=" + proName + ", proStock=" + proStock + ", proPrice=" + proPrice
-				+ ", proSpecs=" + proSpecs + ", proBrand=" + proBrand + ", proPicture=" + Arrays.toString(proPicture)
+				+ ", proSpecs=" + proSpecs + ", proBrand=" + proBrand + ", proPicture=" + proPicture
 				+ ", proCategory=" + proCategory + "]";
 	}
 
@@ -72,11 +72,11 @@ public class Product implements Serializable {
 		this.proBrand = proBrand;
 	}
 
-	public byte[] getProPicture() {
+	public String getProPicture() {
 		return proPicture;
 	}
 
-	public void setProPicture(byte[] proPicture) {
+	public void setProPicture(String proPicture) {
 		this.proPicture = proPicture;
 	}
 

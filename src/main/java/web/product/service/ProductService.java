@@ -6,5 +6,6 @@ import web.product.vo.Product;
 
 
 public interface ProductService {
-	Set<Product> getAll();
+
+	Set<Product> getAll(String category);
 }

@@ -34,9 +34,13 @@ public class ProductServlet extends HttpServlet{
 		resp.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
+		
+		String category = req.getParameter("category");
+		
+		System.out.println(category);
 		try {
 			service = new ProductServiceImpl();
-			Set<Product> products = service.getAll();
+			Set<Product> products = service.getAll(category);
 			if (products != null) {
 				respObject.addProperty("msg", "success");
 				respObject.add("products", gson.toJsonTree(products));

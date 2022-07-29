@@ -17,8 +17,8 @@ public class ProductServiceImpl implements ProductService{
 	}
 	
 	@Override
-	public Set<Product> getAll() {
-		return dao.selectAll();
+	public Set<Product> getAll(String category) {
+		return dao.selectAll(category);
 	}
 
 }
