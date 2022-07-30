@@ -11,8 +11,8 @@ import web.fundraising.vo.PlanBean;
 public class PlanService {
 	PlanDAO PlanDAO;
 	
-	public PlanService() {
-		this.PlanDAO = new PlanDAOhibernateHQL();
+	public PlanService(Session session) {
+		this.PlanDAO = new PlanDAOhibernateHQL(session);
 	}
 
 	public PlanBean insertBean(PlanBean planBean) {

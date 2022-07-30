@@ -4,7 +4,7 @@ use `YOKULT`;
 
 -- 建立方案資料
 create table `Fund_PLAN`(
-	`planID` Integer auto_increment not null primary key comment '方案編號',
+	`planID` integer auto_increment not null primary key comment '方案編號',
 	`planName` varchar(50) not null comment '方案名稱',
 	`planAmount` integer not null comment '方案金額',
 	`planContent` varchar(300) not null comment '方案內容',

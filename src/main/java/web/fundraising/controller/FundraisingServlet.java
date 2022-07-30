@@ -1,6 +1,7 @@
 package web.fundraising.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,6 +10,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+import model.hibernate.HibernateUtil;
+import web.fundraising.service.OrderService;
+import web.fundraising.service.PlanService;
+import web.fundraising.vo.OrderBean;
+import web.fundraising.vo.PlanBean;
 
 
 @WebServlet("/fundraising")
@@ -24,45 +35,32 @@ public class FundraisingServlet extends HttpServlet {
 
 //	    StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().configure().build();
 //	    SessionFactory sessionFactory = new MetadataSources(serviceRegistry).buildMetadata().buildSessionFactory();
-//	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-	    
-//	    Session session = sessionFactory.getCurrentSession();
+	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	    Session session = sessionFactory.getCurrentSession();
 //	    Transaction trx = session.beginTransaction();
 	    
+	    //取得HttpSession，傳遞參數
+    	HttpSession httpSession = req.getSession();
 	    
-//	    PlanBean pb = new PlanBean(
-//	    		"感謝小卡",
-//	    		500,
-//	    		"備註：感謝小卡將由我們親自設計",
-//	    		"只寄送台灣本島",
-//	    		new Date(1655568000000L),
-//	    		new Date(1668787200000L),
-//	    		1,
-//	    		1);
-//	    
-//	    
-//	    
+
 //	    String action = "";
 	    String destination = "";
 	    
+
+	    if(true) {
+	    	PlanService planService = new PlanService(session);
+	    	List<PlanBean> list_Plan = planService.selectAllBeans();
+	    	httpSession.setAttribute("list_Plan", list_Plan);
+		}
 	    
-	       
-//	    if(SessionSaver.getSession() != null) {
-//	    	System.out.println("session is exist.");
-//	    }
-//	    req.setAttribute("session", req.getAttribute("session"));
-	    
-	    //測試model & SQL間是否無誤
-//	    if("ModelTest".equalsIgnoreCase(action)) {	    	
+	    if(true) {
+	    	OrderService orderService = new OrderService(session);
+	    	List<OrderBean> list_Order = orderService.selectAllBeans();
+	    	httpSession.setAttribute("list_Order", list_Order);
+	    }
 	    	destination = "/fundraising/ModelTest.jsp";
 	    	RequestDispatcher requestDispatcher = req.getRequestDispatcher(destination);
 	    	requestDispatcher.forward(req, res);
-//	    }
-	    
-	    
-//	    trx.commit();
-//	    session.close();
-//	    sessionFactory.close();
-//	    HibernateUtil.closeSessionFactory();
+
 	}
 }

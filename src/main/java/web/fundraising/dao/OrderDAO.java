@@ -2,6 +2,8 @@ package web.fundraising.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import web.fundraising.vo.OrderBean;
 
 public interface OrderDAO {

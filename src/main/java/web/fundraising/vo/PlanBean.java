@@ -13,9 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="Fund_PLAN")
 public class PlanBean implements Serializable {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,9 +22,7 @@ public class PlanBean implements Serializable {
 	private Integer planAmount;
 	private String planContent;
 	private String planPostNote;
-	@Column(name = "planStartedDateTime", columnDefinition = "DATE")
 	private Date planStartedDateTime;
-	@Column(name = "planEndedDateTime", columnDefinition = "DATE")
 	private Date planEndedDateTime;
 	private String statusID;
 	private Integer	proposalID;

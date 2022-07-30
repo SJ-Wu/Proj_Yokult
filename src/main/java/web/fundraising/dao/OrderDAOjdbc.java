@@ -14,6 +14,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import web.fundraising.vo.OrderBean;
 
 public class OrderDAOjdbc implements OrderDAO {
@@ -24,7 +26,7 @@ public class OrderDAOjdbc implements OrderDAO {
 		if(orderBean != null) {
 			String sql = "insert into `Fund_Order`(" 
 					+ " `orderInvoiceNumber`,"
-					+ " `orderTimeStamp`,"
+					+ " `orderDateTime`,"
 					+ "	`orderAmount`,"
 					+ "	`proposalID`,"
 					+ " `planID`,"
@@ -36,7 +38,7 @@ public class OrderDAOjdbc implements OrderDAO {
 					PreparedStatement ps = connection.prepareStatement(sql);
 					Statement stm = connection.createStatement()) {
 				ps.setString(1, orderBean.getOrderInvoiceNumber());
-				ps.setDate(2, orderBean.getOrderTimeStamp());
+				ps.setDate(2, orderBean.getOrderDateTime());
 				ps.setInt(3, orderBean.getOrderAmount());
 				ps.setInt(4, orderBean.getProposalID());
 				ps.setInt(5, orderBean.getPlanID());
@@ -84,7 +86,7 @@ public class OrderDAOjdbc implements OrderDAO {
 			String sql = "update `Fund_Order`"
 					+ " set"
 					+ " `orderInvoiceNumber` = ?,"
-					+ " `orderTimeStamp` = ?,"
+					+ " `orderDateTime` = ?,"
 					+ "	`orderAmount` = ?,"
 					+ "	`proposalID` = ?,"
 					+ " `planID` = ?,"
@@ -94,7 +96,7 @@ public class OrderDAOjdbc implements OrderDAO {
 			try(Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
 					PreparedStatement ps = connection.prepareStatement(sql)){
 				ps.setString(1, orderBean.getOrderInvoiceNumber());
-				ps.setDate(2, orderBean.getOrderTimeStamp());
+				ps.setDate(2, orderBean.getOrderDateTime());
 				ps.setInt(3, orderBean.getOrderAmount());
 				ps.setInt(4, orderBean.getProposalID());
 				ps.setInt(5, orderBean.getPlanID());
@@ -126,7 +128,7 @@ public class OrderDAOjdbc implements OrderDAO {
 				ResultSet rs = ps.executeQuery();
 				if(rs.next()) {
 					String orderInvoiceNumber = rs.getString(2);
-					Date orderTimeStampt = rs.getDate(3);
+					Date orderDateTimet = rs.getDate(3);
 					Integer orderAmount = rs.getInt(4);
 					Integer proposalID = rs.getInt(5);
 					Integer planID = rs.getInt(6);
@@ -134,7 +136,7 @@ public class OrderDAOjdbc implements OrderDAO {
 					Integer postID = rs.getInt(8);
 					
 					orderBean = new OrderBean(
-							orderInvoiceNumber, orderTimeStampt, 
+							orderInvoiceNumber, orderDateTimet, 
 							orderAmount, proposalID, planID, memID, postID);
 				}
 			} catch (SQLException e) {
@@ -155,7 +157,7 @@ public class OrderDAOjdbc implements OrderDAO {
 			while(rs.next()) {
 				Integer orderID = rs.getInt(1);
 				String orderInvoiceNumber = rs.getString(2);
-				Date orderTimeStampt = rs.getDate(3);
+				Date orderDateTimet = rs.getDate(3);
 				Integer orderAmount = rs.getInt(4);
 				Integer proposalID = rs.getInt(5);
 				Integer planID = rs.getInt(6);
@@ -163,7 +165,7 @@ public class OrderDAOjdbc implements OrderDAO {
 				Integer postID = rs.getInt(8);
 
 				orderBean = new OrderBean(
-						orderID, orderInvoiceNumber, orderTimeStampt, 
+						orderID, orderInvoiceNumber, orderDateTimet, 
 						orderAmount, proposalID, planID, memID, postID);
 				list.add(orderBean);
 			}

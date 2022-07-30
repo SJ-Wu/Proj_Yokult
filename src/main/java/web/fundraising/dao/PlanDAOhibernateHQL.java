@@ -12,11 +12,11 @@ public class PlanDAOhibernateHQL implements PlanDAO {
 	
 	private Session session;
 	
-//	public PlanDAOhibernateHQL(Session session) {
+	public PlanDAOhibernateHQL(Session session) {
 //		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-//		this.session = session;
-//		System.out.println("Session opened.");
-//	}
+		this.session = session;
+		System.out.println("Session opened.");
+	}
 //	public void SessionClose() {
 //		session.close();
 //		System.out.println("Session closed.");
