@@ -36,13 +36,15 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public DoctorConvert selectOne(Doctor doctor) {
 		Doctor vo = doctorDAOImpl.selectOne(doctor);
+		DoctorConvert doctorConvert = new DoctorConvert();
 		if(vo != null) {
 		byte[] photo = vo.getDoctorPhoto();
-		String photostr = Base64.getEncoder().encodeToString(photo);
-		DoctorConvert doctorConvert = new DoctorConvert();
+		if(photo != null) {
+			String photostr = Base64.getEncoder().encodeToString(photo);
+			doctorConvert.setDoctorPhoto(photostr);
+		}
 		doctorConvert.setDoctorId(vo.getDoctorId());
 		doctorConvert.setDoctorName(vo.getDoctorName());
-		doctorConvert.setDoctorPhoto(photostr);
 			return doctorConvert;
 		}
 		return null;

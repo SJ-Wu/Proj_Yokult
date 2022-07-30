@@ -96,7 +96,7 @@ public class DoctorServlet extends HttpServlet {
 			return;
 		}
 	}
-
+//修改
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		setHeaders(response);
 		request.setCharacterEncoding("UTF-8");
@@ -343,16 +343,17 @@ public class DoctorServlet extends HttpServlet {
 	
 	private void setHeaders(HttpServletResponse response) {
 		// 重要
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		
+		response.setHeader("Access-Control-Allow-Methods", "*");
+		response.setHeader("Access-Control-Allow-Headers", "*");
+		response.setHeader("Access-Control-Max-Age", "86400");
+		// 重要
 		response.setContentType("application/json;charset=UTF-8");
 		response.setHeader("Cache-control", "no-cache, no-store");
 		response.setHeader("Pragma", "no-cache");
 		response.setHeader("Expires", "-1");
 
-		// 重要
-		response.setHeader("Access-Control-Allow-Origin", "*");
-		response.setHeader("Access-Control-Allow-Methods", "*");
-		response.setHeader("Access-Control-Allow-Headers", "*");
-		response.setHeader("Access-Control-Max-Age", "86400");
 	}
 
 }
