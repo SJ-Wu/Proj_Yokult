@@ -1,4 +1,4 @@
-package web.product.list.dao.impl;
+package web.orderlist.dao.impl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,13 +8,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import web.product.list.dao.OrderlistDao;
-import web.product.list.vo.Orderlist;
+import web.orderlist.dao.OrderlistDao;
+import web.orderlist.vo.Orderlist;
 
-public class OrderlistDaoImpl implements OrderlistDao {
+public class OrderlistDaoJDBC implements OrderlistDao {
 	private DataSource dataSource;
 
-	public OrderlistDaoImpl() throws NamingException {
+	public OrderlistDaoJDBC() throws NamingException {
 		dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 

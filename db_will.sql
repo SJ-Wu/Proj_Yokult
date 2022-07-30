@@ -104,9 +104,8 @@ CREATE TABLE `order` (
   `addr` VARCHAR(50) NOT NULL COMMENT '訂單地址',
   `receipter` VARCHAR(50) NOT NULL COMMENT '收貨人',
   `shoptime` DATETIME NOT NULL COMMENT '下單時間',
-  `retunrs` BOOLEAN NULL COMMENT '退換貨',
   `cellphone` VARCHAR(10) NOT NULL COMMENT '手機號碼',
-  `phone` VARCHAR(10)  NOT NULL COMMENT '市話',
+  `phone` VARCHAR(10) COMMENT '市話',
   PRIMARY KEY (`ordid`),
   CONSTRAINT `fk_member_memid`
     FOREIGN KEY (`memid`)

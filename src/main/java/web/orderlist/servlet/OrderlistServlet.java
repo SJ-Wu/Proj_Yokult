@@ -1,4 +1,4 @@
-package web.product.list.servlet;
+package web.orderlist.servlet;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -18,9 +18,9 @@ import com.google.gson.JsonObject;
 import web.member.service.MemberService;
 import web.member.service.impl.MemberServiceImpl;
 import web.member.vo.Member;
-import web.product.list.service.OrderlistService;
-import web.product.list.service.impl.OrderlistServiceImpl;
-import web.product.list.vo.Orderlist;
+import web.orderlist.service.OrderlistService;
+import web.orderlist.service.impl.OrderlistServiceImpl;
+import web.orderlist.vo.Orderlist;
 
 /**
  * Servlet implementation class OrderlistServlet

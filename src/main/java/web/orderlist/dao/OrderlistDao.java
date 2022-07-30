@@ -1,6 +1,6 @@
-package web.product.list.dao;
+package web.orderlist.dao;
 
-import web.product.list.vo.Orderlist;
+import web.orderlist.vo.Orderlist;
 
 public interface OrderlistDao {
 	Orderlist searchOrderlist(Orderlist orderlist); //查詢（界面）

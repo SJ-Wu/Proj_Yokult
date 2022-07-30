@@ -1,4 +1,4 @@
-package web.product.list;
+package web.checkout.controller;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -1,19 +1,19 @@
-package web.product.list.service.impl;
+package web.orderlist.service.impl;
 
 import java.util.Objects;
 
 import javax.naming.NamingException;
 
-import web.product.list.dao.OrderlistDao;
-import web.product.list.dao.impl.OrderlistDaoImpl;
-import web.product.list.service.OrderlistService;
-import web.product.list.vo.Orderlist;
+import web.orderlist.dao.OrderlistDao;
+import web.orderlist.dao.impl.OrderlistDaoJDBC;
+import web.orderlist.service.OrderlistService;
+import web.orderlist.vo.Orderlist;
 
 public class OrderlistServiceImpl implements OrderlistService {
 	private OrderlistDao dao; // 把 dao 變成一個屬性
 
 	public OrderlistServiceImpl() throws NamingException {
-		dao = new OrderlistDaoImpl();
+		dao = new OrderlistDaoJDBC();
 	}
 
 	@Override

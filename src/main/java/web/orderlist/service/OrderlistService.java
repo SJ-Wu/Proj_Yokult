@@ -1,6 +1,6 @@
-package web.product.list.service;
+package web.orderlist.service;
 
-import web.product.list.vo.Orderlist;
+import web.orderlist.vo.Orderlist;
 
 public interface OrderlistService {
 	Orderlist searchOrderlist(Orderlist orderlist); //查詢
