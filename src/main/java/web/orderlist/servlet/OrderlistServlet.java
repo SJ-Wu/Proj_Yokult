@@ -1,8 +1,8 @@
 package web.orderlist.servlet;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -15,9 +15,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
-import web.member.service.MemberService;
-import web.member.service.impl.MemberServiceImpl;
-import web.member.vo.Member;
 import web.orderlist.service.OrderlistService;
 import web.orderlist.service.impl.OrderlistServiceImpl;
 import web.orderlist.vo.Orderlist;
@@ -33,7 +30,7 @@ public class OrderlistServlet extends HttpServlet {
 	private String[] infos;
 	private OrderlistService service;
 
-	// checkout 結帳 新增
+	// 新增: deprecated
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -73,15 +70,15 @@ public class OrderlistServlet extends HttpServlet {
 			pathInfo = request.getPathInfo();
 			infos = pathInfo.split("/");
 			Orderlist orderlist = new Orderlist();
-			orderlist.setOderID(infos[1]); //order id
-			Orderlist returnList = new Orderlist();
-			returnList = service.searchOrderlist(orderlist);
-			if (returnList != null) {
+			orderlist.setOrdID(infos[1]); //order id
+			List<Orderlist> returnLists = new ArrayList<Orderlist>();
+			returnLists = service.searchOrderlistByOrdid(orderlist.getOrdID());
+			if (returnLists.size() > 0) {
 				respObject.addProperty("msg", "success");
-				respObject.add("List", gson.toJsonTree(returnList));
+				respObject.add("Orderlists", gson.toJsonTree(returnLists));
 			} else {
 				respObject.addProperty("msg", "fail");
-				System.out.println("Fail: returnList: " + returnList);
+				System.out.println("Fail: can not find the corresponed orderlists");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,8 +86,8 @@ public class OrderlistServlet extends HttpServlet {
 		response.getWriter().append(gson.toJson(respObject));
 	}
 
-	
-	// 刪除
+
+	// TODO: 刪除
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
@@ -103,7 +100,7 @@ public class OrderlistServlet extends HttpServlet {
 			try {
 				OrderlistService service = new OrderlistServiceImpl();
 				Orderlist orderlist = new Orderlist();
-				orderlist.setOderID(infos[2]);
+				orderlist.setOrdID(infos[2]);
 				Integer status = service.deleteOrderlist(orderlist);
 				if (status > 0) {
 					respObject.addProperty("msg", "success");
@@ -117,7 +114,7 @@ public class OrderlistServlet extends HttpServlet {
 		}
 	}
 	
-	//修改
+	//TODO: 修改
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);

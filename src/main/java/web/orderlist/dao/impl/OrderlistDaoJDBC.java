@@ -3,6 +3,8 @@ package web.orderlist.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -19,83 +21,99 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 	}
 
 	// 查询
-	final String SELECT = "Select OrderListNumber, Ord_ProductID, Ord_Unitprice, Ord_Quantity, Ord_ID from OrderList where Ord_ID = ?";
+	final String SELECT = "Select orderlistid, proid, proprice, quantity, ordid from orderlist where ordid = ?";
 
 	@Override
-	public Orderlist searchOrderlist(Orderlist orderlist) {
+	public List<Orderlist> searchOrderlist(Orderlist orderlist) {
 		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECT);) {
-			pstmt.setString(1, orderlist.getOderID());
+			pstmt.setString(1, orderlist.getOrdID());
 			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					System.out.println("存取成功");
+				List<Orderlist> orderlists = new ArrayList<Orderlist>();
+				System.out.println("[Orderlist] Selected by orderid:" + orderlist.getOrdID());
+				while (rs.next()) {
 					Orderlist resultOrderlist = new Orderlist();
-					resultOrderlist.setOderListnumber(rs.getString("OrderListNumber"));
-					resultOrderlist.setOderProductid(rs.getString("Ord_ProductID"));
-					resultOrderlist.setOderUnitprice(rs.getInt("Ord_Unitprice"));
-					resultOrderlist.setOderQuantity(rs.getInt("Ord_Quantity"));
-					resultOrderlist.setOderID(rs.getString("Ord_ID"));
-					return resultOrderlist;
+					resultOrderlist.setOrderlistID(rs.getInt("orderlistid"));
+					resultOrderlist.setProID(rs.getString("proid"));
+					resultOrderlist.setProPrice(rs.getInt("proprice"));
+					resultOrderlist.setQuantity(rs.getInt("quantity"));
+					resultOrderlist.setOrdID(rs.getString("ordid"));
+					orderlists.add(resultOrderlist);
 				}
+				return orderlists;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("[Orderlist] Selected by orderid: " + orderlist.getOrdID() + " fail.");
 		return null;
 	}
 
 	// 新增
-	final String INSERT = "insert into OrderList (OrderListNumber, Ord_ProductID, Ord_Unitprice, Ord_Quantity, Ord_ID) values (?, ?, ?, ?, ?);";
+	final String INSERT = "insert into orderlist (proid, proprice, quantity, ordid) values (?, ?, ?, ?);";
 
 	public Integer insertOrderlist(Orderlist orderlist) {
 		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERT);) {
-			ps.setString(1, orderlist.getOderListnumber());
-			ps.setString(2, orderlist.getOderProductid());
-			ps.setInt(3, orderlist.getOderUnitprice());
-			ps.setInt(4, orderlist.getOderQuantity());
-			ps.setString(5, orderlist.getOderID());
+			ps.setString(1, orderlist.getProID());
+			ps.setInt(2, orderlist.getProPrice());
+			ps.setInt(3, orderlist.getQuantity());
+			ps.setString(4, orderlist.getOrdID());
 			int rowCount = ps.executeUpdate();
-			System.out.println("insert " + rowCount + "product.list.");
+			System.out.println("[Orderlist] Insert" + rowCount + "orderlist:");
 			return rowCount;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("[Orderlist] Insert orderlist fail");
 		return -1;
 	}
 
-	// 删除
-	final String DELETE = "delete from OrderList where Ord_ID = ?;";
-
+	@Override
 	public Integer deleteOrderlist(Orderlist orderlist) {
-		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(DELETE);) {
-			pstmt.setString(1, orderlist.getOderID());
-			int rowCount = pstmt.executeUpdate();
-			System.out.println(rowCount + " row(s) deleted!!");
-			return rowCount;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return 0;
+		// TODO Auto-generated method stub
+		return null;
 	}
-
-	// 修改
-	final String UPDATE = "update OrderList set OrderListNumber = ?, Ord_ProductID = ?, Ord_Unitprice = ?, Ord_Quantity = ? where Ord_ID = ?;";
 
 	@Override
 	public Integer modifyOrderlist(Orderlist orderlist) {
-		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(UPDATE);) {
-			pstmt.setString(1, orderlist.getOderListnumber());
-			pstmt.setString(2, orderlist.getOderProductid());
-			pstmt.setInt(3, orderlist.getOderUnitprice());
-			pstmt.setInt(4, orderlist.getOderQuantity());
-			pstmt.setString(5, orderlist.getOderID());
-			int rowCount = pstmt.executeUpdate();
-			System.out.println(rowCount + " row(s) updated!!");
-			return rowCount;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return -1;
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+// TODO: Not implement features
+//	// 删除
+//	final String DELETE = "delete from OrderList where Ord_ID = ?;";
+//
+//	public Integer deleteOrderlist(Orderlist orderlist) {
+//		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(DELETE);) {
+//			pstmt.setString(1, orderlist.getOrdID());
+//			int rowCount = pstmt.executeUpdate();
+//			System.out.println(rowCount + " row(s) deleted!!");
+//			return rowCount;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return 0;
+//	}
+//
+//	// 修改
+//	final String UPDATE = "update OrderList set OrderListNumber = ?, Ord_ProductID = ?, Ord_Unitprice = ?, Ord_Quantity = ? where Ord_ID = ?;";
+//
+//	@Override
+//	public Integer modifyOrderlist(Orderlist orderlist) {
+//		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(UPDATE);) {
+//			pstmt.setString(1, orderlist.getOderListnumber());
+//			pstmt.setString(2, orderlist.getOderProductid());
+//			pstmt.setInt(3, orderlist.getOderUnitprice());
+//			pstmt.setInt(4, orderlist.getOderQuantity());
+//			pstmt.setString(5, orderlist.getOrdID());
+//			int rowCount = pstmt.executeUpdate();
+//			System.out.println(rowCount + " row(s) updated!!");
+//			return rowCount;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return -1;
+//	}
 
 
 }

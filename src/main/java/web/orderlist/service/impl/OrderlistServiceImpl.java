@@ -1,5 +1,6 @@
 package web.orderlist.service.impl;
 
+import java.util.List;
 import java.util.Objects;
 
 import javax.naming.NamingException;
@@ -10,28 +11,26 @@ import web.orderlist.service.OrderlistService;
 import web.orderlist.vo.Orderlist;
 
 public class OrderlistServiceImpl implements OrderlistService {
-	private OrderlistDao dao; // 把 dao 變成一個屬性
+	private OrderlistDao orderlistDao; // 把 dao 變成一個屬性
 
 	public OrderlistServiceImpl() throws NamingException {
-		dao = new OrderlistDaoJDBC();
+		orderlistDao = new OrderlistDaoJDBC();
 	}
 
 	@Override
 	// 查詢
-	public Orderlist searchOrderlist(Orderlist orderlist) {
-		if (orderlist != null) {
-			String id = orderlist.getOderID();
-			System.out.println("service id: " + id);
-			if (checkValue(id)) {
-				return dao.searchOrderlist(orderlist);
-			}
+	public List<Orderlist> searchOrderlistByOrdid(String orderID) {
+		if (checkValue(orderID)) {
+			Orderlist orderlist = new Orderlist();
+			orderlist.setOrdID(orderID);
+			return orderlistDao.searchOrderlist(orderlist);
 		}
 		return null;
 	}
 
 	private boolean checkValue(String value) {
 		if (value == null || Objects.equals(value, "")) {
-			System.out.println(value);
+			System.out.println("[Error] Input null value");
 			return false;
 		}
 		return true;
@@ -40,25 +39,20 @@ public class OrderlistServiceImpl implements OrderlistService {
 	@Override
 	// 新增
 	public Integer insertOrderlist(Orderlist orderlist) {
-		if (orderlist != null) {
-			String id = orderlist.getOderID();
-			if (checkValue(id)) {
-				if (dao.searchOrderlist(orderlist) == null) {
-					return dao.insertOrderlist(orderlist);
-				}
-			}
-		}
-		return -1;
+		// TODO: validation flow
+		// 1. Check orderid is valid
+		// 2. Check proid is valid
+		return orderlistDao.insertOrderlist(orderlist);
 	}
 
 	@Override
 	// 刪除
 	public Integer deleteOrderlist(Orderlist orderlist) {
 		if (orderlist != null) {
-			String id = orderlist.getOderID();
+			String id = orderlist.getOrdID();
 			if (checkValue(id)) {
-				if (dao.searchOrderlist(orderlist) != null) {
-					return dao.deleteOrderlist(orderlist);
+				if (orderlistDao.searchOrderlist(orderlist) != null) {
+					return orderlistDao.deleteOrderlist(orderlist);
 				}
 			}
 		}
@@ -68,9 +62,9 @@ public class OrderlistServiceImpl implements OrderlistService {
 	// 修改
 	public Integer modifyOrderlist(Orderlist orderlist) {
 		if (orderlist != null) {
-			String id = orderlist.getOderID();
+			String id = orderlist.getProID();
 			if (checkValue(id)) {
-				return dao.modifyOrderlist(orderlist);
+				return orderlistDao.modifyOrderlist(orderlist);
 
 			}
 		}
