@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "aeca98d2-ffd1-4057-94b8-54498b807db5",
+		"name": "Yokult_Order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21622575"
+	},
+	"item": [
+		{
+			"name": "Checkout",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"order\": {\n        \"memid\": \"TGA001\",\n        \"paymethod\": \"cash\",\n        \"addr\": \"231新北市新店區民權路100號\",\n        \"receipter\": \"龍蝦\",\n        \"cellphone\": \"0987654321\"\n    },\n    \"orderlist\" : [\n    {\n        \"proid\": \"1\",\n        \"quantity\": 1,\n        \"proprice\": 339\n    },\n    {\n        \"proid\": \"2\",\n        \"quantity\": 2,\n        \"proprice\": 180\n    },\n    {\n        \"proid\": \"3\",\n        \"quantity\": 5,\n        \"proprice\": 180\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/Checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"Checkout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

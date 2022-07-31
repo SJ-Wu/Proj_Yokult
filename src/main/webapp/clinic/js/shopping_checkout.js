@@ -32,9 +32,14 @@ $(window).on("load", () => {
     );
     sessionStorage.setItem("delivery", "mailing");
     orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
-    orderlist.forEach((order) => {
-        addList(order);
+    orderlist.forEach((product) => {
+        addList(product);
+        // remove unused key
+        delete product.proname;
+        delete product.propicture;
     });
+    console.log("after:");
+    console.log(orderlist);
     delivery = sessionStorage.getItem("delivery");
     getDelivery(delivery);
     subtotal();
@@ -52,18 +57,15 @@ $(window).on("load", () => {
 
     // 結帳按鈕
     $("#btn-checkout").on("click", () => {
-        payment = getPaymentInfo();
-        consignee = getConsigneeInfo(payment);
-        paymethod = $('input[name="payment"]:checked').val();
+        order = getOrder();
         axios
             .post("http://localhost:8080/Proj_Yokult/Checkout", {
-                payment,
-                consignee,
-                paymethod,
+                order,
+                orderlist,
             })
             .then((response) => {
                 // let msg = response.data["msg"];
-                // if (msg === "success") {
+                // if (msg === "Success") {
                 //     alert("付款成功");
                 // } else {
                 //     alert("付款失敗");
@@ -85,17 +87,6 @@ function getPaymentInfo() {
     return payment;
 }
 
-// 取得收貨人資訊
-function getConsigneeInfo(payment) {
-    let consignee = {};
-    consignee["name"] = $("#consignee-name").val();
-    consignee["cellphone"] = $("#consignee-cellphone").val();
-    consignee["phone"] = $("#consignee-phone").val() ?? "";
-    consignee["city"] = $("#consignee-city option:selected").val() ?? "";
-    consignee["dist"] = $("#consignee-dist option:selected").val() ?? "";
-    return consignee;
-}
-
 function getDelivery(delivery) {
     if (delivery === "pickup") {
         $("#delivery").text("0");
@@ -104,6 +95,20 @@ function getDelivery(delivery) {
     } else if (delivery === "shipping") {
         $("#delivery").text("100");
     }
+}
+
+// 取得訂單資訊
+function getOrder() {
+    let order = {};
+    order["memid"] = "TGA002"; //TODO: Should synced with login info.
+    order["paymethod"] = $('input[name="payment"]:checked').val();
+    order["receipter"] = $("#consignee-name").val();
+    order["cellphone"] = $("#payment-cellphone").val();
+    order["phone"] = $("#consignee-phone").val() ?? "";
+    order["addr"] =
+        $("#consignee-city option:selected").val() +
+        $("#consignee-dist option:selected").val();
+    return order;
 }
 
 //計算總和
