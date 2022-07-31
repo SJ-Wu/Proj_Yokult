@@ -23,10 +23,10 @@ public class OrderDaoJDBC implements OrderDao{
 	@Override
 	public Integer insert(Order order) {
 		try(Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERT);) {
-			ps.setString(1, order.getOrdID());
-			ps.setString(2, order.getMemID());
-			ps.setString(3, order.getPayMethod());
-			ps.setString(4, order.getOrderStatus());
+			ps.setString(1, order.getOrdid());
+			ps.setString(2, order.getMemid());
+			ps.setString(3, order.getPaymethod());
+			ps.setString(4, order.getOrderstatus());
 			ps.setString(5, order.getAddr());
 			ps.setString(6, order.getReceipter());
 			ps.setTimestamp(7, order.getShoptime());
@@ -52,10 +52,10 @@ public class OrderDaoJDBC implements OrderDao{
 				System.out.println("[SELECTALL] Show orders:");
 				while(rs.next()) {
 					Order o = new Order();
-					o.setOrdID(rs.getString("ordid"));
-					o.setMemID(rs.getString("memid"));
-					o.setPayMethod(rs.getString("paymethod"));
-					o.setOrderStatus(rs.getString("orderstatus"));
+					o.setOrdid(rs.getString("ordid"));
+					o.setMemid(rs.getString("memid"));
+					o.setPaymethod(rs.getString("paymethod"));
+					o.setOrderstatus(rs.getString("orderstatus"));
 					o.setAddr(rs.getString("addr"));
 					o.setReceipter(rs.getString("receipter"));
 					o.setShoptime(rs.getTimestamp("shoptime"));

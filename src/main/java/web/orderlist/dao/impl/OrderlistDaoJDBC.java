@@ -26,17 +26,17 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 	@Override
 	public List<Orderlist> searchOrderlist(Orderlist orderlist) {
 		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECT);) {
-			pstmt.setString(1, orderlist.getOrdID());
+			pstmt.setString(1, orderlist.getOrdid());
 			try (ResultSet rs = pstmt.executeQuery()) {
 				List<Orderlist> orderlists = new ArrayList<Orderlist>();
-				System.out.println("[Orderlist] Selected by orderid:" + orderlist.getOrdID());
+				System.out.println("[Orderlist] Selected by orderid:" + orderlist.getOrdid());
 				while (rs.next()) {
 					Orderlist resultOrderlist = new Orderlist();
-					resultOrderlist.setOrderlistID(rs.getInt("orderlistid"));
-					resultOrderlist.setProID(rs.getString("proid"));
-					resultOrderlist.setProPrice(rs.getInt("proprice"));
+					resultOrderlist.setOrderlistid(rs.getInt("orderlistid"));
+					resultOrderlist.setProid(rs.getString("proid"));
+					resultOrderlist.setProprice(rs.getInt("proprice"));
 					resultOrderlist.setQuantity(rs.getInt("quantity"));
-					resultOrderlist.setOrdID(rs.getString("ordid"));
+					resultOrderlist.setOrdid(rs.getString("ordid"));
 					orderlists.add(resultOrderlist);
 				}
 				return orderlists;
@@ -44,7 +44,7 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("[Orderlist] Selected by orderid: " + orderlist.getOrdID() + " fail.");
+		System.out.println("[Orderlist] Selected by orderid: " + orderlist.getOrdid() + " fail.");
 		return null;
 	}
 
@@ -53,12 +53,12 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 
 	public Integer insertOrderlist(Orderlist orderlist) {
 		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERT);) {
-			ps.setString(1, orderlist.getProID());
-			ps.setInt(2, orderlist.getProPrice());
+			ps.setString(1, orderlist.getProid());
+			ps.setInt(2, orderlist.getProprice());
 			ps.setInt(3, orderlist.getQuantity());
-			ps.setString(4, orderlist.getOrdID());
+			ps.setString(4, orderlist.getOrdid());
 			int rowCount = ps.executeUpdate();
-			System.out.println("[Orderlist] Insert" + rowCount + "orderlist:");
+			System.out.println("[Orderlist] Insert " + rowCount + " orderlist.");
 			return rowCount;
 		} catch (Exception e) {
 			e.printStackTrace();

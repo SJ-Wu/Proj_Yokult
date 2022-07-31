@@ -4,55 +4,53 @@ import java.sql.Timestamp;
 
 public class Order {
 
-	private String ordID;
-	private String memID;
-	private String payMethod;
-	private String orderStatus;
+	private String ordid;
+	private String memid;
+	private String paymethod;
+	private String orderstatus;
 	private String addr;
 	private String receipter;
 	private Timestamp shoptime;
 	private String cellphone;
 	private String phone;
 
-	
-	
 	@Override
 	public String toString() {
-		return "Order [ordID=" + ordID + ", memID=" + memID + ", payMethod=" + payMethod + ", orderStatus="
-				+ orderStatus + ", addr=" + addr + ", receipter=" + receipter + ", shoptime=" + shoptime
+		return "Order [ordid=" + ordid + ", memid=" + memid + ", paymethod=" + paymethod + ", orderstatus="
+				+ orderstatus + ", addr=" + addr + ", receipter=" + receipter + ", shoptime=" + shoptime
 				+ ", cellphone=" + cellphone + ", phone=" + phone + "]";
 	}
 
-	public String getOrdID() {
-		return ordID;
+	public String getOrdid() {
+		return ordid;
 	}
 
-	public void setOrdID(String ordID) {
-		this.ordID = ordID;
+	public void setOrdid(String ordid) {
+		this.ordid = ordid;
 	}
 
-	public String getMemID() {
-		return memID;
+	public String getMemid() {
+		return memid;
 	}
 
-	public void setMemID(String memID) {
-		this.memID = memID;
+	public void setMemid(String memid) {
+		this.memid = memid;
 	}
 
-	public String getPayMethod() {
-		return payMethod;
+	public String getPaymethod() {
+		return paymethod;
 	}
 
-	public void setPayMethod(String payMethod) {
-		this.payMethod = payMethod;
+	public void setPaymethod(String paymethod) {
+		this.paymethod = paymethod;
 	}
 
-	public String getOrderStatus() {
-		return orderStatus;
+	public String getOrderstatus() {
+		return orderstatus;
 	}
 
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
+	public void setOrderstatus(String orderstatus) {
+		this.orderstatus = orderstatus;
 	}
 
 	public String getAddr() {

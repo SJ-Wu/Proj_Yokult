@@ -70,9 +70,9 @@ public class OrderlistServlet extends HttpServlet {
 			pathInfo = request.getPathInfo();
 			infos = pathInfo.split("/");
 			Orderlist orderlist = new Orderlist();
-			orderlist.setOrdID(infos[1]); //order id
+			orderlist.setOrdid(infos[1]); //order id
 			List<Orderlist> returnLists = new ArrayList<Orderlist>();
-			returnLists = service.searchOrderlistByOrdid(orderlist.getOrdID());
+			returnLists = service.searchOrderlistByOrdid(orderlist.getOrdid());
 			if (returnLists.size() > 0) {
 				respObject.addProperty("msg", "success");
 				respObject.add("Orderlists", gson.toJsonTree(returnLists));
@@ -100,7 +100,7 @@ public class OrderlistServlet extends HttpServlet {
 			try {
 				OrderlistService service = new OrderlistServiceImpl();
 				Orderlist orderlist = new Orderlist();
-				orderlist.setOrdID(infos[2]);
+				orderlist.setOrdid(infos[2]);
 				Integer status = service.deleteOrderlist(orderlist);
 				if (status > 0) {
 					respObject.addProperty("msg", "success");

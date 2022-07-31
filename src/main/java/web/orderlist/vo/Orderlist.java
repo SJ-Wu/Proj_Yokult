@@ -1,42 +1,56 @@
 package web.orderlist.vo;
 
 public class Orderlist {
-	private Integer orderlistID; // 訂單商品編號
-	private String proID;// 商品ID
-	private Integer proPrice;// 商品價格
+	private Integer orderlistid; // 訂單商品編號
+	private String proid;// 商品ID
+	private Integer proprice;// 商品價格
 	private Integer quantity;// 訂購數量
-	private String ordID;//訂單ID
-	
-	public Integer getOrderlistID() {
-		return orderlistID;
+	private String ordid;// 訂單
+
+	@Override
+	public String toString() {
+		return "Orderlist [orderlistid=" + orderlistid + ", proid=" + proid + ", proprice=" + proprice + ", quantity="
+				+ quantity + ", ordid=" + ordid + "]";
 	}
-	public void setOrderlistID(Integer orderlistID) {
-		this.orderlistID = orderlistID;
+
+	public Integer getOrderlistid() {
+		return orderlistid;
 	}
-	public String getProID() {
-		return proID;
+
+	public void setOrderlistid(Integer orderlistid) {
+		this.orderlistid = orderlistid;
 	}
-	public void setProID(String proID) {
-		this.proID = proID;
+
+	public String getProid() {
+		return proid;
 	}
-	public Integer getProPrice() {
-		return proPrice;
+
+	public void setProid(String proid) {
+		this.proid = proid;
 	}
-	public void setProPrice(Integer proPrice) {
-		this.proPrice = proPrice;
+
+	public Integer getProprice() {
+		return proprice;
 	}
+
+	public void setProprice(Integer proprice) {
+		this.proprice = proprice;
+	}
+
 	public Integer getQuantity() {
 		return quantity;
 	}
+
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	public String getOrdID() {
-		return ordID;
-	}
-	public void setOrdID(String ordID) {
-		this.ordID = ordID;
+
+	public String getOrdid() {
+		return ordid;
 	}
 
-	
+	public void setOrdid(String ordid) {
+		this.ordid = ordid;
+	}
+
 }

@@ -22,7 +22,7 @@ public class OrderlistServiceImpl implements OrderlistService {
 	public List<Orderlist> searchOrderlistByOrdid(String orderID) {
 		if (checkValue(orderID)) {
 			Orderlist orderlist = new Orderlist();
-			orderlist.setOrdID(orderID);
+			orderlist.setOrdid(orderID);
 			return orderlistDao.searchOrderlist(orderlist);
 		}
 		return null;
@@ -44,12 +44,23 @@ public class OrderlistServiceImpl implements OrderlistService {
 		// 2. Check proid is valid
 		return orderlistDao.insertOrderlist(orderlist);
 	}
-
+	
+	@Override
+	public String addOrderlist(List<Orderlist> orderlists, String ordid) {
+		for (Orderlist orderlist: orderlists) {
+			orderlist.setOrdid(ordid);
+			if (insertOrderlist(orderlist) < 0) {
+				return "Flase";
+			}
+		}
+		return "Success";
+	}
+	
 	@Override
 	// 刪除
 	public Integer deleteOrderlist(Orderlist orderlist) {
 		if (orderlist != null) {
-			String id = orderlist.getOrdID();
+			String id = orderlist.getOrdid();
 			if (checkValue(id)) {
 				if (orderlistDao.searchOrderlist(orderlist) != null) {
 					return orderlistDao.deleteOrderlist(orderlist);
@@ -62,7 +73,7 @@ public class OrderlistServiceImpl implements OrderlistService {
 	// 修改
 	public Integer modifyOrderlist(Orderlist orderlist) {
 		if (orderlist != null) {
-			String id = orderlist.getProID();
+			String id = orderlist.getProid();
 			if (checkValue(id)) {
 				return orderlistDao.modifyOrderlist(orderlist);
 
