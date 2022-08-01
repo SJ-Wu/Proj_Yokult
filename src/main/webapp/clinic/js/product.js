@@ -1,3 +1,5 @@
+var products = null;
+
 window.onload = function () {
   var requestOptions = {
     method: "GET",
@@ -8,8 +10,10 @@ window.onload = function () {
     .then((response) => response.text())
     .then((text) => {
       const rep = JSON.parse(text);
-      console.log(rep);
-      rep.products.forEach((product) => {
+
+      products = rep.products;
+
+      products.forEach((product, idx) => {
         let productHtml = "";
 
         productHtml = `
@@ -28,7 +32,7 @@ window.onload = function () {
                   <h5 class="m-0">$${product.proPrice}</h5>
                   <div>
                     <label>訂購數量：</label>
-                    <select name="num">
+                    <select name="num" data-prod-idx="${idx}">
                       <option value="1">1</option>
                       <option value="2">2</option>
                       <option value="3">3</option>
@@ -44,7 +48,7 @@ window.onload = function () {
                       <a
                         class="nav-item nav-link"
                         data-proid="${product.proID}"
-                        onclick="addCart()"
+                        onclick="addCart(${idx})"
                       >
                         <i class="fa-solid fa-cart-plus"></i>加入購物車
                       </a>
@@ -61,7 +65,27 @@ window.onload = function () {
     .catch((error) => console.log("error", error));
 };
 
-function addCart() {
+function addCart(idx) {
+  let cartValue = sessionStorage.getItem("cart");
+  let cart = cartValue != null && cartValue != "" ? JSON.parse(cartValue) : [];
+
+  let number = parseInt($(`select[data-prod-idx="${idx}"]`)[0].value);
+
+  let oldCartItemIdx = cart.findIndex(
+    (item) => item.proID == products[idx].proID
+  );
+
+  if (oldCartItemIdx != -1) {
+    cart[oldCartItemIdx].number = number;
+  } else {
+    cart.push({
+      ...products[idx],
+      number: number,
+    });
+  }
+
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+
   $("#sussess-order").addClass("show");
 
   setTimeout(() => {

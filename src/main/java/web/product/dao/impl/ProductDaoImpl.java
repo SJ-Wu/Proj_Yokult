@@ -3,7 +3,9 @@ package web.product.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.naming.InitialContext;
@@ -14,32 +16,46 @@ import web.product.dao.ProductDao;
 import web.product.vo.Product;
 
 public class ProductDaoImpl implements ProductDao {
-	
+
 	private DataSource datasource;
 
 	public ProductDaoImpl() throws NamingException {
 		datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
-	
+
 //	final String SELECTALL = "Select PROID,PRONAME,PROSTOCK,PROPRICE,PROSPECS,PROBRAND,PROPICTURE,PROCATEGORY from PRODUCT";
 	final String SELECTALL = "Select * from product";
+
 	@Override
-	public Set<Product> selectAll(String category) {
-		
-		try{
+	public List<Product> selectAll(String category, String productName) {
+
+		try {
 			Connection conn = datasource.getConnection();
-		
-				String query = SELECTALL;
-				if(category != null ) {
-					query +=  " Where procategory = '"+category+"'";
+
+			String query = SELECTALL;
+			if (category != null || productName != null) {
+				query += " Where ";
+			}
+
+			if (category != null) {
+				query += " procategory = '" + category + "'";
+			}
+
+			if (productName != null) {
+				if (category != null) {
+					query += " AND ";
 				}
-				
-				System.out.println(query);
-				PreparedStatement ps = conn.prepareStatement(query);
+				query += "  proname like '%" + productName + "%'";
+			}
+			
+			query += " ORDER BY proid DESC";
+
+			System.out.println(query);
+			PreparedStatement ps = conn.prepareStatement(query);
 			try (ResultSet rs = ps.executeQuery()) {
-				Set<Product> products = new HashSet<Product>();
+				List<Product> products = new ArrayList<Product>();
 				System.out.println("Show product list:");
-				while(rs.next()) {
+				while (rs.next()) {
 					Product p = new Product();
 					p.setProID(rs.getString("proid"));
 					p.setProName(rs.getString("proname"));
@@ -59,25 +75,54 @@ public class ProductDaoImpl implements ProductDao {
 		}
 		return null;
 	}
+
 	@Override
 	public Integer insert(Product product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Product selectByProductIdAndProduct(Product product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	@Override
 	public Integer update(Product product) {
-		// TODO Auto-generated method stub
-		return null;
+		String updateStr = """
+					UPDATE product SET
+						proname = ?,
+						prostock = ?,
+						proprice = ?,
+						prospecs = ?,
+						probrand = ?,
+						procategory = ?
+					WHERE proid = ?
+				""";
+		try {
+			Connection conn = datasource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(updateStr);
+			ps.setString(1, product.getProName());
+			ps.setInt(2, product.getProStock());
+			ps.setInt(3, product.getProPrice());
+			ps.setString(4, product.getProSpecs());
+			ps.setString(5, product.getProBrand());
+			ps.setString(6, product.getProCategory());
+			ps.setInt(7, Integer.parseInt(product.getProID()));
+			
+			return ps.executeUpdate();
+		
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return 0;
 	}
+
 	@Override
 	public Integer delete(Product product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-}	
+}
