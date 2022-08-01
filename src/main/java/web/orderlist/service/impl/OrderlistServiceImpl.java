@@ -73,7 +73,7 @@ public class OrderlistServiceImpl implements OrderlistService {
 	// 修改
 	public Integer modifyOrderlist(Orderlist orderlist) {
 		if (orderlist != null) {
-			String id = orderlist.getProid();
+			String id = orderlist.getProID();
 			if (checkValue(id)) {
 				return orderlistDao.modifyOrderlist(orderlist);
 

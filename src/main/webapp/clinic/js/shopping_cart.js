@@ -1,32 +1,5 @@
 $(window).on("load", () => {
-    //====測試session storage====//
-    sessionStorage.setItem(
-        "orderlist",
-        `[
-    {
-        "proid": "1",
-        "proname": "MARVIS 義大利經典牙膏85ml(銀-亮白)",
-        "propicture": "https://raw.githubusercontent.com/Peggy79/first/main/img/000.jpg",
-        "quantity": 1,
-        "proprice": 339
-    },
-    {
-        "proid": "2",
-        "proname": "舒酸定強化琺瑯質兒童牙膏",
-        "propicture": "https://raw.githubusercontent.com/Peggy79/first/main/img/images62.jpg",
-        "quantity": 2,
-        "proprice": 180
-    },
-    {
-        "proid": "3",
-        "proname": "舒酸定專業修復牙膏",
-        "propicture": "https://raw.githubusercontent.com/Peggy79/first/main/img/images63.jpg",
-        "quantity": 5,
-        "proprice": 180
-    }]`
-    );
-    //==========================//
-    let orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
+    let orderlist = JSON.parse(sessionStorage.getItem("cart"));
     orderlist.forEach((order) => {
         addList(order);
     });
@@ -101,11 +74,11 @@ $(window).on("load", () => {
         let delivery = $('input[name="deliver_radio"]:checked').attr("id");
         $("tr.product_list").each((i, el) => {
             product = {};
-            product["proid"] = $(el).data("id");
-            product["propicture"] = $(el).data("pic");
-            product["proname"] = $(el).data("name");
+            product["proID"] = $(el).data("id");
+            product["proPicture"] = $(el).data("pic");
+            product["proName"] = $(el).data("name");
             product["quantity"] = $(el).data("quantity");
-            product["proprice"] = $(el).data("price");
+            product["proPrice"] = $(el).data("price");
             checkoutList.push(product);
         });
         sessionStorage.setItem("orderlist", JSON.stringify(checkoutList));
@@ -133,27 +106,27 @@ function subtotal() {
 // 加入列表
 function addList(order) {
     let list = `<tr class="product_list"
-    data-id="${order["proid"]}" 
-    data-pic="${order["propicture"]}" 
-    data-name="${order["proname"]}"
+    data-id="${order["proID"]}" 
+    data-pic="${order["proPicture"]}" 
+    data-name="${order["proName"]}"
     data-quantity="${order["quantity"]}"
-    data-price="${order["proprice"]}"
+    data-price="${order["proPrice"]}"
     >
     <td class="shoping__cart__picture">
     <div style="height: 70px;width: 70px;">
     <img src="${
-        order["propicture"]
+        order["proPicture"]
     }" alt="" style="max-width: 100%; max-height: 100%;margin-left: auto;
     margin-right: auto;
     display: block;"/>
     </div>
     </td>
     <td class="shoping__cart__item">
-    <h5>${order["proname"]}</h5>
+    <h5>${order["proName"]}</h5>
     </div>
     </td>
     <td class="shoping_cart_price">NT$<span class="product_price">${
-        order["proprice"] ?? ""
+        order["proPrice"] ?? ""
     }</span></td>
     <td class="shoping__cart__quantity">
         <div class="quantity">
@@ -165,7 +138,7 @@ function addList(order) {
         </div>
     </td>
     <td class="shoping_cart_total">NT$<span class="total_price">${
-        order["proprice"] * order["quantity"]
+        order["proPrice"] * order["quantity"]
     }</span></td>
     <td class="shoping__cart__item_close">
         <span class="fa-solid fa-xmark btn_delete"></span>

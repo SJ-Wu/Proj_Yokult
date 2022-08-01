@@ -2,14 +2,14 @@ package web.orderlist.vo;
 
 public class Orderlist {
 	private Integer orderlistid; // 訂單商品編號
-	private String proid;// 商品ID
-	private Integer proprice;// 商品價格
+	private String proID;// 商品ID
+	private Integer proPrice;// 商品價格
 	private Integer quantity;// 訂購數量
 	private String ordid;// 訂單
 
 	@Override
 	public String toString() {
-		return "Orderlist [orderlistid=" + orderlistid + ", proid=" + proid + ", proprice=" + proprice + ", quantity="
+		return "Orderlist [orderlistid=" + orderlistid + ", proid=" + proID + ", proprice=" + proPrice + ", quantity="
 				+ quantity + ", ordid=" + ordid + "]";
 	}
 
@@ -21,20 +21,20 @@ public class Orderlist {
 		this.orderlistid = orderlistid;
 	}
 
-	public String getProid() {
-		return proid;
+	public String getProID() {
+		return proID;
 	}
 
-	public void setProid(String proid) {
-		this.proid = proid;
+	public void setProID(String proID) {
+		this.proID = proID;
 	}
 
-	public Integer getProprice() {
-		return proprice;
+	public Integer getProPrice() {
+		return proPrice;
 	}
 
-	public void setProprice(Integer proprice) {
-		this.proprice = proprice;
+	public void setProprice(Integer proPrice) {
+		this.proPrice = proPrice;
 	}
 
 	public Integer getQuantity() {

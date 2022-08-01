@@ -33,7 +33,7 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 				while (rs.next()) {
 					Orderlist resultOrderlist = new Orderlist();
 					resultOrderlist.setOrderlistid(rs.getInt("orderlistid"));
-					resultOrderlist.setProid(rs.getString("proid"));
+					resultOrderlist.setProID(rs.getString("proid"));
 					resultOrderlist.setProprice(rs.getInt("proprice"));
 					resultOrderlist.setQuantity(rs.getInt("quantity"));
 					resultOrderlist.setOrdid(rs.getString("ordid"));
@@ -53,8 +53,8 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 
 	public Integer insertOrderlist(Orderlist orderlist) {
 		try (Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERT);) {
-			ps.setString(1, orderlist.getProid());
-			ps.setInt(2, orderlist.getProprice());
+			ps.setString(1, orderlist.getProID());
+			ps.setInt(2, orderlist.getProPrice());
 			ps.setInt(3, orderlist.getQuantity());
 			ps.setString(4, orderlist.getOrdid());
 			int rowCount = ps.executeUpdate();
