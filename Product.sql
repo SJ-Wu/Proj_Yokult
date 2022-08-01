@@ -7,7 +7,7 @@ USE `YOKULT`;
   -- DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE `product` (
-  `proid` varchar(300) NOT NULL COMMENT '商品ID',
+  `proid` int auto_increment COMMENT '商品ID',
   `proname` varchar(300) NOT NULL COMMENT '商品名稱',
   `prostock` int NOT NULL COMMENT '商品庫存',
   `proprice` int NOT NULL COMMENT '商品定價',
@@ -17,13 +17,14 @@ CREATE TABLE `product` (
   `procategory` varchar(300) NOT NULL COMMENT '商品類別',
   PRIMARY KEY (`proid`)) 
   COMMENT = '商品資訊';
-  
-  INSERT INTO 
-	`product` (`proid`, `proname`, `prostock`, `proprice`, `prospecs`, `probrand`, `propicture`, `procategory`) 
+ 
+ 
+ INSERT INTO 
+	`product` (`proname`, `prostock`, `proprice`, `prospecs`, `probrand`, `propicture`, `procategory`) 
 VALUES 
-('1', 'MARVIS義大利經典牙膏', '30', '339', '85ml', 'MARVIS ', 'https://raw.githubusercontent.com/Peggy79/first/main/img/000.jpg', '清潔相關'),
-	('2', '舒酸定強化琺瑯質兒童牙膏', '30', '180', '65g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images62.jpg', '清潔相關'),
-	('3', '舒酸定專業修復牙膏', '30', '180', '100g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images63.jpg', '清潔相關'),
+    ('MARVIS義大利經典牙膏', '30', '339', '85ml', 'MARVIS ', 'https://raw.githubusercontent.com/Peggy79/first/main/img/000.jpg', '清潔相關'),
+	('舒酸定強化琺瑯質兒童牙膏', '30', '180', '65g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images62.jpg', '清潔相關'),
+	('舒酸定專業修復牙膏', '30', '180', '100g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images63.jpg', '清潔相關'),
 	('4', '舒酸定強效抗敏牙膏', '30', '180', '160g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images64.jpg', '清潔相關'),
 	('5', 'BlackIsWhite酷黑淨白牙刷組', '30', '450', '2支', 'BlackIsWhite', 'https://raw.githubusercontent.com/Peggy79/first/main/img/222.png', '清潔相關'),
 	('6', '獅王固齒佳超薄刷頭牙刷', '30', '109', '1支', '獅王', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images68.jpg', '清潔相關'),
