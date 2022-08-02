@@ -2,6 +2,7 @@ package web.fundraising.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,24 +19,23 @@ public class ProposalBean implements Serializable {
 	private String proposalName;
 	private String proposalHostName;
 	private Integer proposalGoal;
-	private Integer proposalCategoryID;
-	private Date proposalStartedDateTime;
-	private Date proposalEndedDateTime;
-	private Integer statusID;
+	private String proposalCategoryID;
+	private Timestamp proposalStartedDateTime;
+	private Timestamp proposalEndedDateTime;
+	private String statusID;
 	private String proposalEmail;
 	private String proposalCellphone;
 	private String proposalSummary;
 	private String proposalPageContent;
-	private Integer memID;
+	private String memID;
 	
 	public ProposalBean() {}
 	
 	public ProposalBean(String proposalName, String proposalHostName, Integer proposalGoal,
-			Integer proposalCategoryID, Date proposalStartedDateTime, Date proposalEndedDateTime, Integer statusID,
+			String proposalCategoryID, Timestamp proposalStartedDateTime, Timestamp proposalEndedDateTime, String statusID,
 			String proposalEmail, String proposalCellphone, String proposalSummary, String proposalPageContent,
-			Integer memID) {
+			String memID) {
 		super();
-		this.proposalID = proposalID;
 		this.proposalName = proposalName;
 		this.proposalHostName = proposalHostName;
 		this.proposalGoal = proposalGoal;
@@ -82,29 +82,29 @@ public class ProposalBean implements Serializable {
 	public void setProposalGoal(Integer proposalGoal) {
 		this.proposalGoal = proposalGoal;
 	}
-	public Integer getProposalCategoryID() {
+	public String getProposalCategoryID() {
 		return proposalCategoryID;
 	}
-	public void setProposalCategoryID(Integer proposalCategoryID) {
+	public void setProposalCategoryID(String proposalCategoryID) {
 		this.proposalCategoryID = proposalCategoryID;
 	}
-	public Date getProposalStartedDateTime() {
+	public Timestamp getProposalStartedDateTime() {
 		return proposalStartedDateTime;
 	}
-	public void setProposalStartedDateTime(Date proposalStartedDateTime) {
+	public void setProposalStartedDateTime(Timestamp proposalStartedDateTime) {
 		this.proposalStartedDateTime = proposalStartedDateTime;
 	}
-	public Date getProposalEndedDateTime() {
+	public Timestamp getProposalEndedDateTime() {
 		return proposalEndedDateTime;
 	}
-	public void setProposalEndedDateTime(Date proposalEndedDateTime) {
+	public void setProposalEndedDateTime(Timestamp proposalEndedDateTime) {
 		this.proposalEndedDateTime = proposalEndedDateTime;
 	}
-	public Integer getStatusID() {
+	public String getStatusID() {
 		return statusID;
 	}
-	public void setStatusID(Integer statusID) {
-		this.statusID = statusID;
+	public void setStatusID(String string) {
+		this.statusID = string;
 	}
 	public String getProposalEmail() {
 		return proposalEmail;
@@ -130,11 +130,11 @@ public class ProposalBean implements Serializable {
 	public void setProposalPageContent(String proposalPageContent) {
 		this.proposalPageContent = proposalPageContent;
 	}
-	public Integer getMemID() {
+	public String getMemID() {
 		return memID;
 	}
-	public void setMemID(Integer memID) {
-		this.memID = memID;
+	public void setMemID(String string) {
+		this.memID = string;
 	}
 	
 	

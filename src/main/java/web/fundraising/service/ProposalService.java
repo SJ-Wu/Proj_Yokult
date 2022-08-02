@@ -11,8 +11,8 @@ import web.fundraising.vo.ProposalBean;
 public class ProposalService {
 	ProposalDAO ProposalDAO;
 	
-	public ProposalService() {
-		this.ProposalDAO = new ProposalDAOhibernateHQL();
+	public ProposalService(Session session) {
+		this.ProposalDAO = new ProposalDAOhibernateHQL(session);
 	}
 	
 	public ProposalBean insertBean(ProposalBean proposalBean) {

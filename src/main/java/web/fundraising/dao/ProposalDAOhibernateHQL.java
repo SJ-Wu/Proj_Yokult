@@ -11,9 +11,9 @@ public class ProposalDAOhibernateHQL implements ProposalDAO {
 	
 	private Session session;
 	
-//	public ProposalDAOhibernateHQL(Session session) {
-//		this.session = session;
-//	}
+	public ProposalDAOhibernateHQL(Session session) {
+		this.session = session;
+	}
 	
 	@Override
 	public ProposalBean insert(ProposalBean proposalBean) {
