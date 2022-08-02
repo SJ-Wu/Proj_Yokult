@@ -23,21 +23,10 @@ public class StaffServiceImpl implements StaffService {
 		return dao.selectAll();
 	}
 
-	@Override
-	public Integer remove(Staff staff) {
-		String staffId = staff.getStaff_id();
-		if (StringUtils.isBlank(staffId)) {
-			System.out.println("ID格式錯誤");
-			return -1;
-		}
-		return dao.delete(staffId);
-	}
-
+	// 登入
 	@Override
 	public Staff login(Staff staff) {
-		String staffId = staff.getStaff_id();
-		String staffIdnumber = staff.getStaff_idnumber();
-		if (StringUtils.isBlank(staffId) || StringUtils.isBlank(staffIdnumber)) {
+		if (StringUtils.isBlank(staff.getStaff_id()) || StringUtils.isBlank(staff.getStaff_idnumber())) {
 			System.out.println("員工編號或密碼錯誤");
 			return null;
 		}
@@ -49,31 +38,31 @@ public class StaffServiceImpl implements StaffService {
 		return staff;
 	}
 
+	// 刪除
 	@Override
-	public String addOrModify(Staff staff) {
-		String staffId = staff.getStaff_id();
-		if (StringUtils.isBlank(staffId)) {// 新增
+	public Integer remove(Staff staff) {
+		if (StringUtils.isBlank(staff.getStaff_id())) {
+			System.out.println("ID格式錯誤");
+			return -1;
+		}
+		return dao.delete(staff.getStaff_id());
+	}
+
+	// 新，修
+	@Override
+	public Integer addOrModify(Staff staff) {
+		if (StringUtils.isBlank(staff.getStaff_id())) {// 新增
 			String maxId = dao.getMaxId();
+			System.out.println("目前最新員工編號 : " + maxId);
 			int maxNum = Integer.parseInt(maxId.substring(3));
 			maxNum++;
 			String laftAdd0 = "%03d";
 			String add0 = String.format("tga" + laftAdd0, maxNum);
+			System.out.println("預計新增員工編號 : " + add0);
 			staff.setStaff_id(add0);
-			if (dao.insert(staff) > 0) {
-				return "insert success";
-			} else {
-				return "insert fail";
-
-			}
-
+			return dao.insert(staff);
 		} else {// 修改
-			if (dao.update(staff) > 0) {
-				return "update success";
-			} else {
-				return "update fail";
-
-			}
-
+			return dao.update(staff);
 		}
 	}
 }

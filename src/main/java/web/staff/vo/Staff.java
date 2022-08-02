@@ -2,7 +2,6 @@ package web.staff.vo;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.Arrays;
 
 public class Staff implements Serializable{
 
@@ -14,7 +13,7 @@ public class Staff implements Serializable{
 	private String staff_idnumber;
 	private Date staff_birthday;
 	private String staff_phone;
-	private byte[] staff_picture;
+	private String staff_picture;
 	private String annual_leave;
 	private String personal_leave;
 	private String official_leave;
@@ -22,7 +21,7 @@ public class Staff implements Serializable{
 	public String toString() {
 		return "Staff [staff_id=" + staff_id + ", staff_name=" + staff_name + ", staff_email=" + staff_email
 				+ ", staff_idnumber=" + staff_idnumber + ", staff_birthday=" + staff_birthday + ", staff_phone="
-				+ staff_phone + ", staff_picture=" + Arrays.toString(staff_picture) + ", annual_leave=" + annual_leave
+				+ staff_phone + ", staff_picture=" + (staff_picture) + ", annual_leave=" + annual_leave
 				+ ", personal_leave=" + personal_leave + ", official_leave=" + official_leave + "]";
 	}
 	public String getStaff_id() {
@@ -61,10 +60,10 @@ public class Staff implements Serializable{
 	public void setStaff_phone(String staff_phone) {
 		this.staff_phone = staff_phone;
 	}
-	public byte[] getStaff_picture() {
+	public String getStaff_picture() {
 		return staff_picture;
 	}
-	public void setStaff_picture(byte[] staff_picture) {
+	public void setStaff_picture(String staff_picture) {
 		this.staff_picture = staff_picture;
 	}
 	public String getAnnual_leave() {

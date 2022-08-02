@@ -20,16 +20,14 @@ public class StaffDaoImpl implements StaffDao {
 		datasource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
 	}
 
-	final String SELECTALL = "select staff_id ,staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone, staff_picture  from staff;";
+	final String SELECTALL = "select staff_id ,staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone, staff_picture  from staff  order by staff_id;";
 
 	@Override
 	public Set<Staff> selectAll() {
 		try (Connection conn = datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(SELECTALL);) {
 			try (ResultSet rs = ps.executeQuery()) {
 				Set<Staff> staffs = new HashSet<Staff>();
-				System.out.println("Show staff list:");
 				while (rs.next()) {
-
 					Staff s = new Staff();
 					s.setStaff_id(rs.getString("staff_id"));
 					s.setStaff_name(rs.getString("staff_name"));
@@ -37,10 +35,10 @@ public class StaffDaoImpl implements StaffDao {
 					s.setStaff_idnumber(rs.getString("staff_idnumber"));
 					s.setStaff_birthday(rs.getDate("staff_birthday"));
 					s.setStaff_phone(rs.getString("staff_phone"));
-					s.setStaff_picture(rs.getBytes("staff_picture"));
+					s.setStaff_picture(rs.getString("staff_picture"));
 
 					staffs.add(s);
-					System.out.println(s);
+//					System.out.println(s);
 				}
 				return staffs;
 			}
@@ -62,7 +60,7 @@ public class StaffDaoImpl implements StaffDao {
 			ps.setString(4, staff.getStaff_idnumber());
 			ps.setDate(5, staff.getStaff_birthday());
 			ps.setString(6, staff.getStaff_phone());
-			ps.setBytes(7, staff.getStaff_picture());
+			ps.setString(7, staff.getStaff_picture());
 			int rowCount = ps.executeUpdate();
 			System.out.println("insert " + rowCount + "staff.");
 			return rowCount;
@@ -89,7 +87,7 @@ public class StaffDaoImpl implements StaffDao {
 					resultStaff.setStaff_idnumber(rs.getString("staff_idnumber"));
 					resultStaff.setStaff_birthday(rs.getDate("staff_birthday"));
 					resultStaff.setStaff_phone(rs.getString("staff_phone"));
-//					resultStaff.setStaff_picture(rs.getBytes("staff_picture"));
+					resultStaff.setStaff_picture(rs.getString("staff_picture"));
 
 					return resultStaff;
 				}
@@ -106,7 +104,6 @@ public class StaffDaoImpl implements StaffDao {
 		try (Connection conn = datasource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECTMAXID);) {
 			try (ResultSet rs = pstmt.executeQuery()) {
 				if (rs.next()) {
-					System.out.println("成功");
 					return rs.getString("staff_id");
 				}
 			}
@@ -120,7 +117,7 @@ public class StaffDaoImpl implements StaffDao {
 	
 	
 	
-	final String UPDATE = "update staff set staff_name = ?, staff_email = ?,staff_idnumber = ?,  staff_birthday = ?, staff_phone = ? where staff_id = ?;";
+	final String UPDATE = "update staff set staff_name = ?, staff_email = ?,staff_idnumber = ?,  staff_birthday = ?, staff_phone = ? , staff_picture = ? where staff_id = ?;";
 
 	@Override
 	public Integer update(Staff staff) {
@@ -130,8 +127,8 @@ public class StaffDaoImpl implements StaffDao {
 			pstmt.setString(3, staff.getStaff_idnumber());
 			pstmt.setDate(4, staff.getStaff_birthday());
 			pstmt.setString(5, staff.getStaff_phone());
-//			pstmt.setBytes(6, staff.getStaff_picture());
-			pstmt.setString(6, staff.getStaff_id());
+			pstmt.setString(6, staff.getStaff_picture());
+			pstmt.setString(7, staff.getStaff_id());
 
 			int rowCount = pstmt.executeUpdate();
 			System.out.println(rowCount + " row(s) updated!!");

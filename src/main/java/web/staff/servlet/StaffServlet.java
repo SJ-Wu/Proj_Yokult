@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -40,6 +42,7 @@ public class StaffServlet extends HttpServlet {
 		}
 		resp.getWriter().append(gson.toJson(respObject));
 	}
+
 
 //登入
 	@Override
@@ -89,13 +92,23 @@ public class StaffServlet extends HttpServlet {
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
+		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-
+		System.out.println(gson.toJson(staff));
 		try {
 			StaffService service = new StaffServiceImpl();
-			String msg = service.addOrModify(staff);
-			respObject.addProperty("msg", msg);
+			Integer status = service.addOrModify(staff);
+			if(StringUtils.isBlank(staff.getStaff_id())) {
+				respObject.addProperty("type", "insert");
+			} else {
+				respObject.addProperty("type", "update");
+			}
+			if (status > 0) {
+				respObject.addProperty("msg", "success");
+			} else {
+				respObject.addProperty("msg", "fail");
+			}
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
