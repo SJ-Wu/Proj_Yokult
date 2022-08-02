@@ -1,14 +1,13 @@
 package web.product.vo;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	private String proID;
+	private Integer proID;
 	private String proName;
 	private Integer proStock;
 	private Integer proPrice;
@@ -24,11 +23,11 @@ public class Product implements Serializable {
 				+ ", proCategory=" + proCategory + "]";
 	}
 
-	public String getProID() {
+	public Integer getProID() {
 		return proID;
 	}
 
-	public void setProID(String proID) {
+	public void setProID(Integer proID) {
 		this.proID = proID;
 	}
 

@@ -31,7 +31,7 @@ public class test {
 					System.out.println("Show product list:");
 					while(rs.next()) {
 						Product p = new Product();
-						p.setProID(rs.getString("PROID"));
+						p.setProID(rs.getInt("PROID"));
 						p.setProName(rs.getString("PRONAME"));
 						p.setProStock(rs.getInt("PROSTOCK"));
 						p.setProPrice(rs.getInt("PROPRICE"));

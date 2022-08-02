@@ -1,7 +1,6 @@
 package web.product.service.impl;
 
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.NamingException;
 
@@ -25,5 +24,10 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void save(Product product) {
 		dao.update(product);
+	}
+
+	@Override
+	public Integer add(Product product) {
+		return dao.insert(product);
 	}
 }

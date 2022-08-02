@@ -4,9 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -57,7 +55,7 @@ public class ProductDaoImpl implements ProductDao {
 				System.out.println("Show product list:");
 				while (rs.next()) {
 					Product p = new Product();
-					p.setProID(rs.getString("proid"));
+					p.setProID(rs.getInt("proid"));
 					p.setProName(rs.getString("proname"));
 					p.setProStock(rs.getInt("prostock"));
 					p.setProPrice(rs.getInt("proprice"));
@@ -78,9 +76,24 @@ public class ProductDaoImpl implements ProductDao {
 
 	@Override
 	public Integer insert(Product product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		String insertStr = "INSERT INTO `product` (`proname`, `prostock`, `proprice`, `prospecs`, `probrand`, `propicture`, `procategory`) VALUES (?,?,?,?,?,?,?);";
+		try {
+			Connection conn = datasource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(insertStr);
+			ps.setString(1, product.getProName());
+			ps.setInt(2, product.getProStock());
+			ps.setInt(3, product.getProPrice());
+			ps.setString(4, product.getProSpecs());
+			ps.setString(5, product.getProBrand());
+			ps.setString(6, product.getProPicture());
+			ps.setString(7, product.getProCategory());
+			return ps.executeUpdate();
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	} 
 
 	@Override
 	public Product selectByProductIdAndProduct(Product product) {
@@ -109,7 +122,7 @@ public class ProductDaoImpl implements ProductDao {
 			ps.setString(4, product.getProSpecs());
 			ps.setString(5, product.getProBrand());
 			ps.setString(6, product.getProCategory());
-			ps.setInt(7, Integer.parseInt(product.getProID()));
+			ps.setInt(7, product.getProID());
 			
 			return ps.executeUpdate();
 		
