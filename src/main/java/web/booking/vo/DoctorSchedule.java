@@ -3,33 +3,36 @@ package web.booking.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
-//@Entity
-//@Table(name = "DOCTOR_SCHEDULE")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.DynamicInsert;
+@Entity
+@DynamicInsert
+@Table(name = "doctor_schedule")
 public class DoctorSchedule implements Serializable {
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name="SERIAL_NUMBER")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="serial_number")
 	private Integer serialNumber;
 	
-//	@Column(name = "DOCTOR_ALPHABET")
+	@Column(name = "doctor_alphabet")
 	private String doctorAlphabet;
 	
-//	@Column(name = "DOCTOR_ID")
+	@Column(name = "doctor_id")
 	private Integer doctorId;
 	
-//	@Column(name = "DOCTOR_SCHEDULE_DATE")
+	@Column(name = "doctor_schedule_date")
 	private java.sql.Date doctorScheduleDate;
 	
-//	@Column(name = "DOCTOR_AMPM")
+	@Column(name = "doctor_ampm")
 	private String doctorAmpm;
 	
-//	@Column(name = "DOCTOR_STATUS")
+	@Column(name = "doctor_status")
 	private Integer doctorStatus;
 	
 	public DoctorSchedule() {

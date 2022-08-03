@@ -28,4 +28,6 @@ public interface DoctorService {
 
 	DoctorConvert selectOne(Doctor doctor);
 
+	String nextOne(Doctor doctor);
+
 }

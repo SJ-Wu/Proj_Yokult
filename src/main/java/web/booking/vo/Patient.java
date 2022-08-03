@@ -3,47 +3,49 @@ package web.booking.vo;
 import java.io.Serializable;
 import java.sql.Date;
 
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
 
-//@Entity
-//@Table(name = "PATIENT")
+@Entity
+@DynamicInsert
+@Table(name = "patient")
 public class Patient implements Serializable {
-	//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "SERIAL_NUMBER")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "serial_number")
 	private Integer serialNumber;
 	
-//	@Column(name = "MEMID")
+	@Column(name = "memid")
 	private String memID;
 	
-//	@Column(name = "PATIENT_IDCARD")
+	@Column(name = "patient_idcard")
 	private String patientIdcard;
 	
-//	@Column(name = "BOOKING_DATE")
+	@Column(name = "booking_date")
 	private java.sql.Date bookingDate;
 	
-//	@Column(name = "AMPM")
+	@Column(name = "amPm")
 	private String amPm;
 	
-//	@Column(name = "BOOKING_NUMBER")
+	@Column(name = "booking_number")
 	private Integer bookingNumber;
 	
-//	@Column(name = "DOCTOR_ALPHABET")
+	@Column(name = "doctor_alphabet")
 	private String doctorAlphabet;
 	
-//	@Column(name = "DOCTOR_ID")
+	@Column(name = "doctor_id")
 	private Integer doctorId;
 	
-//	@Column(name = "CHECKIN_CONDITION")
+	@Column(name = "checkin_condition")
 	private Integer checkinCondition;
 	
-//	@Column(name = "CHART")
+	@Column(name = "chart",columnDefinition="TEXT")
 	private String chart;
 	
 	public Patient() {
