@@ -83,9 +83,7 @@ public class ProductServlet extends HttpServlet {
 					String filename = sDateFormat.format(new Date()) + "_" + part.getSubmittedFileName();
 					File f = new File(fSaveDirectory, filename);
 					part.write(f.toString());
-					imagePath = realpath + "/" + filename;
-					HttpSession session = req.getSession();
-					session.setAttribute("imagePath", imagePath);
+					imagePath = req.getContextPath()+ saveDirectory + "/" + filename;
 					System.out.println("image path: " + imagePath);
 				}
 
