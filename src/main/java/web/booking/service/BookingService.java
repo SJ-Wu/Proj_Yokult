@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import web.booking.vo.Doctor;
 import web.booking.vo.Patient;
 
 public interface BookingService {
@@ -40,5 +41,9 @@ public interface BookingService {
 	
 	//回傳一個已報到 指定時間 身分證 的病歷
 	Map<String, String> showOneChart(Patient patient);
+
+	String nowNum(Doctor doctor);
+
+	void putcheckin(Patient patient);
 	
 }

@@ -25,6 +25,7 @@ import com.google.gson.reflect.TypeToken;
 
 import web.booking.service.BookingService;
 import web.booking.service.BookingServiceImpl;
+import web.booking.vo.Doctor;
 import web.booking.vo.Patient;
 import web.booking.vo.PatientBookingVO;
 
@@ -99,7 +100,13 @@ public class BookingServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
-		} 
+		} else if ("nowNum".equals(infos[1])) {
+//回傳目前叫號
+			out.append(nowNum(gson, br));			
+			br.close();
+			out.close();
+			return;
+		}
 			
 	}
 	
@@ -123,6 +130,24 @@ public class BookingServlet extends HttpServlet {
 		}
 	}
 	
+	private String nowNum(Gson gson, Reader br) {
+		Doctor doctor = gson.fromJson(br, Doctor.class);
+		String doc = null;
+		try {
+			BookingService bookingService = new BookingServiceImpl();
+			doc = bookingService.nowNum(doctor);
+		} catch (NamingException e) {
+			e.printStackTrace();
+		}
+		if(doc != null) {
+			return doc;		
+		}
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("msg", "no nowNum");
+		return gson.toJson(jsonObject);
+	}
+	
+	
 	//新增checkin方法
 	private JsonObject patientCheckin(Gson gson, Reader br) {
 		//讀進資料
@@ -131,7 +156,7 @@ public class BookingServlet extends HttpServlet {
 		int result = 0;;
 		JsonObject jsonObject = new JsonObject();
 		try {
-			BookingServiceImpl bookingService = new BookingServiceImpl();
+			BookingService bookingService = new BookingServiceImpl();
 			
 			String pID = bookingService.getIdcardBymemID(patient);
 			if(!pID.equals(patient.getPatientIdcard())) {
@@ -225,7 +250,7 @@ public class BookingServlet extends HttpServlet {
 		//patient傳給service service再查出預約日期
 		JsonObject jsonObject = new JsonObject();
 		try {
-			BookingServiceImpl bookingServiceImpl = new BookingServiceImpl();
+			BookingService bookingServiceImpl = new BookingServiceImpl();
 			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);
 			if(list != null) {
 				jsonObject.addProperty("msg", "bookingQuery sucess");
