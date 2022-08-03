@@ -3,8 +3,8 @@ package web.staff.dao.impl;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -23,10 +23,10 @@ public class StaffDaoImpl implements StaffDao {
 	final String SELECTALL = "select staff_id ,staff_name, staff_email, staff_idnumber, staff_birthday, staff_phone, staff_picture  from staff  order by staff_id;";
 
 	@Override
-	public Set<Staff> selectAll() {
+	public List<Staff> selectAll() {
 		try (Connection conn = datasource.getConnection(); PreparedStatement ps = conn.prepareStatement(SELECTALL);) {
 			try (ResultSet rs = ps.executeQuery()) {
-				Set<Staff> staffs = new HashSet<Staff>();
+				List<Staff> staffs = new ArrayList<Staff>();
 				while (rs.next()) {
 					Staff s = new Staff();
 					s.setStaff_id(rs.getString("staff_id"));

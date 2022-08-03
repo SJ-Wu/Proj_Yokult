@@ -1,13 +1,13 @@
 package web.staff.dao;
 
-import java.util.Set;
+import java.util.List;
 
 import web.staff.vo.Staff;
 
 
 public interface StaffDao {
 	Integer insert (Staff staff);
-	Set<Staff> selectAll() ;
+	List<Staff> selectAll() ;
 	Integer update (Staff staff);
 	Integer delete (String staffId) ;
 	Staff selectByStaff_idAndstaff_idnumber(Staff staff);

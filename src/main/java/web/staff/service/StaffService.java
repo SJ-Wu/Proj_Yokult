@@ -1,11 +1,11 @@
 package web.staff.service;
 
-import java.util.Set;
+import java.util.List;
 
 import web.staff.vo.Staff;
 
 public interface StaffService {
-	Set<Staff> getAll();
+	List<Staff> getAll();
 	
 	Integer addOrModify(Staff staff);
 

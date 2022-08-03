@@ -16,10 +16,3 @@ CREATE TABLE `shift_schedule` (
   FOREIGN KEY (`staff_id`)
   REFERENCES `staff` (`staff_id`))
   comment = '排班';
-
-INSERT INTO 
-  `shift_schedule` (`schedule_date`, `staff_id`, `shiftschedule_type_of_leave`, `shiftschedule_morningshift_nightshift`)
-VALUES
-  ('2022-08-01', 'tga001', 'annual_leave', '早班'),
-  ('2022-08-02', 'tga002', 'personal_leave', '晚班'),
-  ('2022-08-03', 'tga003', 'official_leave', '早班');

@@ -1,6 +1,6 @@
 package web.staff.service.impl;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.naming.NamingException;
 
@@ -19,7 +19,7 @@ public class StaffServiceImpl implements StaffService {
 	}
 
 	@Override
-	public Set<Staff> getAll() {
+	public List<Staff> getAll() {
 		return dao.selectAll();
 	}
 

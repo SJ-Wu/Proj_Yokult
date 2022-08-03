@@ -1,4 +1,4 @@
-package web.staff.servlet;
+package web.schedule.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,22 +10,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import web.schedule.servlice.ScheduleService;
 import web.schedule.servlice.impl.ScheduleServiceImpl;
-import web.staff.service.StaffService;
-import web.staff.service.impl.StaffServiceImpl;
+import web.schedule.vo.ResultSchedule;
+import web.schedule.vo.Schedule;
 import web.staff.vo.Staff;
 
-@WebServlet("/api/0.01/staff/*")
-public class StaffServlet extends HttpServlet {
+@WebServlet("/api/0.01/schedule/*")
+public class ScheduleServlet  extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	private Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+	private ScheduleService service;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -33,84 +32,47 @@ public class StaffServlet extends HttpServlet {
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
 		try {
-			StaffService service = new StaffServiceImpl();
-			List<Staff> staffs = service.getAll();
-			if (staffs != null) {
+			service = new ScheduleServiceImpl();
+			List<ResultSchedule> schedules = service.getAll();
+			if (schedules != null) {
 				respObject.addProperty("msg", "success");
-				respObject.add("staffs", gson.toJsonTree(staffs));
+				respObject.add("schedules", gson.toJsonTree(schedules));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
 	}
-
-
-//登入
+	
+	//取員工id
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
+		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-		System.out.println(gson.toJson(staff));
 		try {
-			StaffService service = new StaffServiceImpl();
-			Staff rsStaff = service.login(staff);
-			if (rsStaff != null) {
-				resp.getWriter().append(gson.toJson(rsStaff));
-			} else {
-				resp.getWriter().append(gson.toJson("false"));
-			}
-		} catch (NamingException e) {
+			ScheduleService service = new ScheduleServiceImpl();
+			staff = service.staffData(staff);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		resp.getWriter().append(gson.toJson(staff));
 	}
 	
-
-
-//刪除
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setCharacterEncoding("UTF-8");
-		setHeaders(resp);
-		JsonObject respObject = new JsonObject();
-		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-		try {
-			StaffService service = new StaffServiceImpl();
-			Integer status = service.remove(staff);
-			if (status > 0) {
-				respObject.addProperty("msg", "success");
-			} else {
-				respObject.addProperty("msg", "fail");
-			}
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-		resp.getWriter().append(gson.toJson(respObject));
-	}
-
-//新增，修改
+	//新增，修改
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
 		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
-		Staff staff = gson.fromJson(req.getReader(), Staff.class);
-		System.out.println(gson.toJson(staff));
+		Schedule schedule = gson.fromJson(req.getReader(), Schedule.class);
 		try {
-			StaffService service = new StaffServiceImpl();
-			Integer status = service.addOrModify(staff);
-			if(StringUtils.isBlank(staff.getStaff_id())) {
-				respObject.addProperty("type", "insert");
-			} else {
-				respObject.addProperty("type", "update");
-			}
-			if (status > 0) {
-				respObject.addProperty("msg", "success");
-			} else {
-				respObject.addProperty("msg", "fail");
-			}
+			ScheduleService service = new ScheduleServiceImpl();
+			String msg = service.addOrModify(schedule);
+			respObject.addProperty("msg", msg);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
