@@ -479,7 +479,107 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <!-- /.container-fluid -->
                 </div>
                 <!-- /.content-header -->
+                <!-- Modal -->
+                <div
+                    class="modal fade"
+                    id="editProduct"
+                    tabindex="-1"
+                    aria-labelledby="exampleModalLabel"
+                    aria-hidden="true"
+                >
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">
+                                    商品資訊
+                                </h5>
+                                <button
+                                    type="button"
+                                    class="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div class="form-group">
+                                        <label>商品ID</label>
+                                        <input
+                                            disabled="disable"
+                                            class="form-control"
+                                            id="proID"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>商品名稱</label>
+                                        <input
+                                            class="form-control"
+                                            id="proName"
+                                        />
+                                    </div>
 
+                                    <div class="form-group">
+                                        <label>商品庫存</label>
+                                        <input
+                                            class="form-control"
+                                            id="proStock"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>商品價格</label>
+                                        <input
+                                            class="form-control"
+                                            id="proPrice"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>商品規格</label>
+                                        <input
+                                            class="form-control"
+                                            id="proSpecs"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>商品品牌</label>
+                                        <input
+                                            class="form-control"
+                                            id="proBrand"
+                                        />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>商品類別</label>
+                                        <input
+                                            class="form-control"
+                                            id="proCategory"
+                                        />
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button
+                                    type="button"
+                                    class="btn btn-secondary"
+                                    data-dismiss="modal"
+                                >
+                                    取消
+                                </button>
+                                <button
+                                    onclick="saveProduct()"
+                                    type="button"
+                                    class="btn btn-primary"
+                                >
+                                    儲存
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- Main content -->
                 <div class="content">
                     <div class="container-fluid">
@@ -547,7 +647,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <th>購買日期</th>
                                                     <th>聯絡方式</th>
                                                     <th></th>
-                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -557,131 +656,77 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>89</td>
                                                     <td>線上刷卡</td>
                                                     <td>
-                                                        <select name="" id="order">
+                                                        <select
+                                                            name=""
+                                                            id="order"
+                                                        >
                                                             <option
-                                                                    value=""
-                                                                ></option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待處理
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    處理中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已出貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    配送中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    完成訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    取消訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款成功
-                                                                </option>
-                                                          </select>
-                                                          <button id="btn" class="btn-xs btn-light">編輯</button>
-                                                          <script>
-                                                            document.querySelector('#btn').onclick = () => {
-                                                              document.querySelector('#order').disabled =
-                                                                !document.querySelector('#order').disabled;
+                                                                value=""
+                                                            ></option>
+                                                            <option value="">
+                                                                待付款
+                                                            </option>
+                                                            <option value="">
+                                                                已付款
+                                                            </option>
+                                                            <option value="">
+                                                                待處理
+                                                            </option>
+                                                            <option value="">
+                                                                處理中
+                                                            </option>
+                                                            <option value="">
+                                                                已出貨
+                                                            </option>
+                                                            <option value="">
+                                                                配送中
+                                                            </option>
+                                                            <option value="">
+                                                                完成訂單
+                                                            </option>
+                                                            <option value="">
+                                                                取消訂單
+                                                            </option>
+                                                            <option value="">
+                                                                退貨
+                                                            </option>
+                                                            <option value="">
+                                                                退款中
+                                                            </option>
+                                                            <option value="">
+                                                                退款成功
+                                                            </option>
+                                                        </select>
+                                                        <button
+                                                            id="btn"
+                                                            class="btn-xs btn-light"
+                                                        >
+                                                            編輯
+                                                        </button>
+                                                        <script>
+                                                            document.querySelector(
+                                                                "#btn"
+                                                            ).onclick = () => {
+                                                                document.querySelector(
+                                                                    "#order"
+                                                                ).disabled =
+                                                                    !document.querySelector(
+                                                                        "#order"
+                                                                    ).disabled;
                                                             };
-                                                          </script>
-                                                        
+                                                        </script>
                                                     </td>
                                                     <td>宅配</td>
                                                     <td>2022-09-29 00:30:00</td>
                                                     <td>0919495902</td>
                                                     <td>
-                                                        <button id="lightbox" class="btn-xs btn-light">
+                                                        <button
+                                                            class="btn-xs btn-light"
+                                                            data-toggle="modal"
+                                                            data-target="#editProduct"
+                                                        >
                                                             查看詳情
                                                         </button>
-                                                        <!-- Modal -->
-                                                        <div
-                                                            class="modal"
-                                                            id="staticBackdrop"
-                                                            data-bs-backdrop="static"
-                                                            data-bs-keyboard="false"
-                                                            tabindex="-1"
-                                                            aria-labelledby="staticBackdropLabel"
-                                                            aria-hidden="true"
-                                                        >
-                                                            <div
-                                                                class="modal-dialog"
-                                                            >
-                                                                <div
-                                                                    class="modal-content"
-                                                                >
-                                                                    <div
-                                                                        class="modal-header"
-                                                                    >
-                                                                        <h5
-                                                                            class="modal-title"
-                                                                            id="staticBackdropLabel"
-                                                                        >
-                                                                        詳細清單
-                                                                        </h5>
-                                                                      
-                                                                    </div>
-                                                                    <div
-                                                                    class="modal-dialog modal-dialog-scrollable"
-                                                                    >
-                                                                    maxill(大圈)美適牙橋穿透線
-                                                                    </div>
-                                                                    <div
-                                                                        class="modal-footer"
-                                                                    >
-                                                                        <button
-                                                                            type="button"
-                                                                            class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"
-                                                                        >
-                                                                            關閉
-                                                                        </button>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -690,131 +735,78 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>2680</td>
                                                     <td>電子支付</td>
                                                     <td>
-                                                        <select name="" id="order1">
+                                                        <select
+                                                            name=""
+                                                            id="order1"
+                                                        >
                                                             <option
-                                                                    value=""
-                                                                ></option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待處理
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    處理中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已出貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    配送中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    完成訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    取消訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款成功
-                                                                </option>
-                                                          </select>
-                                                          <button id="btn1" class="btn-xs btn-light">編輯</button>
-                                                          <script>
-                                                            document.querySelector('#btn1').onclick = () => {
-                                                              document.querySelector('#order1').disabled =
-                                                                !document.querySelector('#order1').disabled;
+                                                                value=""
+                                                            ></option>
+                                                            <option value="">
+                                                                待付款
+                                                            </option>
+                                                            <option value="">
+                                                                已付款
+                                                            </option>
+                                                            <option value="">
+                                                                待處理
+                                                            </option>
+                                                            <option value="">
+                                                                處理中
+                                                            </option>
+                                                            <option value="">
+                                                                已出貨
+                                                            </option>
+                                                            <option value="">
+                                                                配送中
+                                                            </option>
+                                                            <option value="">
+                                                                完成訂單
+                                                            </option>
+                                                            <option value="">
+                                                                取消訂單
+                                                            </option>
+                                                            <option value="">
+                                                                退貨
+                                                            </option>
+                                                            <option value="">
+                                                                退款中
+                                                            </option>
+                                                            <option value="">
+                                                                退款成功
+                                                            </option>
+                                                        </select>
+                                                        <button
+                                                            id="btn1"
+                                                            class="btn-xs btn-light"
+                                                        >
+                                                            編輯
+                                                        </button>
+                                                        <script>
+                                                            document.querySelector(
+                                                                "#btn1"
+                                                            ).onclick = () => {
+                                                                document.querySelector(
+                                                                    "#order1"
+                                                                ).disabled =
+                                                                    !document.querySelector(
+                                                                        "#order1"
+                                                                    ).disabled;
                                                             };
-                                                          </script>
-                                                        
+                                                        </script>
                                                     </td>
                                                     <td>郵寄</td>
                                                     <td>2022-08-29 17:00:00</td>
                                                     <td>0999930190</td>
                                                     <td>
-                                                        <button id="lightbox1" class="btn-xs btn-light">
+                                                        <button
+                                                            class="btn-xs btn-light"
+                                                            data-toggle="modal"
+                                                            data-target="#editProduct"
+                                                        >
                                                             查看詳情
                                                         </button>
-                                                        <!-- Modal -->
-                                                        <div
-                                                            class="modal"
-                                                            id="staticBackdrop1"
-                                                            data-bs-backdrop="static"
-                                                            data-bs-keyboard="false"
-                                                            tabindex="-1"
-                                                            aria-labelledby="staticBackdropLabel"
-                                                            aria-hidden="true"
-                                                        >
-                                                            <div
-                                                                class="modal-dialog"
-                                                            >
-                                                                <div
-                                                                    class="modal-content"
-                                                                >
-                                                                    <div
-                                                                        class="modal-header"
-                                                                    >
-                                                                        <h5
-                                                                        class="modal-title"
-                                                                        id="staticBackdropLabel1"
-                                                                        >
-                                                                        詳細清單
-                                                                        </h5>
-                                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                                    </div>
-                                                                    <div
-                                                                    class="modal-dialog modal-dialog-scrollable""
-                                                                    >
-                                                                    Panasonic國際牌超音波水流沖牙機EW-1513-W
-                                                                    </div>
-                                                                    <div
-                                                                        class="modal-footer"
-                                                                    >
-                                                                        <button
-                                                                            type="button"
-                                                                            class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"
-                                                                        >
-                                                                            關閉
-                                                                        </button>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </td>   
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>2207290004</td>
@@ -822,136 +814,78 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                     <td>158</td>
                                                     <td>現金</td>
                                                     <td>
-                                                        <select name="" id="order2"> 
+                                                        <select
+                                                            name=""
+                                                            id="order2"
+                                                        >
                                                             <option
-                                                                    value=""
-                                                                ></option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已付款
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    待處理
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    處理中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    已出貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    配送中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    完成訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    取消訂單
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退貨
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款中
-                                                                </option>
-                                                                <option
-                                                                    value=""
-                                                                >
-                                                                    退款成功
-                                                                </option>
-                                                          </select>
-                                                          <button id="btn2" class="btn-xs btn-light">編輯</button>
-                                                          <script>
-                                                            document.querySelector('#btn2').onclick = () => {
-                                                              document.querySelector('#order2').disabled =
-                                                                !document.querySelector('#order2').disabled;
+                                                                value=""
+                                                            ></option>
+                                                            <option value="">
+                                                                待付款
+                                                            </option>
+                                                            <option value="">
+                                                                已付款
+                                                            </option>
+                                                            <option value="">
+                                                                待處理
+                                                            </option>
+                                                            <option value="">
+                                                                處理中
+                                                            </option>
+                                                            <option value="">
+                                                                已出貨
+                                                            </option>
+                                                            <option value="">
+                                                                配送中
+                                                            </option>
+                                                            <option value="">
+                                                                完成訂單
+                                                            </option>
+                                                            <option value="">
+                                                                取消訂單
+                                                            </option>
+                                                            <option value="">
+                                                                退貨
+                                                            </option>
+                                                            <option value="">
+                                                                退款中
+                                                            </option>
+                                                            <option value="">
+                                                                退款成功
+                                                            </option>
+                                                        </select>
+                                                        <button
+                                                            id="btn2"
+                                                            class="btn-xs btn-light"
+                                                        >
+                                                            編輯
+                                                        </button>
+                                                        <script>
+                                                            document.querySelector(
+                                                                "#btn2"
+                                                            ).onclick = () => {
+                                                                document.querySelector(
+                                                                    "#order2"
+                                                                ).disabled =
+                                                                    !document.querySelector(
+                                                                        "#order2"
+                                                                    ).disabled;
                                                             };
-                                                          </script>   
+                                                        </script>
                                                     </td>
                                                     <td>自取</td>
                                                     <td>2022-07-29 03:00:00</td>
                                                     <td>0954567890</td>
                                                     <td>
-                                                        <button id="lightbox2" class="btn-xs btn-light">
+                                                        <button
+                                                            class="btn-xs btn-light"
+                                                            data-toggle="modal"
+                                                            data-target="#editProduct"
+                                                        >
                                                             查看詳情
                                                         </button>
-                                                        <!-- Modal -->
-                                                        <div
-                                                            class="modal"
-                                                            id="staticBackdrop2"
-                                                            data-bs-backdrop="static"
-                                                            data-bs-keyboard="false"
-                                                            tabindex="-1"
-                                                            aria-labelledby="staticBackdropLabel"
-                                                            aria-hidden="true"
-                                                        >
-                                                            <div
-                                                                class="modal-dialog"
-                                                            >
-                                                                <div
-                                                                    class="modal-content"
-                                                                >
-                                                                    <div
-                                                                        class="modal-header"
-                                                                    >
-                                                                        <h5
-                                                                            class="modal-title"
-                                                                            id="staticBackdropLabel2"
-                                                                        >
-                                                                        詳細清單
-                                                                        </h5>
-                                                                        <!-- <button
-                                                                            type="button"
-                                                                            class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"
-                                                                        ></button> -->
-                                                                    </div>
-                                                                    <div
-                                                                    class="modal-dialog modal-dialog-scrollable"
-                                                                    >
-                                                                    獅王NONIO終結口氣漱口水
-                                                                    </div>
-                                                                    <div
-                                                                        class="modal-footer"
-                                                                    >
-                                                                        <button
-                                                                            type="button"
-                                                                            class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"
-                                                                        >
-                                                                            關閉
-                                                                        </button>
-                                                                        
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
                                                     </td>
-                                                    
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -1016,20 +950,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     responsive: true,
                 });
             });
-            
         </script>
-           <script>
-            document.querySelector('#lightbox').onclick = () => {
-              document.querySelector('.modal').style.display = 'block';
-           
+        <script>
+            document.querySelector("#lightbox").onclick = () => {
+                document.querySelector(".modal").style.display = "block";
             };
-            document.querySelector('#lightbox1').onclick = () => {
-              document.querySelector('.modal').style.display = 'block';
+            document.querySelector("#lightbox1").onclick = () => {
+                document.querySelector(".modal").style.display = "block";
             };
-            document.querySelector('#lightbox2').onclick = () => {
-              document.querySelector('.modal').style.display = 'block';
+            document.querySelector("#lightbox2").onclick = () => {
+                document.querySelector(".modal").style.display = "block";
             };
-          </script>
-          
+        </script>
     </body>
 </html>
