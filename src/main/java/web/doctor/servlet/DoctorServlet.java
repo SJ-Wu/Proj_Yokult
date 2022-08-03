@@ -22,6 +22,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import web.booking.service.BookingService;
+import web.booking.service.BookingServiceImpl;
 import web.booking.vo.Doctor;
 import web.booking.vo.DoctorChartVO;
 import web.booking.vo.DoctorConvert;
@@ -94,6 +96,13 @@ public class DoctorServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
+		}else if ("nextOne".equals(infos[1])) {
+			//回傳下一號
+			System.out.println("here nextOne");
+			out.append(nextOne(gson, br));			
+			br.close();
+			out.close();
+			return;
 		}
 	}
 //修改
@@ -113,7 +122,27 @@ public class DoctorServlet extends HttpServlet {
 			br.close();
 			out.close();
 			return;
+		} 
+		
+	}
+	
+
+	private String nextOne(Gson gson, Reader br) {
+		Doctor doctor = gson.fromJson(br, Doctor.class);
+		String doc = null;
+		try {
+			DoctorService doctorService = new DoctorServiceImpl();
+			doc = doctorService.nextOne(doctor);
+		} catch (NamingException e) {
+			e.printStackTrace();
 		}
+		if(doc != null) {
+			return doc;		
+		}
+		
+		JsonObject jsonObject = new JsonObject();
+		jsonObject.addProperty("msg", "finish");
+		return gson.toJson(jsonObject);
 	}
 	
 	//儲存前端傳來的病歷紀錄
@@ -238,7 +267,7 @@ public class DoctorServlet extends HttpServlet {
 			Patient patientChart = doctorServiceImpl.returnDrPatientChart(doctor, patient);
 			if (patientChart != null) {
 				jsonObject.addProperty("msg", "returnChart success");
-				jsonObject.addProperty("list", gson.toJson(patientChart.getChart()));
+				jsonObject.addProperty("list", patientChart.getChart());
 			}
 			
 		} catch (NamingException e) {
@@ -337,8 +366,19 @@ public class DoctorServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		setHeaders(resp);
+	protected void doOptions(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+//		setHeaders(resp);
+		// 重要
+				response.setHeader("Access-Control-Allow-Origin", "*");
+				
+				response.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE, OPTIONS");
+				response.setHeader("Access-Control-Allow-Headers", "*");
+				response.setHeader("Access-Control-Max-Age", "86400");
+				// 重要
+				response.setContentType("application/json;charset=UTF-8");
+				response.setHeader("Cache-control", "no-cache, no-store");
+				response.setHeader("Pragma", "no-cache");
+				response.setHeader("Expires", "-1");
 	}
 	
 	private void setHeaders(HttpServletResponse response) {

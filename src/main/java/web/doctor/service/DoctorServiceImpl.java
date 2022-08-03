@@ -9,6 +9,10 @@ import java.util.Set;
 
 import javax.naming.NamingException;
 
+import org.bson.Document;
+import org.hibernate.SessionFactory;
+
+import web.booking.dao.DoctorCheckinDAOImpl;
 import web.booking.dao.DoctorDAO;
 import web.booking.dao.DoctorDAOImpl;
 import web.booking.dao.DoctorScheduleDAO;
@@ -21,17 +25,37 @@ import web.booking.vo.DoctorSchedule;
 import web.booking.vo.Patient;
 
 public class DoctorServiceImpl implements DoctorService {
-	//index_doctor_chart  填寫病歷 
 	private PatientDAO patientDAOImpl;
 	private DoctorDAO doctorDAOImpl;
 	private DoctorScheduleDAO doctorScheduleDAOImpl;
+	private DoctorCheckinDAOImpl doctorCheckinDAOImpl;
 	
 	public DoctorServiceImpl() throws NamingException {
 		patientDAOImpl = new PatientDAOImpl();
 		doctorDAOImpl = new DoctorDAOImpl();
 		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
+		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
+		}
+	public DoctorServiceImpl(SessionFactory sessionFactory) throws NamingException {
+		patientDAOImpl = new PatientDAOImpl(sessionFactory);
+		doctorDAOImpl = new DoctorDAOImpl(sessionFactory);
+		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl(sessionFactory);
+		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
 		}
 
+	@Override
+	public String nextOne(Doctor doctor) {
+		Document docdel = doctorCheckinDAOImpl.selectOne(doctor);
+		if(docdel != null) {
+			doctorCheckinDAOImpl.deleteOne(docdel);
+		}
+		Document doc = doctorCheckinDAOImpl.selectOne(doctor);
+		if(doc != null) {
+			doc.append("msg", "nextOne success");
+			return doc.toJson();
+		}
+		return null;
+	}
 	//回傳一個醫師資料
 	@Override
 	public DoctorConvert selectOne(Doctor doctor) {

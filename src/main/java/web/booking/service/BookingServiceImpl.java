@@ -10,6 +10,10 @@ import java.util.Map;
 
 import javax.naming.NamingException;
 
+import org.bson.Document;
+import org.hibernate.SessionFactory;
+
+import web.booking.dao.DoctorCheckinDAOImpl;
 import web.booking.dao.DoctorDAO;
 import web.booking.dao.DoctorDAOImpl;
 import web.booking.dao.DoctorScheduleDAO;
@@ -22,15 +26,50 @@ import web.booking.vo.Patient;
 
 public class BookingServiceImpl implements BookingService  {
 	//例外通常是放在service層 才能夠決定導向到哪裡去 不要在DAOimpl把exception處理掉
-	//		
+	//p174		
 	private PatientDAO patientDAOImpl;
 	private DoctorDAO doctorDAOImpl;
 	private DoctorScheduleDAO doctorScheduleDAOImpl;
+	private DoctorCheckinDAOImpl doctorCheckinDAOImpl;
 	
 	public BookingServiceImpl() throws NamingException {
 		patientDAOImpl = new PatientDAOImpl();
 		doctorDAOImpl = new DoctorDAOImpl();
 		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
+		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
+	}
+	public BookingServiceImpl(SessionFactory sessionFactory) throws NamingException {
+		patientDAOImpl = new PatientDAOImpl(sessionFactory);
+		doctorDAOImpl = new DoctorDAOImpl(sessionFactory);
+		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl(sessionFactory);
+		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
+		
+	}
+	
+	@Override
+	public String nowNum(Doctor doctor) {
+		Document doc = doctorCheckinDAOImpl.selectOne(doctor);
+		if(doc != null) {
+			doc.append("msg", "nowNum success");
+			return doc.toJson();
+		}
+		return null;
+	}
+	
+
+	
+	//儲存叫號
+	@Override
+	public void putcheckin(Patient patient) {
+		patient.setCheckinCondition(1);
+		List<Patient> list =  patientDAOImpl.selectPatientByIdcardAndCheckinCondition(patient);
+		if(list != null) {
+			for(Patient vo : list) {
+				if(Date.valueOf(LocalDate.now()).equals(vo.getBookingDate())) {
+					doctorCheckinDAOImpl.insertOne(vo);
+				}
+			}
+		}
 	}
 	
 	//報到 patient checkin方法 成功回傳1(影響筆數) 失敗回傳0 或 -1
@@ -40,7 +79,7 @@ public class BookingServiceImpl implements BookingService  {
 		patient.setBookingDate(Date.valueOf(LocalDate.now()));
 		int result = patientDAOImpl.updatePatientCheckinConditionByBookingDate(patient);
 		System.out.println("change patientCheckIn condition rowcount = "+ result);
-		
+		putcheckin(patient);
 		return result;
 	}
 	

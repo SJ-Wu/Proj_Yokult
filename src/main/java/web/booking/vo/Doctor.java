@@ -3,31 +3,33 @@ package web.booking.vo;
 import java.io.Serializable;
 import java.util.Arrays;
 
-//import javax.persistence.Column;
-//import javax.persistence.Entity;
-//import javax.persistence.GeneratedValue;
-//import javax.persistence.GenerationType;
-//import javax.persistence.Id;
-//import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.Table;
 
-//@Entity
-//@Table(name="DOCTOR")
+@Entity
+@Table(name="doctor")
 public class Doctor implements Serializable {
-//	@Column(name="DOCTOR_ALPHABET")
+	@Column(name="doctor_alphabet")
 	private String doctorAlphabet;
-//	@Id
-//	@GeneratedValue(strategy = GenerationType.IDENTITY)
-//	@Column(name = "DOCTOR_ID")
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "doctor_id")
 	private Integer doctorId;
-//	@Column(name = "DOCTOR_NAME")
+	@Column(name = "doctor_name")
 	private String doctorName;
-//	@Column(name = "DOCTOR_PHOTO")
+	@Column(name = "doctor_photo")
+	@Lob
 	private byte[] doctorPhoto;
-//	@Column(name = "DOCTOR_CERTIFICATE")
+	@Column(name = "doctor_certificate")
 	private String doctorCertificate;
-//	@Column(name = "DOCTOR_EMAIL")
+	@Column(name = "doctor_email")
 	private String doctorEmail;
-//	@Column(name = "DOCTOR_PASSWARD")
+	@Column(name = "doctor_password")
 	private String doctorPassword;
 
 	public Doctor() {
