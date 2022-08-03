@@ -57,7 +57,7 @@ public class ProductDaoImpl implements ProductDao {
 				System.out.println("Show product list:");
 				while (rs.next()) {
 					Product p = new Product();
-					p.setProID(rs.getString("proid"));
+					p.setProID(rs.getInt("proid"));
 					p.setProName(rs.getString("proname"));
 					p.setProStock(rs.getInt("prostock"));
 					p.setProPrice(rs.getInt("proprice"));
@@ -109,7 +109,7 @@ public class ProductDaoImpl implements ProductDao {
 			ps.setString(4, product.getProSpecs());
 			ps.setString(5, product.getProBrand());
 			ps.setString(6, product.getProCategory());
-			ps.setInt(7, Integer.parseInt(product.getProID()));
+			ps.setInt(7, product.getProID());
 			
 			return ps.executeUpdate();
 		
