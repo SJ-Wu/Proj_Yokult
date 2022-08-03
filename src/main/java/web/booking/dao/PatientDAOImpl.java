@@ -20,16 +20,10 @@ import web.booking.vo.Patient;
 
 public class PatientDAOImpl implements PatientDAO {
 	private SessionFactory sessionFactory;
-	private DataSource dataSource;
 	
 	public PatientDAOImpl(SessionFactory sessionFactory) {
 		super();
 		this.sessionFactory = sessionFactory;
-	}
-
-	public PatientDAOImpl() throws NamingException {
-		 DataSource dataSource = (DataSource)new InitialContext().lookup("java:comp/env/jdbc/Yokult");
-		 this.dataSource = dataSource;
 	}
 
 	public Session getSession() {

@@ -30,12 +30,6 @@ public class DoctorServiceImpl implements DoctorService {
 	private DoctorScheduleDAO doctorScheduleDAOImpl;
 	private DoctorCheckinDAOImpl doctorCheckinDAOImpl;
 	
-	public DoctorServiceImpl() throws NamingException {
-		patientDAOImpl = new PatientDAOImpl();
-		doctorDAOImpl = new DoctorDAOImpl();
-		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
-		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
-		}
 	public DoctorServiceImpl(SessionFactory sessionFactory) throws NamingException {
 		patientDAOImpl = new PatientDAOImpl(sessionFactory);
 		doctorDAOImpl = new DoctorDAOImpl(sessionFactory);
@@ -79,11 +73,7 @@ public class DoctorServiceImpl implements DoctorService {
 	
 	@Override
 	public List<Doctor> getDoctorAll() {
-		try {
-			doctorDAOImpl = new DoctorDAOImpl();
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
+
 		List<Doctor> list = doctorDAOImpl.selectAll();
 		if(list.size() != 0) {
 			return list;

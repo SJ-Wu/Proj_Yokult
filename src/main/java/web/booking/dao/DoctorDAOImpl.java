@@ -20,7 +20,7 @@ import org.hibernate.query.Query;
 import web.booking.vo.Doctor;
 
 public class DoctorDAOImpl implements DoctorDAO {
-	DataSource dataSource;
+
 	//Factory存在屬性中 大家共用沒關係
 	private SessionFactory sessionFactory;
 	public DoctorDAOImpl(SessionFactory sessionFactory) {
@@ -31,12 +31,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-//********JDBC********
-	public DoctorDAOImpl() throws NamingException {
-		Context context = new InitialContext();
-		DataSource dataSource =(DataSource) context.lookup("java:comp/env/jdbc/Yokult");
-		this.dataSource = dataSource;
-	}
+
 
 //*******
 	@Override

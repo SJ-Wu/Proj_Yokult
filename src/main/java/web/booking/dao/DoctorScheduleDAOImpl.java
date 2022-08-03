@@ -26,7 +26,6 @@ import web.booking.vo.DoctorSchedule;
 
 public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 	private SessionFactory sessionFactory;
-	private DataSource dataSource;
 	
 	public DoctorScheduleDAOImpl(SessionFactory sessionFactory) {
 		super();
@@ -35,15 +34,7 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-
-	//在建構子裡面拿到連線 JNDI
-	public DoctorScheduleDAOImpl() throws NamingException {
-		dataSource = (DataSource) new InitialContext().lookup("java:comp/env/jdbc/Yokult");
-	}
 		
-	public DataSource getDataSource() {
-		return dataSource;
-	}
 
 	@Override
 	public List<DoctorSchedule> selectDoctorSchedule(Date date1, Date date2, Integer doctorId) {

@@ -5,9 +5,8 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import web.booking.dao.CheckinUtil;
 @WebListener
 public class SessionFactoryListener implements ServletContextListener {
 	private SessionFactory sessionFactory;
@@ -19,12 +18,15 @@ public class SessionFactoryListener implements ServletContextListener {
 //				serviceRegistry).buildMetadata().buildSessionFactory();
 					
 		HibernateUtil.getSessionFactory();
+		CheckinUtil.getMongoClient();
 		System.out.println("SessionFactoryListener getSessionFactory");
+		
 	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
 		HibernateUtil.closeSessionFactory();
+		CheckinUtil.closeMongoClient();
 //		if(sessionFactory != null) {
 //			sessionFactory.close();
 //			}

@@ -32,12 +32,6 @@ public class BookingServiceImpl implements BookingService  {
 	private DoctorScheduleDAO doctorScheduleDAOImpl;
 	private DoctorCheckinDAOImpl doctorCheckinDAOImpl;
 	
-	public BookingServiceImpl() throws NamingException {
-		patientDAOImpl = new PatientDAOImpl();
-		doctorDAOImpl = new DoctorDAOImpl();
-		doctorScheduleDAOImpl = new DoctorScheduleDAOImpl();
-		doctorCheckinDAOImpl = new DoctorCheckinDAOImpl();
-	}
 	public BookingServiceImpl(SessionFactory sessionFactory) throws NamingException {
 		patientDAOImpl = new PatientDAOImpl(sessionFactory);
 		doctorDAOImpl = new DoctorDAOImpl(sessionFactory);
@@ -129,8 +123,8 @@ public class BookingServiceImpl implements BookingService  {
 	// 組裝日期 醫師有上班的時段和姓名
 	@Override
 	public Map<String, Object> getDoctorScheduleAndDoctorName(Date date1, Date date2,Integer doctorId) throws NamingException {
-		List<DoctorSchedule> listDr = new DoctorScheduleDAOImpl().selectDoctorSchedule(date1, date2, doctorId);
-		String drName = new DoctorDAOImpl().selectDoctorNameById(doctorId);
+		List<DoctorSchedule> listDr = doctorScheduleDAOImpl.selectDoctorSchedule(date1, date2, doctorId);
+		String drName = doctorDAOImpl.selectDoctorNameById(doctorId);
 		
 		Doctor doctor = new Doctor();
 		doctor.setDoctorId(Integer.valueOf(doctorId));

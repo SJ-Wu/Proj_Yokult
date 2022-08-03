@@ -22,6 +22,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import model.hibernate.HibernateUtil;
 import web.booking.service.BookingService;
 import web.booking.service.BookingServiceImpl;
 import web.booking.vo.Doctor;
@@ -131,7 +132,7 @@ public class DoctorServlet extends HttpServlet {
 		Doctor doctor = gson.fromJson(br, Doctor.class);
 		String doc = null;
 		try {
-			DoctorService doctorService = new DoctorServiceImpl();
+			DoctorService doctorService = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 			doc = doctorService.nextOne(doctor);
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -150,7 +151,7 @@ public class DoctorServlet extends HttpServlet {
 		System.out.println("servlet: save chart start");
 		DoctorServiceImpl doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -181,7 +182,7 @@ public class DoctorServlet extends HttpServlet {
 	private JsonObject getDrPatientIdcard(Gson gson, HttpServletRequest request) {
 		DoctorServiceImpl doctorServiceIImpl = null;
 		try {
-			doctorServiceIImpl = new DoctorServiceImpl();
+			doctorServiceIImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e1) {
 			e1.printStackTrace();
 		}
@@ -212,7 +213,7 @@ public class DoctorServlet extends HttpServlet {
 	private JsonObject getDrPatientDates(Gson gson, Reader br) {
 		DoctorService doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -251,7 +252,7 @@ public class DoctorServlet extends HttpServlet {
 	private JsonObject returnChart(Gson gson, Reader br) {
 		DoctorService doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -284,7 +285,7 @@ public class DoctorServlet extends HttpServlet {
 		System.out.println("servlet: save dr start");
 		DoctorServiceImpl doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -315,7 +316,7 @@ public class DoctorServlet extends HttpServlet {
 		System.out.println("servlet: load dr start");
 		DoctorServiceImpl doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
@@ -336,7 +337,7 @@ public class DoctorServlet extends HttpServlet {
 	private JsonObject updateDrSchedule(Gson gson, Reader br) {
 		DoctorServiceImpl doctorServiceImpl = null;
 		try {
-			doctorServiceImpl = new DoctorServiceImpl();
+			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

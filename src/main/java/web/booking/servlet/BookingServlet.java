@@ -132,7 +132,7 @@ public class BookingServlet extends HttpServlet {
 		Doctor doctor = gson.fromJson(br, Doctor.class);
 		String doc = null;
 		try {
-			BookingService bookingService = new BookingServiceImpl();
+			BookingService bookingService = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			doc = bookingService.nowNum(doctor);
 		} catch (NamingException e) {
 			e.printStackTrace();
@@ -154,7 +154,7 @@ public class BookingServlet extends HttpServlet {
 		int result = 0;;
 		JsonObject jsonObject = new JsonObject();
 		try {
-			BookingService bookingService = new BookingServiceImpl();
+			BookingService bookingService = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			
 			String pID = bookingService.getIdcardBymemID(patient);
 			if(!pID.equals(patient.getPatientIdcard())) {
@@ -221,7 +221,7 @@ public class BookingServlet extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		//把東西轉成GSON丟出
 		try {
-			BookingService bookingService = new BookingServiceImpl();
+			BookingService bookingService = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			Map<String, Object> map = bookingService.getDoctorScheduleAndDoctorName(vo.getDate1(), vo.getDate2(), vo.getDoctorId());
 			//toJsonTree方式把直接map物件轉JSONTREE 再轉JsonObject
 			JsonObject drNameScheduleJsonObject = gson.toJsonTree(map).getAsJsonObject();
@@ -248,7 +248,7 @@ public class BookingServlet extends HttpServlet {
 		//patient傳給service service再查出預約日期
 		JsonObject jsonObject = new JsonObject();
 		try {
-			BookingService bookingServiceImpl = new BookingServiceImpl();
+			BookingService bookingServiceImpl = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);
 			if(list != null) {
 				jsonObject.addProperty("msg", "bookingQuery sucess");
@@ -270,7 +270,7 @@ public class BookingServlet extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		//傳入一筆要改變預約的patient
 		try {
-			BookingService bookingServiceImpl = new BookingServiceImpl();
+			BookingService bookingServiceImpl = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			int result = bookingServiceImpl.patientCancel(patient);
 			if(result == 1) {
 				jsonObject.addProperty("msg", "cancel success");
@@ -294,7 +294,7 @@ public class BookingServlet extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		BookingService bookingServiceImpl = null;
 		try {
-			bookingServiceImpl = new BookingServiceImpl();
+			bookingServiceImpl = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -316,7 +316,7 @@ public class BookingServlet extends HttpServlet {
 		JsonObject jsonObject = new JsonObject();
 		BookingService bookingServiceImpl = null;
 		try {
-			bookingServiceImpl = new BookingServiceImpl();
+			bookingServiceImpl = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}

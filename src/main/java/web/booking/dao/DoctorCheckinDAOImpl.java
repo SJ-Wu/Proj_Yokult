@@ -28,22 +28,22 @@ import web.booking.vo.Doctor;
 import web.booking.vo.Patient;
 
 public class DoctorCheckinDAOImpl {
-	private MongoClient mongoClient;
+//	private  MongoClient mongoClient;
     private CodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
     private CodecRegistry pojoCodecRegistry = fromRegistries(getDefaultCodecRegistry(), fromProviders(pojoCodecProvider));
 //	private final String uri = "mongodb+srv://vicky:tibame888@cluster0.sw4btkx.mongodb.net/?retryWrites=true&w=majority";
-    private MongoDatabase database;
-    private MongoCollection<Document> collection ;
+//    private MongoDatabase database;
+    private MongoCollection<Document> collection = CheckinUtil.getCollection() ;
 
-	public DoctorCheckinDAOImpl() throws NamingException {
+	public DoctorCheckinDAOImpl() {
 		super();
-		Context context = new InitialContext();
-		this.mongoClient =(MongoClient) context.lookup("java:comp/env/mongodb/MyMongoClient");
-		this.database = mongoClient.getDatabase("patient");
-		this.collection = database.getCollection("checkin");
+//		Context context = new InitialContext();
+//		this.mongoClient =(MongoClient) context.lookup("java:comp/env/mongodb/MyMongoClient");
+//		this.database = mongoClient.getDatabase("patient");
+//		this.collection = database.getCollection("checkin");
 		
 	}
-	
+		
 	//新增一筆資料
 	public int insertOne(Patient patient) {
         Document doc1 = new Document("patientIdcard", patient.getPatientIdcard()).append("bookingNumber", patient.getBookingNumber()).append("doctorId", patient.getBookingNumber());
