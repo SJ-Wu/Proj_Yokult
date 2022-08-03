@@ -7,15 +7,12 @@
 	"item": [
 		{
 			"name": "Booking",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{   \r\n    \"patientIdcard\":\"F123555667\",\r\n    \"bookingDate\":\"2022-07-20\",\r\n    \"amPm\": \"早\",\r\n    \"doctorId\":\"2\"\r\n}",
+					"raw": "{   \"memID\":\"TGA001\",\r\n    \"patientIdcard\":\"F123555667\",\r\n    \"bookingDate\":\"2022-07-31\",\r\n    \"amPm\": \"早\",\r\n    \"doctorId\":\"1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -23,7 +20,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/bookingQuery?memID=TGA003",
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/receiveBookingRequest",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -34,13 +31,7 @@
 						"api",
 						"0.01",
 						"booking",
-						"bookingQuery"
-					],
-					"query": [
-						{
-							"key": "memID",
-							"value": "TGA003"
-						}
+						"receiveBookingRequest"
 					]
 				}
 			},
@@ -263,6 +254,45 @@
 						"0.01",
 						"booking",
 						"chartQuery"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "NowNum",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \r\n    \"doctorId\":\"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Proj_Yokult/api/0.01/booking/nowNum",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Proj_Yokult",
+						"api",
+						"0.01",
+						"booking",
+						"nowNum"
+					],
+					"query": [
+						{
+							"key": "memID",
+							"value": "TGA003",
+							"disabled": true
+						}
 					]
 				}
 			},

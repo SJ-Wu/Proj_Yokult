@@ -41,7 +41,7 @@ public class DoctorDAOImpl implements DoctorDAO {
 	//select *
 	@Override
 	public Doctor selectOne(Doctor doctor) {
-		String sql = "SELECT DOCTOR_ALPHABET, DOCTOR_ID,  DOCTOR_NAME, DOCTOR_PHOTO, DOCTOR_CERTIFICATE, DOCTOR_EMAIL ,DOCTOR_PASSWARD FROM DOCTOR WHERE DOCTOR_ID = ? ;";
+		String sql = "SELECT DOCTOR_ALPHABET, DOCTOR_ID,  DOCTOR_NAME, DOCTOR_PHOTO, DOCTOR_CERTIFICATE, DOCTOR_EMAIL ,DOCTOR_PASSWORD FROM DOCTOR WHERE DOCTOR_ID = ? ;";
 		try ( Connection connection =  dataSource.getConnection();){
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, doctor.getDoctorId());
