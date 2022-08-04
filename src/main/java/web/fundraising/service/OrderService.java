@@ -6,7 +6,6 @@ import org.hibernate.Session;
 
 import web.fundraising.dao.OrderDAO;
 import web.fundraising.dao.OrderDAOhibernateHQL;
-import web.fundraising.dao.OrderDAOjdbc;
 import web.fundraising.vo.OrderBean;
 
 public class OrderService {

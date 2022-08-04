@@ -11,8 +11,8 @@ import web.fundraising.vo.PostBean;
 public class PostService {
 	PostDAO PostDAO;
 	
-	public PostService() {
-		this.PostDAO = new PostDAOhibernateHQL();
+	public PostService(Session session) {
+		this.PostDAO = new PostDAOhibernateHQL(session);
 	}
 	
 	public PostBean insertBean(PostBean postBean) {

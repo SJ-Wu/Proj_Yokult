@@ -11,9 +11,9 @@ public class PostDAOhibernateHQL implements PostDAO {
 	
 	private Session session;
 	
-//	public PostDAOhibernateHQL(Session session) {
-//		this.session = session;
-//	}
+	public PostDAOhibernateHQL(Session session) {
+		this.session = session;
+	}
 	
 	@Override
 	public PostBean insert(PostBean postBean) {
@@ -58,7 +58,7 @@ public class PostDAOhibernateHQL implements PostDAO {
 
 	@Override
 	public List<PostBean> selectAll() {
-		Query<PostBean> qurey = this.session.createQuery("from Fund_POST", PostBean.class);
+		Query<PostBean> qurey = this.session.createQuery("from PostBean", PostBean.class);
 		List<PostBean> result = qurey.list();
 		return result;
 	}

@@ -2,15 +2,17 @@ package web.fundraising.service;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import web.fundraising.dao.CategoryDAO;
-import web.fundraising.dao.CategoryDAOjdbc;
+import web.fundraising.dao.CategoryDAOhibernateHQL;
 import web.fundraising.vo.CategoryBean;
 
 public class CategoryService {
 	CategoryDAO categoryDAO;
 	
-	public CategoryService() {
-		this.categoryDAO = new CategoryDAOjdbc();
+	public CategoryService(Session session) {
+		this.categoryDAO = new CategoryDAOhibernateHQL(session);
 	}
 	
 	public CategoryBean insertBean(CategoryBean categoryBean) {

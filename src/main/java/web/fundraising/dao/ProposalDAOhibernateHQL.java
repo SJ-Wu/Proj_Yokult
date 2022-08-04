@@ -58,7 +58,7 @@ public class ProposalDAOhibernateHQL implements ProposalDAO {
 
 	@Override
 	public List<ProposalBean> selectAll() {
-		Query<ProposalBean> qurey = this.session.createQuery("from Fund_PROPOSAL", ProposalBean.class);
+		Query<ProposalBean> qurey = this.session.createQuery("from ProposalBean", ProposalBean.class);
 		List<ProposalBean> result = qurey.list();
 		return result;
 	}

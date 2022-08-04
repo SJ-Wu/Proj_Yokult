@@ -37,7 +37,7 @@
 <body>
     <!--注意順序-->
     <!--用javascript引入header-->
-    <div class="header">header</div>
+    <!-- <div class="header">header</div> -->
 
     <!-- Full Screen Search Start -->
     <div class="modal fade" id="searchModal" tabindex="-1">
@@ -110,17 +110,17 @@
     <!-- Team Start -->
     <div class="container-fluid py-5">
         <div class="container">
-            <div class="row g-5">
-                <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
+            <div id="MainArea" class="row g-5">
+
+                <!-- <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
                     <div class="team-item">
                         <div class="position-relative rounded-top" style="z-index: 1;">
                             <a href="propsal-page1.html">
-                                <img class="img-fluid rounded-top w-100" src="img/donate-01.VolunteerTeam.jpg" alt="">
+                                <img class="img-fluid rounded-top w-100" src="img/fundraising/donate-01.VolunteerTeam.jpg" alt="">
                             </a>
                             <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
                                 <a class="btn btn-primary btn-square m-1" href="javascript:void(0);">
                                     <i class="fa-regular fa-heart"></i>
-                                    <!-- <i class="fa-thin fa-heart"></i> -->
                                 </a>
                             </div>
                         </div>
@@ -145,7 +145,7 @@
                 <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
                     <div class="team-item">
                         <div class="position-relative rounded-top" style="z-index: 1;">
-                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/donate-02.SmileCurve.jpg" alt=""></a>
+                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/fundraising/donate-02.SmileCurve.jpg" alt=""></a>
                             <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
                                 <a class="btn btn-primary btn-square m-1"  href="javascript:void(0);">
                                     <i class="fa-regular fa-heart"></i>
@@ -171,7 +171,7 @@
                 <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
                     <div class="team-item">
                         <div class="position-relative rounded-top" style="z-index: 1;">
-                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/donate-03.BambooToothBrush.jpg" alt=""></a>
+                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/fundraising/donate-03.BambooToothBrush.jpg" alt=""></a>
                             <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
                                 <a class="btn btn-primary btn-square m-1"  href="javascript:void(0);">
                                     <i class="fa-regular fa-heart"></i>
@@ -197,7 +197,7 @@
                 <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
                     <div class="team-item">
                         <div class="position-relative rounded-top" style="z-index: 1;">
-                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/donate-04.AutometicSqueezeToothpaste.jpg" alt=""></a>
+                            <a href="#"><img class="img-fluid rounded-top w-100" src="img/fundraising/donate-04.AutometicSqueezeToothpaste.jpg" alt=""></a>
                             <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
                                 <a class="btn btn-primary btn-square m-1"  href="javascript:void(0);">
                                     <i class="fa-regular fa-heart"></i>
@@ -218,7 +218,7 @@
                             <p style="margin: 0; font-size: small; display: inline; float:right;">已結束</p>
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>
@@ -244,7 +244,7 @@
 
     <!--注意順序-->
     <!--用javascript引入footer-->
-    <div class="fotter">fotter</div>
+    <!-- <div class="fotter">fotter</div> -->
 
 
     <!-- Back to Top -->
@@ -290,34 +290,161 @@
         })       
     </script>
 
-    <!-- <script>
-        $("#category").change(function(){
-            let selected = $(this).children('option:Fundraising').val();
-            if(selected == "Fundrasing"){
-                $("div.container div div").prepend(`
-                    <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
-                        <div class="team-item">
-                            <div class="position-relative rounded-top" style="z-index: 1;">
-                                <img class="img-fluid rounded-top w-100" src="img/donate-01.VolunteerTeam.jpg" alt="">
-                                <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
-                                    <a class="btn btn-primary btn-square m-1" href="#"><i class="fa-solid fa-heart"></i></a>
-                                    <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                                    <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                                    <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                                    <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
-                                </div>
-                            </div>
-                            <div class="team-text position-relative bg-light text-left rounded-bottom p-4 pt-5">
-                                <h4 class="mb-2 h5">偏鄉牙醫志工團｜為偏鄉學童巡迴牙齒健檢</h4>
-                                <p class="text-primary mb-0">社團法人中華民國牙醫師公會全國聯合會</p>
+    <!-- <div class="container-fluid py-5">
+        <div class="container">
+            <div class="row g-5">
+
+                <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
+                    <div class="team-item">
+                        <div class="position-relative rounded-top" style="z-index: 1;">
+                            <a href="propsal-page1.html">
+                                <img class="img-fluid rounded-top w-100" src="img/fundraising/donate-01.VolunteerTeam.jpg" alt="">
+                            </a>
+                            <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
+                                <a class="btn btn-primary btn-square m-1" href="javascript:void(0);">
+                                    <i class="fa-regular fa-heart"></i>
+                                </a>
                             </div>
                         </div>
+                        <div class="team-text position-relative bg-light text-left rounded-bottom p-4">
+                            <p style="margin: 0;">已達標</p>
+                            <p class="text-primary mb-0" style="font-size: small;">社團法人中華民國牙醫師公會全國聯合會</p>
+                            <a href="propsal-page1.html">
+                                <h4 class="mb-2 h5">偏鄉牙醫志工團｜為偏鄉學童巡迴牙齒健檢</h4>
+                            </a>
+                            <div style="margin-top: 15px; height: 4px; background-color: gray;">
+                                <div style="height: 4px; width: 100%; background: lightcoral"></div>
+                            </div>
+
+                            <p style="margin: 0; font-size: small; display: inline;">$ 100,000,000</p>
+                            <div style="display: inline;"> | </div>
+                            <p style="margin: 0; font-size: small; display: inline;">330%</p>
+                            <p style="margin: 0; font-size: small; display: inline; float:right;">已結束</p>
+                        </div>
                     </div>
-                `)
-            }
+                </div> -->
+    <script>
+        $(document).ready(() => {
+            //生成json
+			var json = [];
+            var j = {};
+			j.table = "Proposal";
+			j.action = "GetAll";
+			json.push(j);
+			var jsondata = JSON.stringify(json);
+
+            $.ajax({
+                url: "http://localhost:8080/Proj_Yokult/fundraising", // 資料請求的網址
+                type: "POST", // GET | POST | PUT | DELETE | PATCH
+                data: JSON.stringify(jsondata), // 將物件資料(不用雙引號) 傳送到指定的 url
+                dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html
+                processData: false,
+                contentType: false,
+                timeout: 0, // request 可等待的毫秒數 | 0 代表不設定 timeout
+                beforeSend: function () {;
+                    // 在 request 發送之前執行
+                },
+                headers: {
+                    // request 如果有表頭資料想要設定的話
+                    // "X-CSRF-Token":"abcde"   // 參考寫法
+                },
+                statusCode: {
+                    // 狀態碼
+                    200: function (res) {},
+                    404: function (res) {},
+                    500: function (res) {},
+                },
+                success: function (data) {
+                    console.log(data);
+                    // request 成功取得回應後執行
+                    console.log("Success");
+
+                //     let list = [0,1,2];
+                //     list.forEach(e => {
+                //         let proposalPage = "propsal-page1.html";
+                //         let mainPicture = "img/fundraising/donate-01.VolunteerTeam.jpg";
+                //         let amountGoal = 100000;
+                //         let amountNow = 101000;
+                //         let amountPercent = Math.round((amountNow / amountGoal)*100); 
+                //         let showBarPercent;
+                //         if(amountNow / amountGoal >= 1){
+                //             showBarPercent = 100;
+                //         }else{
+                //             showBarPercent = Math.round((amountNow / amountGoal)*100);
+                //         }
+                //         let status = "";
+                //         let host = "社團法人中華民國牙醫師公會全國聯合會";
+                //         let name = "偏鄉牙醫志工團｜為偏鄉學童巡迴牙齒健檢";
+                //         if(amountNow >= amountGoal){
+                //             status = "已達標";
+                //         }else{
+                //             status = "未達標";
+                //         }
+                //         let now = 15;
+                //         let startTime = 10
+                //         let endTime = 20;
+                //         let showStatusText = "";
+                //         if(now < startTime){
+                //             showStatusText = "尚未開始";
+                //         }else if(now <= endTime){
+                //             showStatusText = "募資中";
+                //         }else{
+                //             showStatusText = "已結束";
+                //         }
+
+                //         html = `
+                //             <div class="category-Fundrasing col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.1s" >
+                //                 <div class="team-item">
+                //                     <div class="position-relative rounded-top" style="z-index: 1;">
+                //                         <a href="${proposalPage}">
+                //                             <img class="img-fluid rounded-top w-100" src="${mainPicture}" alt="">
+                //                         </a>
+                //                         <div class="position-absolute top-100 start-50 translate-middle bg-light rounded p-2 d-flex">
+                //                             <a class="btn btn-primary btn-square m-1" href="javascript:void(0);">
+                //                                 <i class="fa-regular fa-heart"></i>
+                //                                 <!-- <i class="fa-thin fa-heart"></i> -->
+                //                             </a>
+                //                         </div>
+                //                     </div>
+                //                     <div class="team-text position-relative bg-light text-left rounded-bottom p-4">
+                //                         <p style="margin: 0;">${status}</p>
+                //                         <p class="text-primary mb-0" style="font-size: small;">${host}</p>
+                //                         <a href="${proposalPage}">
+                //                             <h4 class="mb-2 h5">${name}</h4>
+                //                         </a>
+                //                         <div style="margin-top: 15px; height: 4px; background-color: gray;">
+                //                             <div style="height: 4px; width: ${showBarPercent}%; background: lightcoral"></div>
+                //                         </div>
+
+                //                         <p style="margin: 0; font-size: small; display: inline;">$ ${amountNow}</p>
+                //                         <div style="display: inline;"> | </div>
+                //                         <p style="margin: 0; font-size: small; display: inline;">${amountPercent}%</p>
+                //                         <p style="margin: 0; font-size: small; display: inline; float:right;">${showStatusText}</p>
+                //                     </div>
+                //                 </div>
+                //             </div>
+                //         `
+
+                //         // alert("ready");
+                //         $("#MainArea").append(html)
+                //     });
+                },
+                error: function (a,b,c) {
+                    console.log(a.responseText);
+                    console.log(b);
+                    console.log(c);
+                    // request 發生錯誤的話執行
+                    console.log("Error");
+                },
+                complete: function (xhr) {
+                    // request 完成之後執行(在 success / error 事件之後執行)
+                    console.log("Complete");
+                },
+            });
+
             
         })
-    </script> -->
+    </script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

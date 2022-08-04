@@ -550,7 +550,8 @@
     <script>
       $("#sendOut").on("click", () => {
         const formData = new FormData($("#newProposal")[0]);
-        formData.append("action","newProposal");
+        formData.append("table","Proposal");
+        formData.append("action","Insert");
 
         $.ajax({
           url: "http://localhost:8080/Proj_Yokult/fundraising", // 資料請求的網址

@@ -1,7 +1,7 @@
 package web.fundraising.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +22,8 @@ public class PlanBean implements Serializable {
 	private Integer planAmount;
 	private String planContent;
 	private String planPostNote;
-	private Date planStartedDateTime;
-	private Date planEndedDateTime;
+	private Timestamp planStartedDateTime;
+	private Timestamp planEndedDateTime;
 	private String statusID;
 	private Integer	proposalID;
 //	private String planAttendeeCount;
@@ -31,7 +31,7 @@ public class PlanBean implements Serializable {
 	public PlanBean() {}
 
 	public PlanBean(Integer planID, String planName, Integer planAmount, String planContent, String planPostNote,
-			Date planStartedDateTime, Date planEndedDateTime, String statusID, Integer proposalID) {
+			Timestamp planStartedDateTime, Timestamp planEndedDateTime, String statusID, Integer proposalID) {
 		super();
 		this.planID = planID;
 		this.planName = planName;
@@ -45,7 +45,7 @@ public class PlanBean implements Serializable {
 	}
 	
 	public PlanBean(String planName, Integer planAmount, String planContent, String planPostNote,
-			Date planStartedDateTime, Date planEndedDateTime, String statusID, Integer proposalID) {
+			Timestamp planStartedDateTime, Timestamp planEndedDateTime, String statusID, Integer proposalID) {
 		super();
 		this.planName = planName;
 		this.planAmount = planAmount;
@@ -93,16 +93,16 @@ public class PlanBean implements Serializable {
 	public void setPlanPostNote(String planPostNote) {
 		this.planPostNote = planPostNote;
 	}
-	public Date getPlanStartedDate() {
+	public Timestamp getPlanStartedDate() {
 		return planStartedDateTime;
 	}
-	public void setPlanStartedDate(Date planStartedDateTime) {
+	public void setPlanStartedDate(Timestamp planStartedDateTime) {
 		this.planStartedDateTime = planStartedDateTime;
 	}
-	public Date getPlanEndedDate() {
+	public Timestamp getPlanEndedDate() {
 		return planEndedDateTime;
 	}
-	public void setPlanEndedDate(Date planEndedDateTime) {
+	public void setPlanEndedDate(Timestamp planEndedDateTime) {
 		this.planEndedDateTime = planEndedDateTime;
 	}
 	public String getStatusID() {

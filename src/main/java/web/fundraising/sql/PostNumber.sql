@@ -5,13 +5,13 @@ use YOKULT;
 -- 建立郵遞區號table
 
 CREATE TABLE IF NOT EXISTS `Fund_POSTNUMBER` (
-  `postID` bigint(20) NOT NULL auto_increment,
+  `post_SID` integer NOT NULL auto_increment,
   `postCity` varchar(10) NOT NULL default '',
   `postArea` varchar(10) NOT NULL default '',
   `postNumber` char(3) NOT NULL default '',
-  PRIMARY KEY  (`postID`),
+  PRIMARY KEY  (`post_SID`),
   KEY `City` (`postCity`,`postArea`,`postNumber`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+)  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 -- 存入以下資料庫的數據

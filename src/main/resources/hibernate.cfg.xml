@@ -12,8 +12,12 @@
 		<property name="hibernate.show_sql">false</property>
 		
 		<mapping class="web.member.vo.Member" />
-
+		<mapping class="web.fundraising.vo.CategoryBean"/>
+		<mapping class="web.fundraising.vo.OrderBean"/>
+		<mapping class="web.fundraising.vo.PlanBean"/>
+		<mapping class="web.fundraising.vo.PostBean" />
 		<mapping class="web.fundraising.vo.ProposalBean" />
+		<mapping class="web.fundraising.vo.StatusBean"/>
 		
 	</session-factory>
 </hibernate-configuration>

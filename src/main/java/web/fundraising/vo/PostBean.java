@@ -17,8 +17,7 @@ public class PostBean implements Serializable {
 	private String postFisrtName;
 	private String postLastName;
 	private String postCellphone;
-	private String cityName;
-	private String districtName;
+	private Integer post_SID;
 	private String postAddress;
 	private String memID;
 	
@@ -27,20 +26,19 @@ public class PostBean implements Serializable {
 	@Override
 	public String toString() {
 		return "PostBean [postID=" + postID + ", postFisrtName=" + postFisrtName + ", postLastName=" + postLastName
-				+ ", postCellphone=" + postCellphone + ", cityName=" + cityName + ", districtName=" + districtName
+				+ ", postCellphone=" + postCellphone + ", post_SID=" + post_SID
 				+ ", postAddress=" + postAddress + ", memID=" + memID + "]";
 	}
 
 	public PostBean() {}
 	
 	public PostBean(String postFisrtName, String postLastName, String postCellphone,
-			String cityName, String districtName, String postAddress, String memID) {
+			Integer post_SID, String postAddress, String memID) {
 		super();
 		this.postFisrtName = postFisrtName;
 		this.postLastName = postLastName;
 		this.postCellphone = postCellphone;
-		this.cityName = cityName;
-		this.districtName = districtName;
+		this.post_SID = post_SID;
 		this.postAddress = postAddress;
 		this.memID = memID;
 	}
@@ -66,17 +64,11 @@ public class PostBean implements Serializable {
 	public void setPostCellphone(String postCellphone) {
 		this.postCellphone = postCellphone;
 	}
-	public String getCityName() {
-		return cityName;
+	public Integer getPost_SID() {
+		return post_SID;
 	}
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
-	public String getDistrictName() {
-		return districtName;
-	}
-	public void setDistrictName(String districtName) {
-		this.districtName = districtName;
+	public void setPost_SID(Integer post_SID) {
+		this.post_SID = post_SID;
 	}
 	public String getPostAddress() {
 		return postAddress;

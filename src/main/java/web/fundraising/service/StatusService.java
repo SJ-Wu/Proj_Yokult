@@ -2,15 +2,17 @@ package web.fundraising.service;
 
 import java.util.List;
 
+import org.hibernate.Session;
+
 import web.fundraising.dao.StatusDAO;
-import web.fundraising.dao.StatusDAOjdbc;
+import web.fundraising.dao.StatusDAOhibernateHQL;
 import web.fundraising.vo.StatusBean;
 
 public class StatusService {
 	StatusDAO statusDAO;
 	
-	public StatusService() {
-		this.statusDAO = new StatusDAOjdbc();
+	public StatusService(Session session) {
+		this.statusDAO = new StatusDAOhibernateHQL(session);
 	}
 	
 	public StatusBean insertBean(StatusBean statusBean) {
