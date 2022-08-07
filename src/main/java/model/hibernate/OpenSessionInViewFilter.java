@@ -22,8 +22,10 @@ public class OpenSessionInViewFilter implements Filter {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
+			System.out.println("[filter]beginTransaction");
 			chain.doFilter(request, response); 	//呼叫後端Servlet
 			transaction.commit();
+			System.out.println("[filter]commit");
 		} catch (Exception e) {
 			transaction.rollback();
 			chain.doFilter(request, response);

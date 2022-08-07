@@ -186,18 +186,14 @@ public class DoctorServlet extends HttpServlet {
 	
 	//回傳index_doctor_chart.html 的 病患身分證字號
 	private JsonObject getDrPatientIdcard(Gson gson, HttpServletRequest request) {
-		DoctorServiceImpl doctorServiceIImpl = null;
-		try {
-			doctorServiceIImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
-		} catch (NamingException e1) {
-			e1.printStackTrace();
-		}
-//		Doctor doctor = gson.fromJson(br, Doctor.class);
 		Doctor doctor = new Doctor();
 		doctor.setDoctorId(Integer.valueOf(request.getParameter("doctorId")));
+//		Doctor doctor = gson.fromJson(br, Doctor.class);
 //		System.out.println(doctor);
 		JsonObject jsonObject = new JsonObject();
 		try {
+			DoctorServiceImpl doctorServiceIImpl = null;
+			doctorServiceIImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
 			Set<String> set = doctorServiceIImpl.returnDrPatientIdcard(doctor);
 			if(set == null) {
 				jsonObject.addProperty("msg", "get no Patients booked");
