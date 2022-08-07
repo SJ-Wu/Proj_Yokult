@@ -9,6 +9,7 @@ import java.sql.Date;
 import java.util.Base64;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.naming.NamingException;
 import javax.servlet.ServletException;
@@ -119,7 +120,12 @@ public class DoctorServlet extends HttpServlet {
 	
 //		/api/0.01/doctor/saveDrSchedule
 		if ("updateDrSchedule".equals(infos[1])) {
-			out.append(gson.toJson(updateDrSchedule(gson, br)));
+			
+			DoctorConvert doctorConvert = gson.fromJson(br, DoctorConvert.class);
+			System.out.println("[Test] get doctor convert");
+			List<DoctorSchedule> list = doctorConvert.getListOfDoctorSchedule();
+			
+			out.append(gson.toJson(updateDrSchedule(list)));
 			br.close();
 			out.close();
 			return;
@@ -334,15 +340,18 @@ public class DoctorServlet extends HttpServlet {
 		return jsonObject;
 	}
 	
-	private JsonObject updateDrSchedule(Gson gson, Reader br) {
-		DoctorServiceImpl doctorServiceImpl = null;
+	private JsonObject updateDrSchedule( List list) {
+		// 不要把gson放 HibernateUtil.getSessionFactory() 後面，會讀不到2???
+//		DoctorConvert doctorConvert = gson.fromJson(br, DoctorConvert.class);
+//		List<DoctorSchedule> list = doctorConvert.getListOfDoctorSchedule();
+		int result = -1;
 		try {
+			DoctorServiceImpl doctorServiceImpl = null;
 			doctorServiceImpl = new DoctorServiceImpl(HibernateUtil.getSessionFactory());
+			result = doctorServiceImpl.saveDrSchedule(list);
 		} catch (NamingException e) {
 			e.printStackTrace();
 		}
-		DoctorConvert doctorConvert = gson.fromJson(br, DoctorConvert.class);
-		int result = doctorServiceImpl.saveDrSchedule(doctorConvert.getListOfDoctorSchedule());
 		JsonObject jsonObject = new JsonObject();
 		if(result > 0) {
 			jsonObject.addProperty("msg", "save DrSchedule success");
