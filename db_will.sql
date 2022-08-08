@@ -197,3 +197,7 @@ values
 (28, '370', '9', '22072900010'),
 (29, '200', '2', '22072900010'),
 (30, '130', '3', '22072900010');
+
+
+create view v_admin_orderlist (ordid, orderlistid, proname, quantity) 
+as select ordid, orderlistid, proname, quantity from orderlist o join product p where o.proid = p.proid;

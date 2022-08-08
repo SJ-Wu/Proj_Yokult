@@ -1,8 +1,12 @@
 package web.order.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.lang.reflect.Type;
 import java.util.List;
 
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
 import web.order.service.OrderService;
 import web.order.service.OrderServiceImpl;
@@ -32,6 +37,7 @@ public class OrderServlet extends HttpServlet {
 		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);
 		JsonObject respObject = new JsonObject();
+		//回傳全部訂單
 		try {
 			OrderService service = new OrderServiceImpl();
 			List<Order> orders = service.searchOrders();
@@ -43,6 +49,64 @@ public class OrderServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("UTF-8");
+		pathInfo = request.getPathInfo();
+		infos = pathInfo.split("/");
+		//開啟跨網域，html才能接收到servlet傳出的東西
+		setHeaders(response);
+		BufferedReader br = request.getReader();
+		PrintWriter out = response.getWriter();
+
+//依據訂單編號回傳一筆訂單 /api/0.01/order/selectOrderid
+		if ("selectOrderid".equals(infos[1])) {
+			Order order = gson.fromJson(br, Order.class);
+			JsonObject jsonObject = new JsonObject();
+			try {
+				OrderService orderService = new OrderServiceImpl();
+				Order vo = orderService.selectOrderid(order.getOrdid());
+				if (vo == null) {
+					jsonObject.addProperty("msg", "no this order");
+				} else {
+					jsonObject.addProperty("msg", "success");
+					jsonObject.add("order", gson.toJsonTree(vo));
+				}
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+			out.append(gson.toJson(jsonObject));
+			br.close();
+			out.close();
+			
+			return;
+//依據類別回傳多筆訂單 /api/0.01/order/selectOrderStatus
+		} else if("selectOrderStatus".equals(infos[1])) {
+			Order order = gson.fromJson(br, Order.class);
+			JsonObject jsonObject = new JsonObject();
+			try {
+				OrderService orderService = new OrderServiceImpl();
+				List<Order> list = orderService.selectOrderStatus(order.getOrderstatus());
+				if (list == null) {
+					jsonObject.addProperty("msg", "no this order");
+				} else {
+					jsonObject.addProperty("msg", "success");
+					jsonObject.add("order", gson.toJsonTree(list, new TypeToken<List<Order>>() {}.getType())); //google
+				}
+			} catch (NamingException e) {
+				e.printStackTrace();
+			}
+			out.append(gson.toJson(jsonObject));
+			br.close();
+			out.close();
+			
+			return;
+			
+			
+			
+		}
 	}
 
 

@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import web.orderlist.service.OrderlistService;
 import web.orderlist.service.impl.OrderlistServiceImpl;
 import web.orderlist.vo.Orderlist;
+import web.orderlist.vo.OrderlistView;
 
 /**
  * Servlet implementation class OrderlistServlet
@@ -65,14 +66,17 @@ public class OrderlistServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		setHeaders(response);
 		JsonObject respObject = new JsonObject();
+		
+		String ordId = request.getParameter("ordId");
+		System.out.println("id=="+ordId);
 		try {
 			service = new OrderlistServiceImpl();
 			pathInfo = request.getPathInfo();
 			infos = pathInfo.split("/");
-			Orderlist orderlist = new Orderlist();
-			orderlist.setOrdid(infos[1]); //order id
-			List<Orderlist> returnLists = new ArrayList<Orderlist>();
-			returnLists = service.searchOrderlistByOrdid(orderlist.getOrdid());
+			OrderlistView orderlistView = new OrderlistView();
+			orderlistView.setOrdid(ordId); //order id
+			List<OrderlistView> returnLists = new ArrayList<OrderlistView>();
+			returnLists = service.searchOrderlistViewByOrdid(orderlistView.getOrdid());
 			if (returnLists.size() > 0) {
 				respObject.addProperty("msg", "success");
 				respObject.add("Orderlists", gson.toJsonTree(returnLists));
@@ -87,7 +91,7 @@ public class OrderlistServlet extends HttpServlet {
 	}
 
 
-	// TODO: 刪除
+	// 刪除
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setCharacterEncoding("UTF-8");
@@ -114,7 +118,7 @@ public class OrderlistServlet extends HttpServlet {
 		}
 	}
 	
-	//TODO: 修改
+	// 修改
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("UTF-8");
 		setHeaders(resp);

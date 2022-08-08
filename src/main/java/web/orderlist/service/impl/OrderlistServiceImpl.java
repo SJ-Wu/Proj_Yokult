@@ -9,6 +9,7 @@ import web.orderlist.dao.OrderlistDao;
 import web.orderlist.dao.impl.OrderlistDaoJDBC;
 import web.orderlist.service.OrderlistService;
 import web.orderlist.vo.Orderlist;
+import web.orderlist.vo.OrderlistView;
 
 public class OrderlistServiceImpl implements OrderlistService {
 	private OrderlistDao orderlistDao; // 把 dao 變成一個屬性
@@ -81,6 +82,16 @@ public class OrderlistServiceImpl implements OrderlistService {
 		}
 		return -1;
 
+	}
+
+	@Override
+	public List<OrderlistView> searchOrderlistViewByOrdid(String orderID) {
+		if (checkValue(orderID)) {
+			OrderlistView orderlistView = new OrderlistView();
+			orderlistView.setOrdid(orderID);
+			return orderlistDao.searchOrderlistView(orderlistView);
+		}
+		return null;
 	}
 
 }

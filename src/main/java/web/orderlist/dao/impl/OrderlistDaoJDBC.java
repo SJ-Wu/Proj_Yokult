@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 
 import web.orderlist.dao.OrderlistDao;
 import web.orderlist.vo.Orderlist;
+import web.orderlist.vo.OrderlistView;
 
 public class OrderlistDaoJDBC implements OrderlistDao {
 	private DataSource dataSource;
@@ -76,6 +77,31 @@ public class OrderlistDaoJDBC implements OrderlistDao {
 	@Override
 	public Integer modifyOrderlist(Orderlist orderlist) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	final String SELECT_VIEW = "SELECT * FROM v_admin_orderlist where ordid = ?;";
+	@Override
+	public List<OrderlistView> searchOrderlistView(OrderlistView orderlist) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement pstmt = conn.prepareStatement(SELECT_VIEW);) {
+			pstmt.setString(1, orderlist.getOrdid());
+			try (ResultSet rs = pstmt.executeQuery()) {
+				List<OrderlistView> orderlists = new ArrayList<OrderlistView>();
+				System.out.println("[OrderlistView] Selected by orderid:" + orderlist.getOrdid());
+				while (rs.next()) {
+					OrderlistView resultOrderlist = new OrderlistView();
+					resultOrderlist.setOrderlistid(rs.getInt("orderlistid"));
+					resultOrderlist.setQuantity(rs.getInt("quantity"));
+					resultOrderlist.setOrdid(rs.getString("ordid"));
+					resultOrderlist.setProName(rs.getString("proname"));
+					orderlists.add(resultOrderlist);
+				}
+				return orderlists;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("[OrderlistView] Selected by orderid: " + orderlist.getOrdid() + " fail.");
 		return null;
 	}
 
