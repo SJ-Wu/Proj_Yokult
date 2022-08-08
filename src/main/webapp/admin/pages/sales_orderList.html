@@ -309,6 +309,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										<th>商品ID</th>
 										<th>商品名稱</th>
 										<th>商品數量</th>
+										<th>價格</th>
 									</tr>
 								</thead>
 							</table>
@@ -366,11 +367,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									</button>
 									<button style="margin-left: 350px;" class="searchStatus btn btn-primary" data-table="order-table">依類別搜尋
 									</button>
-									<button  class="btn btn-default float-right">
+									<button  onclick="reset()" class="btn btn-default float-right" >
 										重置</button>
 								</div>
 							</div>
-							<!-- /.card -->
 						</div>
 
 						<!-- <div class="content">
@@ -488,7 +488,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									
 								</tbody>
 							</table>
-							<script>
+							<!-- <script>
             const orderData = document.querySelector("#data");
             const selOrder = document.querySelector("#order");
             const yaApi = {
@@ -543,7 +543,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     });
             }
             window.addEventListener("load", init(yaApi.all));
-        </script>
+        </script> -->
 						</div>
 						<!-- /.card-body -->
 					</div>

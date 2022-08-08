@@ -2,7 +2,43 @@ var product = []; //var是函式作用域
 window.onload = function () {
     //function(函數)將大程式分成許多個小的，方便管理及偵錯，減少重複
     //getProducts(null, null); //get攝取值
-    getOrderlist();
+
+    $(document).on("click", "button.check", function () {
+        let orderid = $(this).closest("tr").find("td").eq(0).text();
+        console.log(orderid);
+        getOrderlist(orderid);
+        // $.ajax({
+        //     url: "http://localhost:8080/Proj_Yokult/api/0.01/order/selectOrderid", // 資料請求的網址
+        //     type: "GET", // GET | POST | PUT | DELETE | PATCH
+        //     data: { ordId: orderid },
+        //     dataType: "json", // 預期會接收到回傳資料的格式： json | xml | html
+        //     success: function (data) {
+        //         // console.log(data);
+        //         if (data.msg == "success") {
+        //             $("tbody.abc").html("");
+        //             //清空原資料後開始迴圈
+
+        //             $("tbody.abc").append(`<tr>
+        //               <td>${data.order.ordid}</td>
+        //               <td>${data.order.memid}</td>
+        //               <td>${data.order.paymethod}</td>
+        //               <td>${data.order.orderstatus}</td>
+        //               <td>${data.order.addr}</td>
+        //               <td>${data.order.receipter}</td>
+
+        //               <td>${data.order.shoptime}</td>
+        //               <td>${data.order.cellphone}</td>
+        //               <td>${data.order.phone}</td>
+        //               <td>
+        //                   <button class="check btn-xs btn-light" data-toggle="modal"
+        //                       data-target="#editProduct">
+        //                       查看詳情</button>
+        //               </td>
+        //           </tr>`);
+        //         }
+        //     },
+        // });
+    });
 
     init();
     $("button.search").on("click", function () {
@@ -18,7 +54,7 @@ window.onload = function () {
             }),
             dataType: "json", // 預期會接收到回傳資料的格式： json | xml | html
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data.msg == "success") {
                     $("tbody.abc").html("");
                     //清空原資料後開始迴圈
@@ -35,7 +71,7 @@ window.onload = function () {
                       <td>${data.order.cellphone}</td>
                       <td>${data.order.phone}</td>
                       <td>
-                          <button class="btn-xs btn-light" data-toggle="modal"
+                          <button class="check btn-xs btn-light" data-toggle="modal"
                               data-target="#editProduct">
                               查看詳情</button>
                       </td>
@@ -51,6 +87,7 @@ window.onload = function () {
         }
         let statusSend = null;
         let choice = $("select#category :selected").text();
+        console.log(choice);
 
         switch (choice) {
             case "待付款":
@@ -72,6 +109,21 @@ window.onload = function () {
                 statusSend = "return";
                 break;
         }
+        const orderstatusMap = {
+            //Map=映射，訂單狀態從英文狀態
+            arrearage: "待付款",
+            processing: "處理中",
+            delivery: "配送中",
+            complete: "完成訂單",
+            cancel: "取消訂單",
+            return: "退貨/退款",
+        };
+        const paymethodMap = {
+            //Map=映射，付款方式英文狀態
+            cash: "現金",
+            creditcard: "信用卡",
+            payment: "電子支付",
+        };
         console.log(statusSend);
         $.ajax({
             url: "http://localhost:8080/Proj_Yokult/api/0.01/order/selectOrderStatus", // 資料請求的網址
@@ -81,16 +133,18 @@ window.onload = function () {
             }),
             dataType: "json", // 預期會接收到回傳資料的格式： json | xml | html
             success: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data.msg == "success") {
+                    // console.log(data);
+
                     $("tbody.abc").html("");
                     //清空原資料後開始迴圈
                     $.each(data.order, function (i, item) {
                         $("tbody.abc").append(`<tr>
                       <td>${item.ordid}</td>
                       <td>${item.memid}</td>
-                      <td>${item.paymethod}</td>
-                      <td>${item.orderstatus}</td>
+                      <td>${paymethodMap[item.paymethod]}</td>
+                      <td>${orderstatusMap[item.orderstatus]}</td>
                       <td>${item.addr}</td>
                       <td>${item.receipter}</td>
                       
@@ -98,7 +152,7 @@ window.onload = function () {
                       <td>${item.cellphone}</td>
                       <td>${item.phone}</td>
                       <td>
-                          <button class="btn-xs btn-light" data-toggle="modal"
+                          <button class="check btn-xs btn-light" data-toggle="modal"
                               data-target="#editProduct">
                               查看詳情</button>
                       </td>
@@ -118,7 +172,7 @@ function init() {
         // },
         dataType: "json", // 預期會接收到回傳資料的格式： json | xml | html
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.msg == "success") {
                 $("tbody.abc").html("");
                 //清空原資料後開始迴圈
@@ -135,7 +189,7 @@ function init() {
                   <td>${item.cellphone}</td>
                   <td>${item.phone}</td>
                   <td>
-                      <button class="btn-xs btn-light" data-toggle="modal"
+                      <button class="check btn-xs btn-light" data-toggle="modal"
                           data-target="#editProduct">
                           查看詳情</button>
                   </td>
@@ -161,7 +215,7 @@ function init() {
                           <option value="">退款中</option>
                           <option value="">退款成功</option>
                   </select>
-                      <button id="btn" class="btn-xs btn-light">鎖定</button> 
+                      <button id="btn" class=" btn-xs btn-light">鎖定</button> 
                       <script>
                                       document.querySelector(
                                           "#btn"
@@ -197,9 +251,7 @@ function getOrderlist(ordId) {
         redirect: "follow",
     };
 
-    let url = new URL(
-        "http://localhost:8080/Proj_Yokult/api/0.01/orderlist/?ordId=2207290004"
-    );
+    let url = new URL("http://localhost:8080/Proj_Yokult/api/0.01/orderlist/");
     if (ordId !== null && ordId !== "") {
         url.searchParams.append("ordId", ordId);
     }
@@ -210,7 +262,7 @@ function getOrderlist(ordId) {
             const rep = JSON.parse(text);
 
             orderlists = rep.Orderlists;
-            // console.log(orderlists);
+            console.log(orderlists);
             // removeAllProducts();
 
             addOrderlist(orderlists);
@@ -224,8 +276,17 @@ function getOrderlist(ordId) {
 
 function addOrderlist(orderlists) {
     console.log("AddOrderList");
+    $("#orderlist").empty().append(`<thead>
+    <tr>
+        <th>商品ID</th>
+        <th>商品名稱</th>
+        <th>商品數量</th>
+        
+    </tr>
+</thead>`);
     orderlists.forEach((orderlist, idx) => {
-        // console.log(orderlist);
+        console.log("run");
+        console.log(orderlist);
         let orderlistHtml = "";
         orderlistHtml = `
 		<tbody>
@@ -276,6 +337,5 @@ function saveProduct() {
     $("#proID").val();
     $("#proName").val();
     $("#proQuantity").val();
-
     $("#editProduct").modal("hide");
 }
