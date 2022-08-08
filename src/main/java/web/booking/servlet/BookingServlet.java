@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -56,6 +57,7 @@ public class BookingServlet extends HttpServlet {
 			return;
 		} else if("bookingQuery".equals(infos[1])) {
 //查詢某會員預約資訊/api/0.01/booking/bookingQuery
+
 			out.append(gson.toJson(bookingQuery(gson, request)));
 			br.close();
 			out.close();
@@ -244,11 +246,20 @@ public class BookingServlet extends HttpServlet {
 	
 	//查詢某會員預約資訊
 	private JsonObject bookingQuery(Gson gson, HttpServletRequest request) {
+		JsonObject jsonObject = new JsonObject();
+
+		String cpassword = (String)getServletContext().getAttribute("cpassword");
+		System.out.println("[bookginservlet getAttribute]" + cpassword);
+		
+		if(!cpassword.equals(request.getParameter("cinput"))) {
+			jsonObject.addProperty("msg", "incorrect captcha");
+			return jsonObject;
+		}
+		getServletContext().removeAttribute("cpasswordSessionId");
 		Patient patient = new Patient();
 		patient.setMemID(request.getParameter("memID"));
 //		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
-		JsonObject jsonObject = new JsonObject();
 		try {
 			BookingService bookingServiceImpl = new BookingServiceImpl();
 			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);
