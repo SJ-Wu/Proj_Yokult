@@ -242,11 +242,19 @@ public class BookingServlet extends HttpServlet {
 	
 	//查詢某會員預約資訊
 	private JsonObject bookingQuery(Gson gson, HttpServletRequest request) {
+		JsonObject jsonObject = new JsonObject();
+		String cpassword = (String)getServletContext().getAttribute("cpassword");
+		System.out.println("[bookginservlet getAttribute]" + cpassword);
+		
+		if(!cpassword.equals(request.getParameter("cinput"))) {
+			jsonObject.addProperty("msg", "incorrect captcha");
+			return jsonObject;
+		}	
+		
 		Patient patient = new Patient();
 		patient.setMemID(request.getParameter("memID"));
 //		Patient patient = gson.fromJson(br, Patient.class);
 		//patient傳給service service再查出預約日期
-		JsonObject jsonObject = new JsonObject();
 		try {
 			BookingService bookingServiceImpl = new BookingServiceImpl(HibernateUtil.getSessionFactory());
 			List<HashMap<String, Object>> list = bookingServiceImpl.getPatientBooking(patient);

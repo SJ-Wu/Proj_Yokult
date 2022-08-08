@@ -117,7 +117,8 @@ public class DoctorScheduleDAOImpl implements DoctorScheduleDAO {
 		query.setParameter("day", doctorSchedule.getDoctorScheduleDate());
 		query.setParameter("ampm", doctorSchedule.getDoctorAmpm());
 		Integer snum = query.uniqueResult();
-		if( snum > 0) {
+
+		if(snum != null) {
 			return snum;
 		}
 		
