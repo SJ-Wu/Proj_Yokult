@@ -1,0 +1,13 @@
+{
+    "msg": "success",
+    "member": {
+        "memID": "TGA002",
+        "memPassword": "123",
+        "memEmail": "testmail@gmail.com",
+        "memFirstName": "逸士",
+        "memLastName": "劉",
+        "memBirth": "1990-03-01",
+        "memCellPhone": "0910123456",
+        "memAddress": "台北商業大學"
+    }
+}

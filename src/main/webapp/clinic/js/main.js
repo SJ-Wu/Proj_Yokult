@@ -133,4 +133,5 @@
         // 取得欄位的值
         alert($("select[name='the_select']").val());
     });
+    // 顯示登出按鈕以及會員名稱
 })(jQuery);

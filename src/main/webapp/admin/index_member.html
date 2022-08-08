@@ -491,7 +491,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     </div>
                                     <!-- /.card-header -->
                                     <!-- form start -->
-                                    <form>
+                                    <form
+                                        id="memberSearch"
+                                        onsubmit="search();return false"
+                                    >
                                         <div class="card-body">
                                             <div class="row">
                                                 <div class="col-sm-12">
@@ -502,18 +505,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     >搜尋類別</label
                                                                 >
                                                                 <select
+                                                                    id="searchID"
+                                                                    name="searchID"
                                                                     class="form-control"
                                                                 >
-                                                                    <option>
+                                                                    <option
+                                                                        value="memName"
+                                                                    >
                                                                         會員姓名
                                                                     </option>
-                                                                    <option>
+                                                                    <option
+                                                                        value="memID"
+                                                                    >
                                                                         會員帳號
                                                                     </option>
-                                                                    <option>
+                                                                    <option
+                                                                        value="memAddress"
+                                                                    >
                                                                         電子信箱
                                                                     </option>
-                                                                    <option>
+                                                                    <option
+                                                                        value="memCellPhone"
+                                                                    >
                                                                         手機號碼
                                                                     </option>
                                                                 </select>
@@ -523,9 +536,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     >輸入欄位</label
                                                                 >
                                                                 <input
-                                                                    type="email"
+                                                                    type="text"
                                                                     class="form-control"
-                                                                    id="productNameInput"
+                                                                    id="searchValue"
+                                                                    name="searchValue"
                                                                 />
                                                             </div>
                                                         </div>
@@ -543,7 +557,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                 搜尋
                                             </button>
                                             <button
-                                                type="submit"
                                                 class="btn btn-default float-right"
                                             >
                                                 重置

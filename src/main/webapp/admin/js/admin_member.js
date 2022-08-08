@@ -1,20 +1,20 @@
 window.onload = (e) => {
     // memberList initialization
-    axios
-        .get("http://localhost:8080/Proj_Yokult/api/0.01/member")
-        .then((response) => {
-            let msg = response.data["msg"];
-            if (msg === "success") {
-                let members = response.data["members"];
-                console.log(members);
-                members.forEach((member) => {
-                    addList(member);
-                });
-            } else {
-                console.log(response.data["msg"]);
-            }
-        })
-        .catch((error) => console.log(error));
+    // axios
+    //     .get("http://localhost:8080/Proj_Yokult/api/0.01/member")
+    //     .then((response) => {
+    //         let msg = response.data["msg"];
+    //         if (msg === "success") {
+    //             let members = response.data["members"];
+    //             console.log(members);
+    //             members.forEach((member) => {
+    //                 addList(member);
+    //             });
+    //         } else {
+    //             console.log(response.data["msg"]);
+    //         }
+    //     })
+    //     .catch((error) => console.log(error));
 
     // Remove member
     $("#memberList").on("click", "#btn_delete_member", (e) => {
@@ -45,6 +45,30 @@ window.onload = (e) => {
         }
     });
 };
+function search() {
+    let searchID = $("#searchID").val();
+    let searchValue = $("#searchValue").val();
+    console.log(searchID);
+    console.log(searchValue);
+    axios
+        .get("http://localhost:8080/Proj_Yokult/api/0.01/member", {
+            params: { searchID: searchID, searchValue: searchValue },
+        })
+        .then((response) => {
+            let msg = response.data["msg"];
+            if (msg === "success") {
+                let members = response.data["members"];
+                console.log(members);
+                members.forEach((member) => {
+                    addList(member);
+                });
+            } else {
+                console.log(response.data["msg"]);
+            }
+        })
+        .catch((error) => console.log(error));
+}
+
 function addList(member) {
     let list = `<tr data-id="${member["memID"]}">
         <td>${member["memID"]}</td>
