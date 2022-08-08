@@ -28,9 +28,13 @@ public class OpenSessionInViewFilter implements Filter {
 			System.out.println("[filter]commit");
 		} catch (Exception e) {
 			transaction.rollback();
-			chain.doFilter(request, response);
+			System.out.println("[filter]transaction.rollback");
+			
+//			chain.doFilter(request, response);
 			e.printStackTrace();
 		} finally {
+			System.out.println("[filter]session.close");
+			
 			session.close();
 		}
 	}
