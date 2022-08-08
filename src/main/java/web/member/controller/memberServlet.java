@@ -41,14 +41,29 @@ public class memberServlet extends HttpServlet {
 		JsonObject respObject = new JsonObject();
 		try {
 			pathInfo = req.getPathInfo();
-			if (req.getPathInfo() != null) {
-				infos = pathInfo.split("/");
-				Member member = service.getOne(infos[1]);
-				if (member != null && (member.getMemID().equals((String) session.getAttribute("account")))) {
-					respObject.addProperty("msg", "success");
-					respObject.add("member", gson.toJsonTree(member));
+			infos = pathInfo.split("/");
+			if (infos.length != 0) {
+				System.out.println("Param: " + infos[1]);
+				if ("verify".equals(infos[1])) {
+					String code = req.getParameter("code");
+					String memID = req.getParameter("memID");
+					Member member = new Member();
+					member.setMemID(memID);
+					if (service.emailVerification(code, member)) {
+						respObject.addProperty("msg", "verification pass!");
+					} else {
+						respObject.addProperty("msg", "verification fail");
+					}
 				} else {
-					respObject.addProperty("msg", "fail");
+					Member member = service.getOneByID(infos[1]);
+					if (session == null || session.getAttribute("account") == null) {
+						respObject.addProperty("msg", "not login");
+					} else if (member != null && (member.getMemID().equals((String) session.getAttribute("account")))) {
+						respObject.addProperty("msg", "success");
+						respObject.add("member", gson.toJsonTree(member));
+					} else {
+						respObject.addProperty("msg", "fail");
+					}
 				}
 			} else {
 				List<Member> members = service.getAll();
@@ -59,9 +74,7 @@ public class memberServlet extends HttpServlet {
 					respObject.addProperty("msg", "fail");
 				}
 			}
-		} catch (
-
-		Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
@@ -72,6 +85,7 @@ public class memberServlet extends HttpServlet {
 		setHeaders(req, resp);
 		JsonObject respObject = new JsonObject();
 		Member member = gson.fromJson(req.getReader(), Member.class);
+		System.out.println(member);
 		try {
 			pathInfo = req.getPathInfo();
 			infos = pathInfo.split("/");
@@ -101,7 +115,6 @@ public class memberServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		resp.getWriter().append(gson.toJson(respObject));
-
 	}
 
 	@Override

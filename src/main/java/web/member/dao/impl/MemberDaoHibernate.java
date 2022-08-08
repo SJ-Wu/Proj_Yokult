@@ -60,8 +60,7 @@ public class MemberDaoHibernate implements MemberDao {
 		Member update = (Member)this.getSession().get(Member.class, member.getMemID());
 		if (update != null) {
 			update.setMemEmail(member.getMemEmail());
-			update.setMemFirstName(member.getMemFirstName());
-			update.setMemLastName(member.getMemLastName());
+			update.setMemName(member.getMemName());
 			update.setMemCellPhone(member.getMemCellPhone());
 			update.setMemBirth(member.getMemBirth());
 			update.setMemAddress(member.getMemAddress());
@@ -94,8 +93,7 @@ public class MemberDaoHibernate implements MemberDao {
 				insert.setMemID("TGA1993");
 				insert.setMemPassword("123");
 				insert.setMemEmail("abc@gmail.com");
-				insert.setMemFirstName("Kevin");
-				insert.setMemLastName("Hou");
+				insert.setMemName("Hou Kevin");
 				insert.setMemCellPhone("0912345678");
 				Date sqlDate = new java.sql.Date(Calendar.getInstance().getTime().getTime());	
 				insert.setMemBirth(sqlDate);
@@ -142,6 +140,36 @@ public class MemberDaoHibernate implements MemberDao {
 			session.close();
 			HibernateUtil.closeSessionFactory();
 		}
+	}
+
+	@Override
+	public List<Member> selectByMemberName(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Member selectByMemberEmail(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Member selectByMemberCellPhone(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Integer updateStatus(Member member) {
+		System.out.println(member);
+		return this.getSession().createQuery(
+			"update Member " + 
+			"set memStatus = :newStatus " +
+			"where memID = :updateId")
+		.setParameter("newStatus", member.getMemStatus())
+		.setParameter("updateId", member.getMemID())
+		.executeUpdate();
 	}
 
 }

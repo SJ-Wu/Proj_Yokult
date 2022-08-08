@@ -1,11 +1,12 @@
 package web.member.service;
 
 import java.util.List;
+import java.util.Map;
 
 import web.member.vo.Member;
 
 public interface MemberService {
-	Member getOne(String account);
+	Member getOneByID(String account);
 	
 	List<Member> getAll();
 	
@@ -16,4 +17,8 @@ public interface MemberService {
 	Integer modify(Member member);
 
 	Integer remove(Member member);
+	
+	List<Member> searchByType(Map<String, String>map);
+	
+	boolean emailVerification(String code, Member member);
 }

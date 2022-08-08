@@ -8,41 +8,38 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "MEMBER")
+@Table(name = "member")
 public class Member {
 	@Id
-	@Column(name = "MEMID")
+	@Column(name = "memid")
 	private String memID;
 	
-	@Column(name = "PASSWORD")
+	@Column(name = "password")
 	private String memPassword;
 	
-	@Column(name = "EMAIL")
+	@Column(name = "email")
 	private String memEmail;
 	
-	@Column(name = "FIRSTNAME")
-	private String memFirstName;
+	@Column(name = "name")
+	private String memName;
 	
-	@Column(name = "LASTNAME")
-	private String memLastName;
-	
-	@Column(name = "BIRTH", nullable = true)
+	@Column(name = "birth", nullable = true)
 	private Date memBirth;
 	
-	@Column(name = "CELLPHONE", length = 10)
+	@Column(name = "cellphone", length = 10)
 	private String memCellPhone;
 	
-	@Column(name = "ADDR", nullable = true)
+	@Column(name = "addr", nullable = true)
 	private String memAddress;
-
+	
+	@Column(name = "status")
+	private String memStatus;
 
 	@Override
 	public String toString() {
-		return "Member [memID=" + memID + ", memFirstName=" + memFirstName + ", memLastName=" + memLastName + "]";
-	}
-
-	public Member() {
-
+		return "Member [memID=" + memID + ", memPassword=" + memPassword + ", memEmail=" + memEmail + ", memName="
+				+ memName + ", memBirth=" + memBirth + ", memCellPhone=" + memCellPhone + ", memAddress=" + memAddress
+				+ ", memStatus=" + memStatus + "]";
 	}
 
 	public String getMemID() {
@@ -60,7 +57,7 @@ public class Member {
 	public void setMemPassword(String memPassword) {
 		this.memPassword = memPassword;
 	}
-	
+
 	public String getMemEmail() {
 		return memEmail;
 	}
@@ -69,20 +66,12 @@ public class Member {
 		this.memEmail = memEmail;
 	}
 
-	public String getMemFirstName() {
-		return memFirstName;
+	public String getMemName() {
+		return memName;
 	}
 
-	public void setMemFirstName(String memFirstName) {
-		this.memFirstName = memFirstName;
-	}
-
-	public String getMemLastName() {
-		return memLastName;
-	}
-
-	public void setMemLastName(String memLastName) {
-		this.memLastName = memLastName;
+	public void setMemName(String memName) {
+		this.memName = memName;
 	}
 
 	public Date getMemBirth() {
@@ -109,4 +98,11 @@ public class Member {
 		this.memAddress = memAddress;
 	}
 
+	public String getMemStatus() {
+		return memStatus;
+	}
+
+	public void setMemStatus(String memStatus) {
+		this.memStatus = memStatus;
+	}
 }
