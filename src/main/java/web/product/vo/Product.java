@@ -14,8 +14,8 @@ import javax.persistence.Table;
 public class Product implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Id
 	
+	@Id
 	@Column(name = "proid")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer proID;
