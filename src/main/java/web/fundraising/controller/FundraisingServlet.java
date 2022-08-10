@@ -1,17 +1,25 @@
 package web.fundraising.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageInputStream;
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.MultipartConfig;
@@ -22,6 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
+import org.apache.commons.io.IOUtils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,6 +40,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+import model.hibernate.FundraisingUtil;
 import model.hibernate.HibernateUtil;
 import web.fundraising.common.HtmlDatetimeLocalToSQLDateTimeUtil;
 import web.fundraising.common.HtmlPostJsonGetter;
@@ -72,6 +82,8 @@ public class FundraisingServlet extends HttpServlet {
 	    String table = "";
 //	    儲存前端request傳來的action動作參數
 	    String action = "";
+//	    儲存前端request傳來的page動作參數
+	    String page = "";
 //	    儲存要前往的網頁url
 	    String destination = "";
 //	    列印request的樣板
@@ -84,16 +96,7 @@ public class FundraisingServlet extends HttpServlet {
 	    httpSession.setAttribute("memID", "TGA001");
 	    String memberID = "TGA001";
 	    Integer proposalID = 1;
-	    RequestDispatcher requestDispatcher = req.getRequestDispatcher("//");
-	    if("memberID" != httpSession.getAttribute("memID")) {
-	    	requestDispatcher.forward(req, res);
-	    }
-	    
-	    
-//	    取得目前session參數，在離開servlet前都沒有session關閉的問題
-	    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-	    Session session = sessionFactory.getCurrentSession();
-//    	Transaction trx = session.beginTransaction();
+
 	    
 	    
 //	    == 檢查前端form資料 ==
@@ -108,64 +111,97 @@ public class FundraisingServlet extends HttpServlet {
 	    
 //	    =========================================  主程式開始  =========================================
 	    
-//	    =========================================  查詢全部proposal  =========================================
-	    //如果是JSON格式就先抓看看有沒有自訂的指令參數
-//	    try {
-//			HtmlPostJsonGetter htmlPostJsonGetter = new HtmlPostJsonGetter(req);
-//			table = htmlPostJsonGetter.getString("table");
-//			action = htmlPostJsonGetter.getString("action");
-//			System.out.println("table : " + table);
-//			System.out.println("action : " + action);
-//		} catch (Exception e1) {}
-//	    
-//	    
-////	    if("Proposal".equals(req.getParameter("table")) && "GetAll".equals(req.getParameter("action"))){	
-//	    if("Proposal".equals(table) && "GetAll".equals(action)) {
-//	    	res.setContentType("application/json; charset=utf-8");
-//	    	ProposalService proposalService = new ProposalService(session);
-//	    	List<ProposalBean> beanList =  proposalService.selectAllBeans();
-	    	
-//	        res.getWriter().print("beanList : " + beanList.toString());
-	    	
-	    	
-//	    	Gson gson = new Gson();
-//	    	PrintWriter out = res.getWriter();
-//	    	
-//	    	String s = gson.toJson(beanList.get(0));
-//    		System.out.println(s);
-//    		out.write(s);
-	        
-//	    	for(ProposalBean row : beanList) {
-//	    		String s = gson.toJson(row);
-//	    		System.out.println(s);
-//	    		out.write(s);
-//	    	}
-//	    	System.out.println("\n"+json);
-	    	
-//	    	String employeeJsonString = new Gson().toJson(beanList.to);
-//	    	out.write(employeeJsonString);
-//	    	out.flush();
-//	    	res.flushBuffer();
-//	    }
+//	    =======================================   查詢系列初始化   ========================================
+////	    如果是JSON格式就先抓看看有沒有自訂的指令參數
+	    try {
+			HtmlPostJsonGetter htmlPostJsonGetter = new HtmlPostJsonGetter(req);
+			table = htmlPostJsonGetter.getString("table");
+			action = htmlPostJsonGetter.getString("action");
+			page = htmlPostJsonGetter.getString("page");
+			System.out.println("table : " + table);
+			System.out.println("action : " + action);
+		} catch (Exception e1) {}
 	    
 	    
+////    =======================================  查詢全部proposal  =====================================
+//	    fundraising_AllProposal
+	    if("Proposal".equals(table) && "GetAll".equals(action)){	
+	    	res.setContentType("application/json; charset=utf-8");
+	    	ProposalService proposalService = new ProposalService(res);
+	    	List<ProposalBean> queryResult = proposalService.selectAllBeans();
+	    	
+	    	PrintWriter out = res.getWriter();
+	    	String jsonString = new Gson().toJson(queryResult);
+	    	out.write(jsonString);
+	    	System.out.println("Succeeded to get proposalListJsonString : \n" + jsonString);
+	    	
+	    	out.flush();
+	    	res.flushBuffer();
+	    	System.out.println();    //間隔一行
+	    }
 	    
+////    ===================================  僅查詢一個proposal + 一個plan  =================================
+//	    fundraising_propsal-n
+	    if("Proposal".equals(table) && "GetOne".equals(action)){	
+	    	res.setContentType("application/json; charset=utf-8");
+	    	ProposalService proposalService = new ProposalService(res);
+	    	ProposalBean proposalQueryResult = proposalService.selectBean(Integer.parseInt(page));
+	    	
+	    	PlanService planService = new PlanService(res);
+	    	List<PlanBean> planQueryResult = planService.selectBeansByProposal(proposalQueryResult);
+	    	for(PlanBean bean : planQueryResult) {
+				System.out.println("planBean : " + bean);
+	    	}
+	    	
+	    	List<Object> sum = new ArrayList<Object>();
+	    	sum.add(proposalQueryResult);
+	    	sum.add(planQueryResult);
+	    	
+	    	PrintWriter out = res.getWriter();
+	    	String jsonString = new Gson().toJson(sum);
+	    	out.write(jsonString);
+	    	System.out.println("Succeeded to get proposalJsonString + plansJsonString : \n" + jsonString);
+	    	
+	    	out.flush();
+	    	res.flushBuffer();
+	    	System.out.println();    //間隔一行
+	    }
+	    
+	    
+//    	res.setContentType("application/json; charset=utf-8");
+//    	
+//    	ProposalService proposalService = new ProposalService();
+//    	long currentMillis =  System.currentTimeMillis();
+//    	List<ProposalBean> list_Proposal = proposalService.selectAllBeans();
+//    	for(ProposalBean b : list_Proposal) {
+//    		b.renewBean(proposalService);
+//    	}
+//    	PrintWriter out = res.getWriter();
+//    	String proposalJsonString = new Gson().toJson(list_Proposal);
+//    	System.out.println("proposalJsonString : " + proposalJsonString);
+//    	out.write(proposalJsonString);
+//    	out.flush();
+//    	res.flushBuffer();
+//    	System.out.println();
 	    
 ////    測試用輸入
 //    table = "Order";
 //    action = "Insert";
-//    =========================================  新增一個order  =========================================
-////    if("Order".equals(req.getParameter("table")) && "Insert".equals(req.getParameter("action"))){	    
-//    if("Order".equals(table) && "Insert".equals(action)){	    
+////    =========================================  新增一個order  =========================================
+//    if("Order".equals(req.getParameter("table")) && "Insert".equals(req.getParameter("action"))){	    
+////    if("Order".equals(table) && "Insert".equals(action)){	    
 //		res.setContentType("text/html; charset=UTF-8");
 ////    	標註起始
-//    	FundraisingServlet.getTableActionStart(req, table, action);
+//    	FundraisingUtil.getTableActionStart(req, table, action);
 //    	
+//    	OrderService orderService = new OrderService();
 //    	OrderBean bean = new OrderBean();
-//    	bean.setOrderInvoiceNumber(req.getParameter("orderInvoiceNumber"));
 //    	
-//    	java.sql.Timestamp startDate = HtmlDatetimeLocalToSQLDateTimeUtil.parse(req, req.getParameter("orderDateTime"));
-//    	bean.setOrderDateTime(startDate);
+//    	Integer newID = 100000 + orderService.selectLastID() + 1;
+//    	bean.setOrderInvoiceNumber("TG-" + newID.toString());
+//    	
+//    	java.sql.Timestamp now = new java.sql.Timestamp(System.currentTimeMillis());
+//    	bean.setOrderDateTime(now);
 //    	
 //    	bean.setOrderAmount(Integer.parseInt(req.getParameter("orderAmount")));
 //    	bean.setProposalID(Integer.parseInt(req.getParameter("proposalID")));
@@ -178,7 +214,6 @@ public class FundraisingServlet extends HttpServlet {
 //    	
 //    	
 ////    	執行存入(MySQL)
-//    	OrderService orderService = new OrderService(session);
 //    	System.out.println("new orderService");
 //    	try {
 ////	    	== 將前端 newOrder頁面 form參數傳入對應的bean資訊 ==
@@ -187,7 +222,7 @@ public class FundraisingServlet extends HttpServlet {
 //		} finally {
 //			System.out.println("insertBean");
 ////	    	標註結束
-//			FundraisingServlet.getTableActionEnd(req, table, action);
+//			FundraisingUtil.getTableActionEnd(req, table, action);
 //		}
 //    }
 	    
@@ -202,7 +237,7 @@ public class FundraisingServlet extends HttpServlet {
 //    if("Post".equals(table) && "Insert".equals(action)){	    
 //		res.setContentType("text/html; charset=UTF-8");
 ////    	標註起始
-//    	FundraisingServlet.getTableActionStart(req, table, action);
+//    	FundraisingUtil.getTableActionStart(req, table, action);
 //    	
 //    	PostBean bean = new PostBean();
 //    	bean.setPostFisrtName(req.getParameter("postFisrtName"));
@@ -217,7 +252,7 @@ public class FundraisingServlet extends HttpServlet {
 //    	
 //    	
 ////    	執行存入(MySQL)
-//    	PostService postService = new PostService(session);
+//    	PostService postService = new PostService();
 //    	System.out.println("new postService");
 //    	try {
 ////	    	== 將前端 newPost頁面 form參數傳入對應的bean資訊 ==
@@ -226,42 +261,35 @@ public class FundraisingServlet extends HttpServlet {
 //		} finally {
 //			System.out.println("insertBean");
 ////	    	標註結束
-//			FundraisingServlet.getTableActionEnd(req, table, action);
+//			FundraisingUtil.getTableActionEnd(req, table, action);
 //		}
 //    }
 
 	    
 	    
-//	    =========================================  新增一個proposal  =========================================
+////	    =========================================  新增一個proposal  =========================================
 //	    if("Proposal".equals(req.getParameter("table")) && "Insert".equals(req.getParameter("action"))){	    
 //    		res.setContentType("text/html; charset=UTF-8");
 ////    		單獨列印newProposal頁面upload file資訊
 //	    	System.out.println("=== proposalFile ===");
-//	    	String fileName = req.getPart("proposalFile").getSubmittedFileName();
-//	    	System.out.println(String.format(template, "proposalFile", fileName));
+//	    	ProposalBean bean = new ProposalBean();
 ////	    	預設會員帳號TGA001
-//	    	String memberUploadPath = getServletContext().getRealPath("/") + "uploaded\\proposal" + "\\" + memberID;
-//	    	String memberUploadFilePath = memberUploadPath + "\\" + fileName;
+////	    	標註起始
+//	    	FundraisingUtil.getTableActionStart(req, table, action);
 ////	    	儲存會員上傳的檔案
 //	    	for (Part part : req.getParts()) {
 ////	    		newProposal頁面
-//		    	if("proposalFile".equals(part.getName())  ) {
-//		    		File theDir = new File(memberUploadPath);
-//		    		if (!theDir.exists()){
-//		    			theDir.mkdirs();
-//		    			System.out.println("Directory created : " + memberUploadPath);	    			
-//		    		}else {
-//		    			System.out.println("Directory is exist.");					
-//					}
-//		    		part.write(memberUploadFilePath);	
-//		    	    System.out.println("The uploaded file uploaded and writed sucessfully.\n");
+//		    	if("proposalPicture".equals(part.getName())  ) {
+//		    		InputStream is = part.getInputStream();
+//		    		byte[] sourceBytes = IOUtils.toByteArray(is);
+//		    		bean.setProposalPicture(sourceBytes);		    		
+//		    	}else if("proposalPictureZip".equals(part.getName())) {
+//		    		InputStream is = part.getInputStream();
+//		    		byte[] sourceBytes = IOUtils.toByteArray(is);
+//		    		bean.setProposalPictureZip(sourceBytes);
 //		    	}
 //	    	}
 //	    	
-////	    	標註起始
-//	    	FundraisingServlet.getTableActionStart(req, table, action);
-//	    	
-//	    	ProposalBean bean = new ProposalBean();
 //	    	bean.setProposalName(req.getParameter("proposalName"));
 //	    	bean.setProposalHostName(req.getParameter("proposalHostName"));
 //	    	bean.setProposalGoal(Integer.parseInt(req.getParameter("proposalGoal")));
@@ -276,7 +304,6 @@ public class FundraisingServlet extends HttpServlet {
 //	    	bean.setProposalEmail(req.getParameter("proposalEmail"));
 //	    	bean.setProposalCellphone(req.getParameter("proposalCellphone"));
 //	    	bean.setProposalSummary(req.getParameter("proposalContent"));
-//	    	bean.setProposalPageContent(memberUploadFilePath);
 //	    	bean.setMemID("TGA001");
 //	    	
 //	    	System.out.println("print bean");
@@ -284,7 +311,7 @@ public class FundraisingServlet extends HttpServlet {
 //	    	
 //	    	
 ////	    	執行存入(MySQL)
-//	    	ProposalService proposalService = new ProposalService(session);
+//	    	ProposalService proposalService = new ProposalService();
 //	    	System.out.println("new proposalService");
 //	    	try {
 ////		    	== 將前端 newProposal頁面 form參數傳入對應的bean資訊 ==
@@ -293,7 +320,7 @@ public class FundraisingServlet extends HttpServlet {
 //			} finally {
 //				System.out.println("insertBean");
 ////		    	標註結束
-//				FundraisingServlet.getTableActionEnd(req, table, action);
+//				FundraisingUtil.getTableActionEnd(req, table, action);
 //			}
 //	    }
 
@@ -326,7 +353,7 @@ public class FundraisingServlet extends HttpServlet {
 //	    	}
 //	    	
 ////	    	標註起始
-//	    	FundraisingServlet.getTableActionStart(req, table, action);
+//	    	FundraisingUtil.getTableActionStart(req, table, action);
 ////	    	
 //	    	PlanBean bean = new PlanBean();
 //	    	bean.setPlanName(req.getParameter("planName"));
@@ -346,7 +373,7 @@ public class FundraisingServlet extends HttpServlet {
 //	    	
 //	    	
 ////	    	執行存入(MySQL)
-//	    	PlanService planService = new PlanService(session);
+//	    	PlanService planService = new PlanService();
 //	    	System.out.println("new planService");
 //	    	try {
 //	    		planService.insertBean(bean);
@@ -354,101 +381,117 @@ public class FundraisingServlet extends HttpServlet {
 //			} finally {
 //				System.out.println("insertBean");
 ////		    	標註結束
-//				FundraisingServlet.getTableActionEnd(req, table, action);
+//				FundraisingUtil.getTableActionEnd(req, table, action);
 //			}
 //	    	
-//		    destination = "/fundraising/ModelTest.jsp";
-//		    requestDispatcher = req.getRequestDispatcher(destination);
-//		    requestDispatcher.forward(req, res);
 //	    }
 	    
 	    
-//	    =========================================  其他(查詢)  =========================================
-	    
-//	    if(true) {
-	    CategoryService categoryService = new CategoryService(session);
-	    List<CategoryBean> list_Category = categoryService.selectAllBeans();
-	    for(CategoryBean b : list_Category) {
-	    	System.out.println(b);
-	    }
-	    System.out.println();
-//	    	httpSession.setAttribute("list_Category", list_Category);
+////	    =========================================  其他(查詢)  =========================================
+//	    
+////	    if(true) {
+//	    CategoryService categoryService = new CategoryService();
+//	    List<CategoryBean> list_Category = categoryService.selectAllBeans();
+//	    for(CategoryBean b : list_Category) {
+//	    	System.out.println(b);
 //	    }
-	    System.out.println("-------------- command ------- end -------\n");
-	    
-	    
-//	    if(true) {
-	    OrderService orderService = new OrderService(session);
-	    List<OrderBean> list_Order = orderService.selectAllBeans();
-	    for(OrderBean b : list_Order) {
-	    	System.out.println(b);
-	    }
-	    System.out.println();
-//	    	httpSession.setAttribute("list_Order", list_Order);
+//	    System.out.println();
+////	    	httpSession.setAttribute("list_Category", list_Category);
+////	    }
+//	    System.out.println("-------------- command ------- end -------\n");
+//	    
+//	    
+////	    if(true) {
+//	    OrderService orderService = new OrderService();
+//	    List<OrderBean> list_Order = orderService.selectAllBeans();
+//	    for(OrderBean b : list_Order) {
+//	    	System.out.println(b);
 //	    }
-	    System.out.println("-------------- command :  ------- end -------\n");
-
-	    
+//	    System.out.println();
+////	    	httpSession.setAttribute("list_Order", list_Order);
+////	    }
+//	    System.out.println("-------------- command :  ------- end -------\n");
+//
+//	    
+////	    if(true) {
+//	    PlanService planService = new PlanService();
+//	    List<PlanBean> list_Plan = planService.selectAllBeans();
+//	    for(PlanBean b : list_Plan) {
+//	    	System.out.println(b);
+//	    }
+//	    System.out.println();
+////	    	httpSession.setAttribute("list_Plan", list_Plan);
+////		}
+//	    System.out.println("-------------- command :  ------- end -------\n");
+//
+//	    
+////	    if(true) {
+//	    PostService postService = new PostService();
+//	    List<PostBean> list_Post = postService.selectAllBeans();
+//	    for(PostBean b : list_Post) {
+//	    	System.out.println(b);
+//	    }
+//	    System.out.println();
+////	    	httpSession.setAttribute("list_Post", list_Post);
+////		}
+//	    System.out.println("-------------- command :  ------- end -------\n");
+//	    
+////////////////////////////////////////////////////////////////////
 //	    if(true) {
-	    PlanService planService = new PlanService(session);
-	    List<PlanBean> list_Plan = planService.selectAllBeans();
-	    for(PlanBean b : list_Plan) {
-	    	System.out.println(b);
-	    }
-	    System.out.println();
-//	    	httpSession.setAttribute("list_Plan", list_Plan);
+//    	res.setContentType("application/json; charset=utf-8");
+//    	
+//    	ProposalService proposalService = new ProposalService();
+//    	long currentMillis =  System.currentTimeMillis();
+//    	List<ProposalBean> list_Proposal = proposalService.selectAllBeans();
+//    	for(ProposalBean b : list_Proposal) {
+//    		b.renewBean(proposalService);
+//    	}
+//    	PrintWriter out = res.getWriter();
+//    	String proposalJsonString = new Gson().toJson(list_Proposal);
+//    	System.out.println("proposalJsonString : " + proposalJsonString);
+//    	out.write(proposalJsonString);
+//    	out.flush();
+//    	res.flushBuffer();
+//    	System.out.println();
+//	}
+//	System.out.println("-------------- command :  ------- end -------\n");
+////////////////////////////////////////////////////////////////////////////////
+//	    只取一個，按proposal編號
+//	    if(true) {
+//	    	res.setContentType("application/json; charset=utf-8");
+//	    	
+//	    	ProposalService proposalService = new ProposalService();
+//	    	long currentMillis =  System.currentTimeMillis();
+//	    	List<ProposalBean> list_Proposal = proposalService.selectAllBeans();
+//	    	for(ProposalBean b : list_Proposal) {
+//	    		b.renewBean(proposalService);
+//	    	}
+//	    	PrintWriter out = res.getWriter();
+//	    	String proposalJsonString = new Gson().toJson(list_Proposal);
+//	    	System.out.println("proposalJsonString : " + proposalJsonString);
+//	    	out.write(proposalJsonString);
+//	    	out.flush();
+//	    	res.flushBuffer();
+//	    	System.out.println();
 //		}
-	    System.out.println("-------------- command :  ------- end -------\n");
-
-	    
-//	    if(true) {
-	    PostService postService = new PostService(session);
-	    List<PostBean> list_Post = postService.selectAllBeans();
-	    for(PostBean b : list_Post) {
-	    	System.out.println(b);
-	    }
-	    System.out.println();
-//	    	httpSession.setAttribute("list_Post", list_Post);
-//		}
-	    System.out.println("-------------- command :  ------- end -------\n");
-	    
-	    
-//	    if(true) {
-	    	ProposalService proposalService = new ProposalService(session);
-	    	List<ProposalBean> list_Proposal = proposalService.selectAllBeans();
-	    	for(ProposalBean b : list_Proposal) {
-	    		System.out.println(b);
-	    	}
-	    	System.out.println();
-//	    	httpSession.setAttribute("list_Proposal", list_Proposal);
-//		}
-		    System.out.println("-------------- command :  ------- end -------\n");
-
-		    
-//	    if(true) {
-	    	StatusService statusService = new StatusService(session);
-	    	List<StatusBean> list_Status = statusService.selectAllBeans();
-	    	for(StatusBean b : list_Status) {
-	    		System.out.println(b);
-	    	}
-	    	System.out.println();
-//	    	httpSession.setAttribute("list_Status", list_Status);
-//	    }
-	    System.out.println("-------------- command ------- end -------\n");
+//		System.out.println("-------------- command :  ------- end -------\n");
+////////////////////////////////////////////////////////////////////////////////
+//		    
+////	    if(true) {
+//	    	StatusService statusService = new StatusService();
+//	    	List<StatusBean> list_Status = statusService.selectAllBeans();
+//	    	for(StatusBean b : list_Status) {
+//	    		System.out.println(b);
+//	    	}
+//	    	System.out.println();
+////	    	httpSession.setAttribute("list_Status", list_Status);
+////	    }
+//	    System.out.println("-------------- command ------- end -------\n");
+//	    
 	    
 	    
-	    
-//	    trx.commit();
-//	    destination = "/fundraising/ModelTest.jsp";
-//	    requestDispatcher = req.getRequestDispatcher(destination);
-//	    requestDispatcher.forward(req, res);
 
 
 	}
-	public static String getTableActionStart(HttpServletRequest req, String table, String action) {
-		return "\n-------------- command : " + req.getParameter(table) + " " + req.getParameter(action) + " ------- start -------";
-	}
-	public static String getTableActionEnd(HttpServletRequest req, String table, String action) {
-		return "\n-------------- command : " + req.getParameter(table) + " " + req.getParameter(action) + " ------- End -------";
-	}
+
 }

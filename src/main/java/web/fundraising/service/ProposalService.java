@@ -1,33 +1,53 @@
 package web.fundraising.service;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.hibernate.Session;
+
+import com.google.gson.Gson;
 
 import web.fundraising.dao.ProposalDAO;
 import web.fundraising.dao.ProposalDAOhibernateHQL;
 import web.fundraising.vo.ProposalBean;
 
 public class ProposalService {
-	ProposalDAO ProposalDAO;
+	private ProposalDAO proposalDAO;
+	private HttpServletResponse res;
 	
-	public ProposalService(Session session) {
-		this.ProposalDAO = new ProposalDAOhibernateHQL(session);
+	public ProposalService(HttpServletResponse res) {
+		this.res = res;
+		this.proposalDAO = new ProposalDAOhibernateHQL();
 	}
 	
 	public ProposalBean insertBean(ProposalBean proposalBean) {
-		return this.ProposalDAO.insert(proposalBean);
+		return this.proposalDAO.insert(proposalBean);
 	}
 	public Boolean deleteBean(Integer id) {
-		return this.ProposalDAO.delete(id);
+		return this.proposalDAO.delete(id);
 	}
 	public ProposalBean updateBean(Integer id, ProposalBean proposalBean) {
-		return this.ProposalDAO.update(id, proposalBean);
+		ProposalBean bean = this.proposalDAO.update(id, proposalBean).renewBean(this.proposalDAO);
+		return bean;
 	}
 	public ProposalBean selectBean(Integer id) {
-		return this.ProposalDAO.select(id);
+		ProposalBean bean = this.proposalDAO.select(id).renewBean(this.proposalDAO);
+		return bean;
 	}
-	public List<ProposalBean> selectAllBeans() {
-		return this.ProposalDAO.selectAll();
+	public List<ProposalBean> selectAllBeans() throws IOException {
+		try {
+			List<ProposalBean> list_Proposal = this.proposalDAO.selectAll();
+	    	for(ProposalBean b : list_Proposal) {
+	    		b.renewBean(this.proposalDAO);
+	    	}
+	    	return list_Proposal;
+		} catch (Exception e) {
+			System.out.println("false");
+			return null;
+		}
 	}
+
 }

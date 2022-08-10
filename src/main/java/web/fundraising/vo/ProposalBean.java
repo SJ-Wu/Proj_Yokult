@@ -3,12 +3,19 @@ package web.fundraising.vo;
 import java.io.Serializable;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Base64;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import web.fundraising.dao.ProposalDAO;
+import web.fundraising.service.ProposalService;
 
 @Entity
 @Table(name="Fund_PROPOSAL")
@@ -26,15 +33,46 @@ public class ProposalBean implements Serializable {
 	private String proposalEmail;
 	private String proposalCellphone;
 	private String proposalSummary;
-	private String proposalPageContent;
+	@Lob
+	private byte[] proposalPicture;
+	@Lob
+	private byte[] proposalPictureZip;
 	private String memID;
+	@Transient
+	private String proposalPictureBase64;
+	@Transient
+	private String proposalPictureBaseZip64;
+	@Transient
+	private long proposalStartedDateTimeMillis;
+	@Transient
+	private long proposalEndedDateTimeMillis;
+	@Transient
+	private long currentMillis;
+	@Transient
+	private Integer proposalAmount;
+	
+	public ProposalBean renewBean(ProposalDAO proposalDAO) {
+		this.proposalPictureBase64 = Base64.getEncoder().encodeToString(this.proposalPicture);
+		this.proposalPictureBaseZip64 = Base64.getEncoder().encodeToString(this.proposalPictureZip);
+		this.proposalStartedDateTimeMillis = this.proposalStartedDateTime.getTime();
+		this.proposalEndedDateTimeMillis = this.proposalEndedDateTime.getTime();
+		this.currentMillis = System.currentTimeMillis();
+		this.proposalAmount = proposalDAO.currentTotalAmount(this);
+		return this;
+	}
+	
 	
 	public ProposalBean() {}
+
 	
+
+
+
 	public ProposalBean(String proposalName, String proposalHostName, Integer proposalGoal,
-			String proposalCategoryID, Timestamp proposalStartedDateTime, Timestamp proposalEndedDateTime, String statusID,
-			String proposalEmail, String proposalCellphone, String proposalSummary, String proposalPageContent,
-			String memID) {
+			String proposalCategoryID, Timestamp proposalStartedDateTime, Timestamp proposalEndedDateTime,
+			String statusID, String proposalEmail, String proposalCellphone, String proposalSummary,
+			byte[] proposalPicture, byte[] proposalPictureZip, String memID, String proposalPictureBase64,
+			String proposalPictureBaseZip64, long proposalStartedDateTimeMillis, long proposalEndedDateTimeMillis) {
 		super();
 		this.proposalName = proposalName;
 		this.proposalHostName = proposalHostName;
@@ -46,9 +84,18 @@ public class ProposalBean implements Serializable {
 		this.proposalEmail = proposalEmail;
 		this.proposalCellphone = proposalCellphone;
 		this.proposalSummary = proposalSummary;
-		this.proposalPageContent = proposalPageContent;
+		this.proposalPicture = proposalPicture;
+		this.proposalPictureZip = proposalPictureZip;
 		this.memID = memID;
+		this.proposalPictureBase64 = proposalPictureBase64;
+		this.proposalPictureBaseZip64 = proposalPictureBaseZip64;
+		this.proposalStartedDateTimeMillis = proposalStartedDateTimeMillis;
+		this.proposalEndedDateTimeMillis = proposalEndedDateTimeMillis;
 	}
+
+
+
+
 
 	@Override
 	public String toString() {
@@ -57,85 +104,190 @@ public class ProposalBean implements Serializable {
 				+ ", proposalStartedDateTime=" + proposalStartedDateTime + ", proposalEndedDateTime="
 				+ proposalEndedDateTime + ", statusID=" + statusID + ", proposalEmail=" + proposalEmail
 				+ ", proposalCellphone=" + proposalCellphone + ", proposalSummary=" + proposalSummary
-				+ ", proposalPageContent=" + proposalPageContent + ", memID=" + memID + "]";
+				+ ", proposalPicture=" + Arrays.toString(proposalPicture) + ", proposalPictureZip="
+				+ Arrays.toString(proposalPictureZip) + ", memID=" + memID + ", proposalPictureBase64="
+				+ proposalPictureBase64 + ", proposalPictureBaseZip64=" + proposalPictureBaseZip64
+				+ ", proposalStartedDateTimeMillis=" + proposalStartedDateTimeMillis + ", proposalEndedDateTimeMillis="
+				+ proposalEndedDateTimeMillis + "]";
 	}
-	
+
+
 	public Integer getProposalID() {
 		return proposalID;
 	}
 
+
 	public String getProposalName() {
 		return proposalName;
 	}
+
+
 	public void setProposalName(String proposalName) {
 		this.proposalName = proposalName;
 	}
+
+
 	public String getProposalHostName() {
 		return proposalHostName;
 	}
+
+
 	public void setProposalHostName(String proposalHostName) {
 		this.proposalHostName = proposalHostName;
 	}
+
+
 	public Integer getProposalGoal() {
 		return proposalGoal;
 	}
+
+
 	public void setProposalGoal(Integer proposalGoal) {
 		this.proposalGoal = proposalGoal;
 	}
+
+
 	public String getProposalCategoryID() {
 		return proposalCategoryID;
 	}
+
+
 	public void setProposalCategoryID(String proposalCategoryID) {
 		this.proposalCategoryID = proposalCategoryID;
 	}
+
+
 	public Timestamp getProposalStartedDateTime() {
 		return proposalStartedDateTime;
 	}
+
+
 	public void setProposalStartedDateTime(Timestamp proposalStartedDateTime) {
 		this.proposalStartedDateTime = proposalStartedDateTime;
 	}
+
+
 	public Timestamp getProposalEndedDateTime() {
 		return proposalEndedDateTime;
 	}
+
+
 	public void setProposalEndedDateTime(Timestamp proposalEndedDateTime) {
 		this.proposalEndedDateTime = proposalEndedDateTime;
 	}
+
+
 	public String getStatusID() {
 		return statusID;
 	}
-	public void setStatusID(String string) {
-		this.statusID = string;
+
+
+	public void setStatusID(String statusID) {
+		this.statusID = statusID;
 	}
+
+
 	public String getProposalEmail() {
 		return proposalEmail;
 	}
+
+
 	public void setProposalEmail(String proposalEmail) {
 		this.proposalEmail = proposalEmail;
 	}
+
+
 	public String getProposalCellphone() {
 		return proposalCellphone;
 	}
+
+
 	public void setProposalCellphone(String proposalCellphone) {
 		this.proposalCellphone = proposalCellphone;
 	}
+
+
 	public String getProposalSummary() {
 		return proposalSummary;
 	}
+
+
 	public void setProposalSummary(String proposalSummary) {
 		this.proposalSummary = proposalSummary;
 	}
-	public String getProposalPageContent() {
-		return proposalPageContent;
+
+
+	public byte[] getProposalPicture() {
+		return proposalPicture;
 	}
-	public void setProposalPageContent(String proposalPageContent) {
-		this.proposalPageContent = proposalPageContent;
+
+
+	public void setProposalPicture(byte[] proposalPicture) {
+		this.proposalPicture = proposalPicture;
 	}
+
+
+	public byte[] getProposalPictureZip() {
+		return proposalPictureZip;
+	}
+
+
+	public void setProposalPictureZip(byte[] proposalPictureZip) {
+		this.proposalPictureZip = proposalPictureZip;
+	}
+
+
 	public String getMemID() {
 		return memID;
 	}
-	public void setMemID(String string) {
-		this.memID = string;
+
+
+	public void setMemID(String memID) {
+		this.memID = memID;
 	}
+
+
+	public String getProposalPictureBase64() {
+		return proposalPictureBase64;
+	}
+
+
+	public void setProposalPictureBase64(String proposalPictureBase64) {
+		this.proposalPictureBase64 = proposalPictureBase64;
+	}
+
+
+	public String getProposalPictureBaseZip64() {
+		return proposalPictureBaseZip64;
+	}
+
+
+	public void setProposalPictureBaseZip64(String proposalPictureBaseZip64) {
+		this.proposalPictureBaseZip64 = proposalPictureBaseZip64;
+	}
+
+
+	public long getProposalStartedDateTimeMillis() {
+		return proposalStartedDateTimeMillis;
+	}
+
+
+	public void setProposalStartedDateTimeMillis(long proposalStartedDateTimeMillis) {
+		this.proposalStartedDateTimeMillis = proposalStartedDateTimeMillis;
+	}
+
+
+	public long getProposalEndedDateTimeMillis() {
+		return proposalEndedDateTimeMillis;
+	}
+
+
+	public void setProposalEndedDateTimeMillis(long proposalEndedDateTimeMillis) {
+		this.proposalEndedDateTimeMillis = proposalEndedDateTimeMillis;
+	}
+
+
+	
 	
 	
 	

@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import model.hibernate.HibernateUtil;
 import web.fundraising.vo.CategoryBean;
 
 public class CategoryDAOhibernateHQL implements CategoryDAO {
-
-	private Session session;
-	
-	public CategoryDAOhibernateHQL(Session session) {
-		this.session = session;
-	}
+//    取得目前session參數，在離開servlet前都沒有session關閉的問題
+	private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private Session session = sessionFactory.getCurrentSession();
+		
+	public CategoryDAOhibernateHQL() {}
 	
 	@Override
 	public CategoryBean insert(CategoryBean categoryBean) {

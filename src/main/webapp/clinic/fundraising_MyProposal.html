@@ -116,7 +116,7 @@
                             </form>
                         </div>
 
-                        <table>
+                        <table id = proposalForm>
                             <thead>
                                 <tr>
                                     <td class="column">提案名稱</td>
@@ -128,39 +128,34 @@
                                     <!-- <th style="width: 140px;">已售金額</th> -->
                                 </tr>
                             </thead>
-                            <tbody>
+                            <!-- insert <tbody> here -->
+
+                            <!-- <tbody>
                                 <tr>
                                     <td class="text-title" rowspan="3">
                                         <a href="javascript:void(0);">
                                             <i class="fa-solid fa-pen"></i>
                                         </a>
-                                        <a href="propsal-page1.html">SmartMi P1空氣清淨機┃小資族的空氣增質學</a>
+                                        <a href="">SmartMi P1空氣清淨機┃小資族的空氣增質學</a>
                                     </td>
                                     <td>2022/04/01 00:00</td>
-                                    <td>2022/08/01 00:00</td>
-                                    <td>122天</td>
-                                    <!-- <td>750,000</td> -->
-                                    <!-- <td>250%</td> -->
+                                    <td>2022/04/01 00:00</td>
+                                    <td>N天</td>
                                 </tr>
                                 <tr>
-                                    <!-- <td></td> -->
-                                    <!-- <th style="width: 90px;">開始時間</th> -->
-                                    <!-- <th style="width: 90px;">結束時間</th> -->
                                     <td class="column" style="width: 140px;">目標金額</td>
                                     <td class="column" style="width: 140px;">已售金額</td>
                                     <td class="column" style="width: 140px;">募資進度</td>
-                                    <!-- <th style="width: 140px;">已售金額</th> -->
                                 </tr>
                                 <tr>
-                                    <!-- <td></td> -->
                                     <td>300,000</td>
                                     <td>750,000</td>
                                     <td>250%</td>
                                 </tr>
                             </tbody>
-                        </table>
+                        </table> -->
 
-                        <table style="margin-top: 10px;">
+                        <table id="planForm" style="margin-top: 10px;">
                             <thead>
                                 <tr>
                                     <td class="column">贊助方案名稱</td>
@@ -202,7 +197,6 @@
                                 <tr class="summary">
                                     <td class="column">合計</td>
                                     <td colspan="5"></td>
-                                    <!-- <td></td> -->
                                     <td class="column">53,000</td>
                                 </tr>
                                 
@@ -252,6 +246,99 @@
         $('div.fotter').load('./referenceHTML/fotter.html');
         // });
     </script>
+
+<script>
+    $(document).ready(() => {
+        //生成json
+        var json = [];
+        var j = {};
+        j.table = "Proposal";
+        j.action = "GetMine";
+        json.push(j);
+        var jsondata = JSON.stringify(json);
+
+        $.ajax({
+            url: "http://localhost:8080/Proj_Yokult/fundraising", // 資料請求的網址
+            type: "POST", // GET | POST | PUT | DELETE | PATCH
+            data: JSON.stringify(jsondata), // 將物件資料(不用雙引號) 傳送到指定的 url
+            dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html
+            processData: false,
+            contentType: false,
+            timeout: 0, // request 可等待的毫秒數 | 0 代表不設定 timeout
+            beforeSend: function () {;
+                // 在 request 發送之前執行
+            },
+            headers: {
+                // request 如果有表頭資料想要設定的話
+                // "X-CSRF-Token":"abcde"   // 參考寫法
+            },
+            statusCode: {
+                // 狀態碼
+                200: function (res) {},
+                404: function (res) {},
+                500: function (res) {},
+            },
+            success: function (data) {
+                // process data
+                let list = [0,1,2];
+                list.forEach(e => {
+                    let pronposalPage = "propsal-page1.html";
+                    let proposalStartedDateTime = "2022/04/01 00:00";
+                    let proposalEndedDateTime = "2022/08/01 00:00";
+                    let restDay = proposalEndedDateTime - proposalStartedDateTime;
+                    let proposalGoal = 10000;
+                    let proposalAchievement = 75000;
+                    let proposalAchievementPercent = proposalAchievement / proposalGoal *100;
+                    
+                    let html = `
+                    <tbody>
+                        <tr>
+                            <td class="text-title" rowspan="3">
+                                <a href="javascript:void(0);">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+                                <a href="${proposalPage}">SmartMi P1空氣清淨機┃小資族的空氣增質學</a>
+                            </td>
+                            <td>${proposalStartedDateTime}</td>
+                            <td>${proposalEndedDateTime}</td>
+                            <td>${}天</td>
+                        </tr>
+                        <tr>
+                            <td class="column" style="width: 140px;">目標金額</td>
+                            <td class="column" style="width: 140px;">已售金額</td>
+                            <td class="column" style="width: 140px;">募資進度</td>
+                        </tr>
+                        <tr>
+                            <td>${proposalGoal}</td>
+                            <td>${proposalAchievement}</td>
+                            <td>${proposalAchievementPercent}%</td>
+                        </tr>
+                    </tbody>
+                    `
+
+                    $('#proposalForm').append()
+
+                console.log(data);
+                // request 成功取得回應後執行
+                console.log("Success");  
+                })
+            },
+            error: function (a,b,c) {
+                console.log(a.responseText);
+                console.log(b);
+                console.log(c);
+                // request 發生錯誤的話執行
+                console.log("Error");
+            },
+            complete: function (xhr) {
+                // request 完成之後執行(在 success / error 事件之後執行)
+                console.log("Complete");
+            },
+        });
+
+        
+    })`
+</script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>

@@ -9,17 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import model.hibernate.HibernateUtil;
 import web.fundraising.vo.StatusBean;
 
 public class StatusDAOhibernateHQL implements StatusDAO {
+//  取得目前session參數，在離開servlet前都沒有session關閉的問題
+	private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	private Session session = sessionFactory.getCurrentSession();
 	
-	private Session session;
-	
-	public StatusDAOhibernateHQL(Session session) {
-		this.session = session;
-	}
+	public StatusDAOhibernateHQL() {}
 	
 	@Override
 	public StatusBean insert(StatusBean statusBean) {

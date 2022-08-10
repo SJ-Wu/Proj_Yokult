@@ -11,8 +11,8 @@ import web.fundraising.vo.OrderBean;
 public class OrderService {
 	OrderDAO OrderDAO;
 	
-	public OrderService(Session session) {
-		this.OrderDAO = new OrderDAOhibernateHQL(session);
+	public OrderService() {
+		this.OrderDAO = new OrderDAOhibernateHQL();
 	}
 	
 	public OrderBean insertBean(OrderBean orderBean) {
@@ -29,5 +29,8 @@ public class OrderService {
 	}
 	public List<OrderBean> selectAllBeans() {
 		return this.OrderDAO.selectAll();
+	}
+	public Integer selectLastID() {
+		return this.OrderDAO.selectLastID();
 	}
 }

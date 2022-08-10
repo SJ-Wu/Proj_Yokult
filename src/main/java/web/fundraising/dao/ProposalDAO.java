@@ -10,4 +10,5 @@ public interface ProposalDAO {
 	public abstract ProposalBean update(Integer id, ProposalBean proposalBean);
 	public abstract ProposalBean select(Integer id);
 	public abstract List<ProposalBean> selectAll();
+	public abstract Integer currentTotalAmount(ProposalBean proposalBean);
 }

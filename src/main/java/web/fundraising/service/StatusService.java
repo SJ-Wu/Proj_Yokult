@@ -11,8 +11,8 @@ import web.fundraising.vo.StatusBean;
 public class StatusService {
 	StatusDAO statusDAO;
 	
-	public StatusService(Session session) {
-		this.statusDAO = new StatusDAOhibernateHQL(session);
+	public StatusService() {
+		this.statusDAO = new StatusDAOhibernateHQL();
 	}
 	
 	public StatusBean insertBean(StatusBean statusBean) {

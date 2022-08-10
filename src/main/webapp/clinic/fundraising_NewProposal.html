@@ -406,7 +406,7 @@
                     </div>
                   </div>
 
-                  <div class="row g-2">
+                  <!-- <div class="row g-2">
                     <div
                       class="col-sm-2"
                       style="
@@ -437,7 +437,74 @@
                           style="padding-top: 15px; float: right"
                         ></i>
                       </label>
-                      <!-- <textarea name="summary" class="form-control bg-light border-0" placeholder="內容摘要" style="height: 55px;"> -->
+                    </div>
+                  </div> -->
+
+                  <div class="row g-2">
+                    <div
+                      class="col-sm-2"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        min-width: 115px;
+                        padding-top: 8px;
+                      "
+                    >
+                      <span class="mb-4 h6" style="display: inline; color: red"
+                        >*</span
+                      >
+                      <span class="h5 text-white">提案首圖：</span>
+                    </div>
+                    <div class="col-sm-9">
+                      <label
+                        class="form-control bg-light border-0"
+                        placeholder="Your Name"
+                        style="height: 55px; padding-right: 20px"
+                      >
+                        <input
+                          type="file"
+                          name="proposalPicture"
+                          style="display: none"
+                        />
+                        <i
+                          class="fa-solid fa-paperclip fa-lg"
+                          style="padding-top: 15px; float: right"
+                        ></i>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="row g-2">
+                    <div
+                      class="col-sm-2"
+                      style="
+                        display: flex;
+                        align-items: center;
+                        min-width: 115px;
+                        padding-top: 8px;
+                      "
+                    >
+                      <span class="mb-4 h6" style="display: inline; color: red"
+                        >*</span
+                      >
+                      <span class="h5 text-white">首圖縮圖：</span>
+                    </div>
+                    <div class="col-sm-9">
+                      <label
+                        class="form-control bg-light border-0"
+                        placeholder="Your Name"
+                        style="height: 55px; padding-right: 20px"
+                      >
+                        <input
+                          type="file"
+                          name="proposalPictureZip"
+                          style="display: none"
+                        />
+                        <i
+                          class="fa-solid fa-paperclip fa-lg"
+                          style="padding-top: 15px; float: right"
+                        ></i>
+                      </label>
                     </div>
                   </div>
 
@@ -554,7 +621,7 @@
         formData.append("action","Insert");
 
         $.ajax({
-          url: "http://localhost:8080/Proj_Yokult/fundraising", // 資料請求的網址
+          url: "../fundraising", // 資料請求的網址
           type: "POST", // GET | POST | PUT | DELETE | PATCH
           data: formData, // 將物件資料(不用雙引號) 傳送到指定的 url
           //dataType: "json",             // 預期會接收到回傳資料的格式： json | xml | html

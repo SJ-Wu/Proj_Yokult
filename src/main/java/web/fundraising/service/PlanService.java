@@ -2,32 +2,42 @@ package web.fundraising.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.hibernate.Session;
 
 import web.fundraising.dao.PlanDAO;
 import web.fundraising.dao.PlanDAOhibernateHQL;
+import web.fundraising.vo.OrderBean;
 import web.fundraising.vo.PlanBean;
+import web.fundraising.vo.ProposalBean;
 
 public class PlanService {
-	PlanDAO PlanDAO;
+	private PlanDAO planDAO;
+	private HttpServletResponse res;
 	
-	public PlanService(Session session) {
-		this.PlanDAO = new PlanDAOhibernateHQL(session);
+	public PlanService(HttpServletResponse res) {
+		this.planDAO = new PlanDAOhibernateHQL();
+		this.res = res;
 	}
 
 	public PlanBean insertBean(PlanBean planBean) {
-		return this.PlanDAO.insert(planBean);
+		return this.planDAO.insert(planBean);
 	}
 	public Boolean deleteBean(int id) {
-		return this.PlanDAO.delete(id);
+		return this.planDAO.delete(id);
 	}
 	public PlanBean updateBean(int id, PlanBean planBean) {
-		return this.PlanDAO.update(id, planBean);
+		return this.planDAO.update(id, planBean);
 	}
-	public PlanBean selectBean(int id) {
-		return this.PlanDAO.select(id);
+	public List<PlanBean> selectBeansByProposal(ProposalBean proposalBean) {
+		List<PlanBean> list_planBean = this.planDAO.selectAllBeansByProposal(proposalBean);
+		for(PlanBean planBean : list_planBean) {
+			planBean.renewBean(planDAO);
+		}
+		return list_planBean;
 	}
 	public List<PlanBean> selectAllBeans() {
-		return this.PlanDAO.selectAll();
+		return this.planDAO.selectAll();
 	}
 }

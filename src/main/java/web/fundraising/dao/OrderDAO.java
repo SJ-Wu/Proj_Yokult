@@ -12,4 +12,5 @@ public interface OrderDAO {
 	public abstract OrderBean update(Integer id, OrderBean orderBean);
 	public abstract OrderBean select(Integer id);
 	public abstract List<OrderBean> selectAll();
+	public abstract Integer selectLastID();
 }

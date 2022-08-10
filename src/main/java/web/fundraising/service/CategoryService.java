@@ -11,8 +11,8 @@ import web.fundraising.vo.CategoryBean;
 public class CategoryService {
 	CategoryDAO categoryDAO;
 	
-	public CategoryService(Session session) {
-		this.categoryDAO = new CategoryDAOhibernateHQL(session);
+	public CategoryService() {
+		this.categoryDAO = new CategoryDAOhibernateHQL();
 	}
 	
 	public CategoryBean insertBean(CategoryBean categoryBean) {

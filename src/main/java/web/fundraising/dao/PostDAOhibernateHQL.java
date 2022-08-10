@@ -3,17 +3,18 @@ package web.fundraising.dao;
 import java.util.List;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import model.hibernate.HibernateUtil;
 import web.fundraising.vo.PostBean;
 
 public class PostDAOhibernateHQL implements PostDAO {
+//  取得目前session參數，在離開servlet前都沒有session關閉的問題
+	private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	private Session session = sessionFactory.getCurrentSession();
 	
-	private Session session;
-	
-	public PostDAOhibernateHQL(Session session) {
-		this.session = session;
-	}
+	public PostDAOhibernateHQL() {}
 	
 	@Override
 	public PostBean insert(PostBean postBean) {
