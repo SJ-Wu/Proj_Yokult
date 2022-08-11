@@ -38,12 +38,18 @@ public class PlanBean implements Serializable {
 	private Integer planPurchases;	
 	@Transient
 	private String planPictureBase64;
+	@Transient
+	private long planStartedDateTimeMillis;
+	@Transient
+	private long planEndedDateTimeMillis;
 	
 
 	public void renewBean(PlanDAO planDAO) {
 		List<OrderBean> list_orderBean = planDAO.getRelationalOrders(this);
 		this.setPlanPurchases(list_orderBean.size());
 		this.planPictureBase64 = Base64.getEncoder().encodeToString(this.planPicture);
+		this.planStartedDateTimeMillis = this.planStartedDateTime.getTime();
+		this.planEndedDateTimeMillis = this.planEndedDateTime.getTime();
 	}
 	
 	public PlanBean() {}

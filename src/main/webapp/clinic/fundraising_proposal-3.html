@@ -54,176 +54,7 @@
 </head>
 
 <body>
-    <!-- 付款燈箱 -->
-    <!-- <button id="show">show</button> -->
-    <form                 
-        id="newOrder"
-        method="post"
-        enctype="multipart/form-data"
-        style="margin: 0px; padding: 0px;"
-        >
-        <div id="lightbox" class="row g-2 hideBox" style="
-        /* border: 2px solid #06a3da;  */
-        border-radius: 10px;
-        background-color: #84ddfd;
-        margin-top: 5%;
-        left: 50%;
-        transform: translate(-50%);
-        width: 550px; 
-        height: auto;
-        padding: 15px;
-        position:fixed;
-        z-index: 100;
-        ">
-            <div style="text-align:left; display: inline-block;">付款資訊</div>
-            <hr style="margin-top: 5px; height: 1px; color: black">
-
-            <!-- <div style="flex: 0 0 auto; width: 12%;">金額：</div> -->
-            <div class="col-sm-12"><h3 style="color: red;">$ 500</h3></div>
-            <p style="margin-bottom: 0px;"><b>感謝小卡</b></p>
-            <p><b>備註：感謝小卡將由我們親自設計</b></p>
-            <hr style="margin-top: 5px; height: 1px; color: black">
-
-            <input name="orderAmount" value="500" style="display:none;">
-            <input name="proposalID" value="1" style="display:none;">
-            <input name="planID" value="1" style="display:none;">
-
-            <div
-                class="col-sm-2"
-                style="
-                display: flex;
-                align-items: center;
-                min-width: 115px;
-                padding-top: 10px;
-                height: 25px;
-                ">
-                <span class="mb-4 h6" style="display: inline; color: red">*</span>
-                <span class="h6">信用卡號：</span>
-            </div>
-            <div class="col-sm-2">
-                <input
-                maxlength="4"
-                type="text"
-                name="n1"
-                class="form-control bg-light border-0"
-                placeholder="XXXX"
-                style="height: 25px;"
-                />
-            </div> _ 
-            <div class="col-sm-2">
-                <input
-                maxlength="4"
-                type="text"
-                name="n2"
-                class="form-control bg-light border-0"
-                placeholder="XXXX"
-                style="height: 25px"
-                />
-            </div> _ 
-            <div class="col-sm-2">
-                <input
-                maxlength="4"
-                type="text"
-                name="n3"
-                class="form-control bg-light border-0"
-                placeholder="XXXX"
-                style="height: 25px"
-                />
-            </div> _ 
-            <div class="col-sm-2">
-                <input
-                maxlength="4"
-                type="text"
-                name="n4"
-                class="form-control bg-light border-0"
-                placeholder="XXXX"
-                style="height: 25px"
-                />
-            </div>
-
-            <div
-            class="col-sm-2"
-            style="
-            display: flex;
-            align-items: center;
-            min-width: 115px;
-            padding-top: 10px;
-            height: 25px;
-            ">
-            <span class="mb-4 h6" style="display: inline; color: red">*</span>
-            <span class="h6">驗 證 碼 ：</span>
-            </div>
-            <div class="col-sm-2">
-                <input
-                maxlength="3"
-                type="text"
-                name="a1"
-                class="form-control bg-light border-0"
-                placeholder="驗證碼"
-                style="height: 25px;"
-                />
-            </div>
-            <div style="flex: 0 0 auto; width: 55%;"></div>
-
-            <div class="row g-2">
-                <div
-                class="col-sm-2"
-                style="
-                display: flex;
-                align-items: center;
-                min-width: 115px;
-                padding-top: 25px;
-                height: 25px;
-                "
-                >
-                  <span class="mb-4 h6" style="display: inline; color: red">*</span>
-                  <span class="h6">郵寄選項：</span>
-                </div>
-                <div class="col-sm-9">
-                  <select
-                    name="postID"
-                    class="form-select bg-light border-0"
-                    style="height: 40px"
-                  >
-                    <option selected value="1">王OO 台北市文山區XX路XX號N樓</option>
-                    <option value="2">王OO XX號新北市板橋區XX路N樓</option>
-                  </select>
-                </div>
-              </div>
-
-
-            <div class="col-sm-5">
-                <button id="confirmPayment" class="btn btn-primary py-2" type="button"
-                    style="
-                    border-radius: 5px;
-                    position: relative;
-                    margin-top: 30px;
-                    margin-bottom: 5px;
-                    width: 200px;
-                    left: 35%;
-                    transform: translate(-25%);
-                    ">確認付款
-                </button>
-            </div>
-            <div class="col-sm-5">
-                <button id="closePayment" class="btn py-2" type="button"
-                    style="
-                    border-radius: 5px;
-                    position: relative;
-                    margin-top: 30px;
-                    margin-bottom: 5px;
-                    width: 200px;
-                    left:25%;
-                    /* transform: translate(-25%); */
-
-                    color: #000;
-                    background-color: white;
-                    border-color: #06a3da;
-                    ">取消
-                </button>
-            </div>
-        </div>
-    </form>
+    aaa
     <!--注意順序-->
     <!--用javascript引入header-->
     <!-- <div class="header">header</div> -->
@@ -438,10 +269,15 @@
                 //proposal部分
                 let joProposal = jsObject[0];
                 console.log(joProposal);
-
                 //四捨五入公式
                 let roundDecimal = function (val, precision) {
                     return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, (precision || 0));
+                }
+                //數字加逗號
+                let addComma = function separator(numb) {
+                    var str = numb.toString().split(".");
+                    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    return str.join(".");
                 }
 
                 //印出募資提案
@@ -471,8 +307,9 @@
                     showBarPercent = Math.round((proposalAmount / proposalGoal)*100);                    }
 
                 if(currentMillis < proposalStartedDateTimeMillis){
-                    proposalAmount = "-";
-                    amountPercent = "-";
+                    proposalGoal = "";
+                    proposalAmount = "";
+                    amountPercent = "";
                     fontawesome = "fa-regular fa-face-surprise ";
                     status = "敬請期待";
                     showStatusText = "尚未開始";
@@ -486,7 +323,7 @@
                         fontawesome = "fa-regular fa-face-rolling-eyes ";
                         status = "尚未達標";
                     }
-                    amountPercent = roundDecimal(proposalAmount / proposalGoal *100 , 1);
+                    amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1)) + '%';
                     showStatusText = "募資中";
                     backgroundColorBase = "bg-light";
                     backgroundColor = "";
@@ -498,11 +335,19 @@
                         fontawesome = "fa-regular fa-face-dizzy ";
                         status = "未達標";
                     }
-                    amountPercent = roundDecimal(proposalAmount / proposalGoal *100 , 1);
+                    amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1)) + '%';
                     showStatusText = "已結束";
                     backgroundColorBase = "";
                     backgroundColor = "background-color: rgb(220, 220, 220);";
                 }
+                //加逗號
+                if(proposalGoal != ""){
+                    proposalGoal = '目標：$' + addComma(proposalGoal);
+                }
+                if(proposalAmount != ""){
+                    proposalAmount = addComma(proposalAmount);
+                }
+
                 
                 let html_proposal = `
                         <div class="col-lg-8 wow slideInUp" data-wow-delay="0.1s" >
@@ -521,11 +366,13 @@
                                         <div style="height: 4px; width: ${showBarPercent}%; background: lightcoral"></div>
                                     </div>
                                     <div>
-                                        <p style="margin: 0; font-size: small; display: inline;">$ ${proposalGoal}</p>
-                                        <div style="display: inline"> | </div>
-                                        <p style="margin: 0; font-size: small; display: inline;">${amountPercent}%</p>
-                                        <div style="display: inline;"> | </div>
-                                        <p style="margin: 3px 0px; font-size: small; display: inline; float: right;">${status}</p>
+                                        <p style="margin: 0px; display: inline; font-size: xx-large; font-weight:bold;">$${proposalAmount}</p>
+                                        <p style="margin-top: 20px; display: inline; float: right; font-size: medium; font-weight:bold;">${status}</p>
+                                        <div style="margin-top: 20px; display: inline; float: right; font-size: medium; font-weight:bold;"> | </div>
+                                        <p style="margin-top: 20px; display: inline; float: right; font-size: medium; font-weight:bold;">${amountPercent}</p>
+                                    </div>
+                                    <div>
+                                        <p style="margin: 0; font-size: small; display: inline;">${proposalGoal}</p>
                                     </div>
                                     <hr  style="display: flex;">
                                     <div style="display: flex;">
@@ -587,16 +434,17 @@
                         `;
                 $('#MainArea').prepend(html_proposal);
 
-
+                ///////////////////////////////////////////////////////////////////////////////////////////
 
                 //plan部分
                 let joPlans = jsObject[1];
                 console.log(joPlans);
                 for(var i=0 ; i<joPlans.length ; i++ ){
                     let plan = joPlans[i];
+
                     let planID = plan.planID;
                     let planName = plan.planName;
-                    let planAmount = plan.planAmount;
+                    let planAmount = addComma(plan.planAmount);
                     let planContent = plan.planContent;
                     let planPostNote = plan.planPostNote;
                     let planPostDate = plan.planPostDate;
@@ -604,20 +452,34 @@
                         planPostDate = "無";
                     }
 
-                    let planStartedDateTime = plan.planStartedDateTime;
-                    if(undefined == planStartedDateTime){
-                        planStartedDateTime = "無";
+                    let planStartedDateTimeMillis = plan.planStartedDateTimeMillis;
+                    if(undefined == planStartedDateTimeMillis){
+                        planStartedDateTimeMillis = "無";
                     }
 
-                    let planEndedDateTime = plan.planEndedDateTime;
-                    if(undefined == planEndedDateTime){
-                        planEndedDateTime = "無";
+                    let planEndedDateTimeMillis = plan.planEndedDateTimeMillis;
+                    if(undefined == planEndedDateTimeMillis){
+                        planEndedDateTimeMillis = "無";
                     }
 
                     let planPictureBase64 = plan.planPictureBase64;
                     let proposalID = plan.proposalID;
                     let planPurchases = plan.planPurchases;
-
+                    
+                    let status; 
+                    if(currentMillis < proposalStartedDateTimeMillis){
+                        status = "尚未開始";
+                    }else if(currentMillis <= proposalEndedDateTimeMillis){
+                        if(currentMillis < planStartedDateTimeMillis){
+                            status = "尚未開始";
+                        }else if(currentMillis <= planEndedDateTimeMillis){
+                            status = "贊助專案";
+                        }else{
+                            status = "已結束";
+                        }
+                    }else{
+                        status = "已結束";
+                    }
 
                     let html_plan = `
 
@@ -646,7 +508,7 @@
                                 </div>
 
                             </a>
-                            <button id="found-1" class="btn btn-primary py-2"
+                            <button id="found-${planID}" class="btn btn-primary py-2"
                                 style="
                                 border-radius: 5px;
                                 position: relative;
@@ -654,7 +516,7 @@
                                 width: 200px;
                                 left: 35%;
                                 transform: translate(-25%);
-                                ">贊助專案
+                                ">${status}
                             </button>
                         </div>
                     </div>
@@ -662,8 +524,142 @@
 
                     $('#PlanArea').append(html_plan);
                 
-                }
+                    
+                    ///////////////////////////////////////////////////////////////////////////////////////////
+                    
+                    
+                    //post部分，穿插postOption
+                    let joPosts = jsObject[2];
+                    var html_postOption = "init";
+                    console.log("joPosts.length : " + joPosts.length);
+                    for(var j=0 ; j<joPosts.length; j++ ){
+                        console.log(j);
+                        let post = joPosts[j];
+                        let postID = post.postID;
+                        let postFisrtName = post.postFisrtName;
+                        let postLastName = post.postLastName;
+                        let postCellphone = post.postCellphone;
+                        let post_SID = post.post_SID;
+                        let postCity = post.postCity;
+                        let postArea = post.postArea;
+                        let postNumber = post.postNumber;
+                        let postAddress = post.postAddress;
+                        let memID = post.memID;
+                        
+                        let templete_head = `<option `;
+                        let templete_first = `selected `;
+                        let templete_value = `value="${postID}"> `;
+                        let templete_content = 
+                            postLastName + " " + postFisrtName + " : " + 
+                            postNumber + " " + postCity + postArea + postAddress;
+                        let templete_foot = `</option> `;
+                        if(j==0){
+                            console.log("a"+html_postOption);
+                            html_postOption = "";
+                            console.log("b"+html_postOption);
+                            html_postOption += templete_head + templete_first + templete_value + templete_content + templete_foot;
+                            console.log("c"+html_postOption);
+                        }else{
+                            html_postOption += templete_head + templete_value + templete_content + templete_foot;
+                        }
+                        console.log("each : " + html_postOption);
+                    }
+                    console.log("final : "+html_postOption);
+                    // 付款燈箱
+                    let html_lightBox = `
+                        <form id="newOrder-${planID}" class="hideBox" method="post" enctype="multipart/form-data" style="margin: 0px; padding: 0px;">
+                            <div id="lightbox-${planID}" class="row g-2" style=" border-radius: 10px; background-color: #84ddfd;
+                            margin-top: 5%; left: 50%; transform: translate(-50%); width: 550px;  height: auto; padding: 15px;
+                            position:fixed;z-index: 100;">
+                                <div style="text-align:left; display: inline-block;">付款資訊</div>
+                                <hr style="margin-top: 5px; height: 1px; color: black">
+                            
+                                <div style="flex: 0 0 auto; width: 12%;">金額：</div>
+                                <div class="col-sm-12"><h3 style="color: red;">$ ${planAmount}</h3></div>
+                                <p style="margin-bottom: 0px;"><b>${planName}</b></p>
+                                <p><b>${planContent}</b></p>
+                                <hr style="margin-top: 5px; height: 1px; color: black">
+                            
+                                <input name="orderAmount" value="${planAmount}" style="display:none;">
+                                <input name="proposalID" value="${proposalID}" style="display:none;">
+                                <input name="planID" value="${planID}" style="display:none;">
+                            
+                                <div class="col-sm-2" style=" display: flex; align-items: center; min-width: 115px; padding-top: 10px; height: 25px;">
+                                    <span class="mb-4 h6" style="display: inline; color: red">*</span>
+                                    <span class="h6">信用卡號：</span>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input maxlength="4" type="text" name="n1-${planID}" class="form-control bg-light border-0" placeholder="XXXX" style="height: 25px;" />
+                                </div> _ 
+                                <div class="col-sm-2">
+                                    <input maxlength="4" type="text" name="n2-${planID}" class="form-control bg-light border-0" placeholder="XXXX" style="height: 25px" />
+                                </div> _ 
+                                <div class="col-sm-2">
+                                    <input maxlength="4" type="text" name="n3-${planID}" class="form-control bg-light border-0" placeholder="XXXX" style="height: 25px" />
+                                </div> _ 
+                                <div class="col-sm-2">
+                                    <input maxlength="4" type="text" name="n4-${planID}" class="form-control bg-light border-0" placeholder="XXXX" style="height: 25px" />
+                                </div>
+    
+                                <div class="col-sm-2" style=" display: flex; align-items: center; min-width: 115px; padding-top: 10px; height: 25px; ">
+                                    <span class="mb-4 h6" style="display: inline; color: red">*</span>
+                                    <span class="h6">驗 證 碼 ：</span>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input maxlength="3" type="text" name="a1-${planID}" class="form-control bg-light border-0" placeholder="驗證碼" style="height: 25px;" />
+                                </div>
+                                <div style="flex: 0 0 auto; width: 55%;"></div>
+                                
+                                <div class="row g-2">
+                                    <div class="col-sm-2" style=" display: flex; align-items: center; min-width: 115px; padding-top: 25px; height: 25px; ">
+                                        <span class="mb-4 h6" style="display: inline; color: red">*</span>
+                                        <span class="h6">郵寄選項：</span>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <select id="postID-${planID}" name="postID-${planID}" class="form-select bg-light border-0" style="height: 40px" >
+                                            ${html_postOption}
+                                        </select>
+                                    </div>
+                                </div>
+                                        
+                                        
+                                <div class="col-sm-5">
+                                    <button id="confirmPayment-${planID}" class="btn btn-primary py-2" type="button"
+                                        style=" border-radius: 5px; position: relative; margin-top: 30px; margin-bottom: 5px; width: 200px; left: 35%;
+                                        transform: translate(-25%);">
+                                        確認付款
+                                    </button>
+                                </div>
+                                <div class="col-sm-5">
+                                    <button id="closePayment-${planID}" class="btn py-2" type="button"
+                                        style=" border-radius: 5px; position: relative; margin-top: 30px; margin-bottom: 5px; width: 200px; left:25%;
+                                        color: #000; background-color: white; border-color: #06a3da;">
+                                        取消
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    `;
+                    $('body').prepend(html_lightBox);
 
+
+
+                        
+                    let btnOpen=document.querySelector(`#found-${planID}`);
+                    let btnClose=document.querySelector(`#closePayment-${planID}`);
+                    let btnPay=document.querySelector(`#confirmPayment-${planID}`);
+                    let dialog=document.querySelector(`#newOrder-${planID}`);
+                    btnOpen.addEventListener("click", function(){
+                        dialog.classList.remove("hideBox");
+                    })
+                    btnClose.addEventListener("click", function(){
+                        dialog.classList.add("hideBox");
+                    })
+                    btnPay.addEventListener("click", function(){
+                        dialog.classList.add("hideBox");
+                    })
+                    
+                }
                 console.log("Success");
             },
             error: function (a,b,c) {
@@ -681,6 +677,22 @@
     })
 </script>
 
+    <!-- 開啟方案結帳頁面 -->
+    <script>
+        // let btnOpen=document.querySelector("#found-1");
+        // let btnClose=document.querySelector("#closePayment");
+        // let btnPay=document.querySelector("#confirmPayment");
+        // let dialog=document.querySelector("#lightbox");
+        // btnOpen.addEventListener("click", function(){
+        //     dialog.classList.remove("hideBox");
+        // })
+        // btnClose.addEventListener("click", function(){
+        //     dialog.classList.add("hideBox");
+        // })
+        // btnPay.addEventListener("click", function(){
+        //     dialog.classList.add("hideBox");
+        // })
+    </script>
 
 </body>
 

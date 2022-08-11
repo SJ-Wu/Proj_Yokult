@@ -7,7 +7,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import model.hibernate.HibernateUtil;
+import web.fundraising.vo.PlanBean;
 import web.fundraising.vo.PostBean;
+import web.fundraising.vo.ProposalBean;
 
 public class PostDAOhibernateHQL implements PostDAO {
 //  取得目前session參數，在離開servlet前都沒有session關閉的問題
@@ -48,13 +50,11 @@ public class PostDAOhibernateHQL implements PostDAO {
 		}
 		return null;
 	}
-
 	@Override
-	public PostBean select(Integer id) {
-		if(id != null && id >0) {
-			return this.session.get(PostBean.class, id);
-		}
-		return null;
+	public List<PostBean> selectAllBeansByMemberID(String memID) {
+		Query<PostBean> qurey = this.session.createQuery("from PostBean where memID =\'" + memID + "\'", PostBean.class);
+		List<PostBean> result = qurey.list();
+		return result;
 	}
 
 	@Override

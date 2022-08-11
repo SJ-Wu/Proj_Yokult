@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.lang.reflect.Member;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,6 +48,7 @@ import web.fundraising.common.HtmlPostJsonGetter;
 import web.fundraising.service.CategoryService;
 import web.fundraising.service.OrderService;
 import web.fundraising.service.PlanService;
+import web.fundraising.service.PostNumberService;
 import web.fundraising.service.PostService;
 import web.fundraising.service.ProposalService;
 import web.fundraising.service.StatusService;
@@ -56,6 +58,10 @@ import web.fundraising.vo.PlanBean;
 import web.fundraising.vo.PostBean;
 import web.fundraising.vo.ProposalBean;
 import web.fundraising.vo.StatusBean;
+import web.member.dao.MemberDao;
+import web.member.dao.impl.MemberDaoHibernate;
+import web.member.service.MemberService;
+import web.member.service.impl.MemberServiceImpl;
 
 
 @WebServlet("/fundraising")
@@ -95,8 +101,20 @@ public class FundraisingServlet extends HttpServlet {
 //	    檢查是否登入、是否有提案
 	    httpSession.setAttribute("memID", "TGA001");
 	    String memberID = "TGA001";
+	    String password = "123";
 	    Integer proposalID = 1;
 
+		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+		Session session = sessionFactory.getCurrentSession();
+	    MemberDaoHibernate memberDao = new MemberDaoHibernate(sessionFactory);
+	    MemberService memberService = new MemberServiceImpl(memberDao);
+	    web.member.vo.Member member = new web.member.vo.Member();
+	    member.setMemID(memberID);
+	    member.setMemPassword(password);
+	    member = memberService.login(member);
+	    if(null == member) {
+	    	System.out.println("Login success.");
+	    }
 	    
 	    
 //	    == 檢查前端form資料 ==
@@ -140,12 +158,13 @@ public class FundraisingServlet extends HttpServlet {
 	    	System.out.println();    //間隔一行
 	    }
 	    
-////    ===================================  僅查詢一個proposal + 一個plan  =================================
+////    ===================================  僅查詢一個proposal + 一個plan + 會員資訊 =================================
 //	    fundraising_propsal-n
 	    if("Proposal".equals(table) && "GetOne".equals(action)){	
 	    	res.setContentType("application/json; charset=utf-8");
 	    	ProposalService proposalService = new ProposalService(res);
 	    	ProposalBean proposalQueryResult = proposalService.selectBean(Integer.parseInt(page));
+	    	System.out.println("proposalBean : " + proposalQueryResult);
 	    	
 	    	PlanService planService = new PlanService(res);
 	    	List<PlanBean> planQueryResult = planService.selectBeansByProposal(proposalQueryResult);
@@ -153,14 +172,23 @@ public class FundraisingServlet extends HttpServlet {
 				System.out.println("planBean : " + bean);
 	    	}
 	    	
+	    	PostService postService = new PostService();
+	    	List<PostBean> postQueryResult = postService.selectAllBeansByMemberID(member.getMemID());
+	    	PostNumberService postnumberService = new PostNumberService();
+	    	for(PostBean bean : postQueryResult) {
+	    		bean.renew(postnumberService);
+				System.out.println("postBean : " + bean);
+	    	}
+	    	
 	    	List<Object> sum = new ArrayList<Object>();
 	    	sum.add(proposalQueryResult);
 	    	sum.add(planQueryResult);
+	    	sum.add(postQueryResult);
 	    	
 	    	PrintWriter out = res.getWriter();
 	    	String jsonString = new Gson().toJson(sum);
 	    	out.write(jsonString);
-	    	System.out.println("Succeeded to get proposalJsonString + plansJsonString : \n" + jsonString);
+//	    	System.out.println("Succeeded to get proposalJsonString + plansJsonString : \n" + jsonString);
 	    	
 	    	out.flush();
 	    	res.flushBuffer();

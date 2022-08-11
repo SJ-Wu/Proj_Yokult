@@ -6,28 +6,29 @@ import org.hibernate.Session;
 
 import web.fundraising.dao.PostDAO;
 import web.fundraising.dao.PostDAOhibernateHQL;
+import web.fundraising.vo.PlanBean;
 import web.fundraising.vo.PostBean;
 
 public class PostService {
-	PostDAO PostDAO;
+	PostDAO postDAO;
 	
 	public PostService() {
-		this.PostDAO = new PostDAOhibernateHQL();
+		this.postDAO = new PostDAOhibernateHQL();
 	}
 	
 	public PostBean insertBean(PostBean postBean) {
-		return this.PostDAO.insert(postBean);
+		return this.postDAO.insert(postBean);
 	}
 	public Boolean deleteBean(Integer id) {
-		return this.PostDAO.delete(id);
+		return this.postDAO.delete(id);
 	}
 	public PostBean updateBean(Integer id, PostBean postBean) {
-		return this.PostDAO.update(id, postBean);
+		return this.postDAO.update(id, postBean);
 	}
-	public PostBean selectBean(Integer id) {
-		return this.PostDAO.select(id);
+	public List<PostBean> selectAllBeansByMemberID(String memID) {
+		return this.postDAO.selectAllBeansByMemberID(memID);
 	}
 	public List<PostBean> selectAllBeans() {
-		return this.PostDAO.selectAll();
+		return this.postDAO.selectAll();
 	}
 }

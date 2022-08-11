@@ -18,6 +18,7 @@
 		<mapping class="web.fundraising.vo.PostBean" />
 		<mapping class="web.fundraising.vo.ProposalBean" />
 		<mapping class="web.fundraising.vo.StatusBean"/>
+		<mapping class="web.fundraising.vo.PostNumberBean"/>		
 		
 	</session-factory>
 </hibernate-configuration>

@@ -250,6 +250,12 @@
                     let roundDecimal = function (val, precision) {
                         return Math.round(Math.round(val * Math.pow(10, (precision || 0) + 1)) / 10) / Math.pow(10, (precision || 0));
                     }
+                    //數字加逗號
+                    let addComma = function separator(numb) {
+                        var str = numb.toString().split(".");
+                        str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        return str.join(".");
+                    }
 
                     //迴圈印出募資提案
                     for(var i=0 ; i<jsObject.length ; i++ ){
@@ -295,7 +301,7 @@
                                 fontawesome = "fa-regular fa-face-rolling-eyes ";
                                 status = "尚未達標";
                             }
-                            amountPercent = roundDecimal(proposalAmount / proposalGoal *100 , 1);
+                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1));
                             showStatusText = "募資中";
                             backgroundColorBase = "bg-light";
                             backgroundColor = "";
@@ -307,12 +313,14 @@
                                 fontawesome = "fa-regular fa-face-dizzy ";
                                 status = "未達標";
                             }
-                            amountPercent = roundDecimal(proposalAmount / proposalGoal *100 , 1);
+                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1));
                             showStatusText = "已結束";
                             backgroundColorBase = "";
                             backgroundColor = "background-color: rgb(220, 220, 220);";
                         }
-
+                        // 加逗號
+                        proposalGoal = addComma(jsObject[i].proposalGoal);
+                        proposalAmount = addComma(jsObject[i].proposalAmount);
 
 
                         let html = `
@@ -338,10 +346,10 @@
                                                 <div style="height: 4px; width: ${showBarPercent}%; background: lightcoral"></div>
                                             </div>
 
-                                            <p style="margin: 0; font-size: small; display: inline;">$ ${proposalAmount}</p>
-                                            <div style="display: inline;"> | </div>
-                                            <p style="margin: 0; font-size: small; display: inline;">${amountPercent}%</p>
-                                            <p style="margin: 0; font-size: small; display: inline; float:right;">${showStatusText}</p>
+                                            <p style="margin: 0; display: inline; font-size: small; font-weight:bold;">$ ${proposalAmount}</p>
+                                            <div style="display: inline; font-size: small; font-weight:bold;"> | </div>
+                                            <p style="margin: 0; display: inline; font-size: small; font-weight:bold;">${amountPercent}%</p>
+                                            <p style="margin-top: 5px; display: inline; font-size: small; font-weight:bold; float:right;">${showStatusText}</p>
                                         </div>
                                     </div>
                                 </div>
