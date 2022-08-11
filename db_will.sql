@@ -60,7 +60,7 @@ CREATE TABLE `product` (
   COMMENT = '商品資訊';
   
   INSERT INTO 
-	`product` (`proid`, `proname`, `prostock`, `proprice`, `prospecs`, `probrand`, `propicture`, `procategory`) 
+	`product` (`proid`, `pronameorderorder`, `prostock`, `proprice`, `prospecs`, `probrand`, `propicture`, `procategory`) 
 VALUES 
 ('1', 'MARVIS義大利經典牙膏', '30', '339', '85ml', 'MARVIS ', 'https://raw.githubusercontent.com/Peggy79/first/main/img/000.jpg', '清潔相關'),
 	('2', '舒酸定強化琺瑯質兒童牙膏', '30', '180', '65g', '舒酸定', 'https://raw.githubusercontent.com/Peggy79/first/main/img/images62.jpg', '清潔相關'),

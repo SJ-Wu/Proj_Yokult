@@ -93,4 +93,14 @@ public class Order {
 		this.phone = phone;
 	}
 
+	public Object getTotal() {
+		
+		return null;
+	}
+
+	public Object getPromoteId() {
+		
+		return null;
+	}
+
 }

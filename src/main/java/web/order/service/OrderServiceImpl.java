@@ -4,9 +4,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.naming.NamingException;
 
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutALL;
 import web.order.dao.OrderDao;
 import web.order.dao.OrderDaoJDBC;
 import web.order.vo.Order;
@@ -18,34 +21,36 @@ public class OrderServiceImpl implements OrderService {
 		orderDao = new OrderDaoJDBC();
 
 	}
-    // 回傳全部
+
+	// 回傳全部
 	@Override
 	public List<Order> searchOrders() {
 		return orderDao.selectAll();
 	}
-	
-	//回傳指定編號的訂單
+
+	// 回傳指定編號的訂單
 	@Override
 	public Order selectOrderid(String orderid) {
 		List<Order> listall = orderDao.selectAll();
-		for(Order order : listall) {
-			if( orderid.equals(order.getOrdid())){
+		for (Order order : listall) {
+			if (orderid.equals(order.getOrdid())) {
 				return order;
 			}
 		}
 		return null;
 	}
-	//回傳下拉選單類別查詢
+
+	// 回傳下拉選單類別查詢
 	@Override
 	public List<Order> selectOrderStatus(String orderStatus) {
 		List<Order> listall = orderDao.selectAll();
 		List<Order> listStatus = new ArrayList<Order>();
-		for(Order order : listall) {
-			if( orderStatus.equals(order.getOrderstatus())){
+		for (Order order : listall) {
+			if (orderStatus.equals(order.getOrderstatus())) {
 				listStatus.add(order);
 			}
 		}
-		if(listStatus.size() > 0) {
+		if (listStatus.size() > 0) {
 			return listStatus;
 		}
 		return null;
@@ -70,4 +75,32 @@ public class OrderServiceImpl implements OrderService {
 		orderid.append(sDateFormat.format(new Date()));
 		return orderid.toString();
 	}
+	
+
+	@Override
+	public String ecpayValidation(List<String> proname, Integer ordid, Order order, String totalCount) {
+
+		Optional<String> reduce = proname.stream().reduce((String acc, String curr) -> {
+			return acc + "#" + curr; //回傳累加 用#來隔開
+		});
+		String itemName = reduce.get();
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"); //綠界規定日期模式
+		String orderDate = sdf.format(new Date());
+		AllInOne allInOne = new AllInOne("");
+		AioCheckOutALL aioCheckOutALL = new AioCheckOutALL();
+		aioCheckOutALL.setMerchantTradeNo(ordid + "Yokult"); //訂單編號必須數字+英文字母 
+		aioCheckOutALL.setMerchantTradeDate(orderDate);
+		aioCheckOutALL.setTotalAmount(totalCount); //加總
+		aioCheckOutALL.setTradeDesc("test");
+		aioCheckOutALL.setItemName(itemName);
+		aioCheckOutALL.setClientBackURL("http://localhost:8080/Proj_Yokult/clinic/shopping.html");
+		aioCheckOutALL.setReturnURL("http://localhost:8080/Proj_Yokult/clinic/shopping.html"); //結束後回到自動商城
+		aioCheckOutALL.setNeedExtraPaidInfo("N");
+
+		return allInOne.aioCheckOut(aioCheckOutALL, null);
+
+	}
+	
+	
 }

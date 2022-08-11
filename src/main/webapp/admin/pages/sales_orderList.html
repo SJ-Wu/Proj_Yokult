@@ -363,11 +363,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 								</div>
 								<!-- /.card-body -->
 								<div class="card-footer">
-									<button  class="search btn btn-primary" data-table="order-table">依訂單編號搜尋
+									<button class="search btn btn-primary" data-table="order-table">依訂單編號搜尋
 									</button>
-									<button style="margin-left: 350px;" class="searchStatus btn btn-primary" data-table="order-table">依類別搜尋
+									<button style="margin-left: 350px;"
+										class="searchStatus btn btn-primary" data-table="order-table">依類別搜尋
 									</button>
-									<button  onclick="reset()" class="btn btn-default float-right" >
+									<button onclick="reset()" class="btn btn-default float-right">
 										重置</button>
 								</div>
 							</div>
@@ -433,7 +434,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 										<th>訂單狀態</th>
 										<th>地址</th>
 										<th>收件人</th>
-										
+
 										<th>購買日期</th>
 										<th>聯絡方式</th>
 										<th>市話</th>
@@ -444,7 +445,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 									<tr>
 										<td>2209290006</td>
 										<td>范少勛</td>
-										
+
 										<td>線上刷卡</td>
 										<td><select name="" id="order">
 												<option value=""></option>
@@ -460,8 +461,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 												<option value="">退款中</option>
 												<option value="">退款成功</option>
 										</select>
-											<button id="btn" class="btn-xs btn-light">鎖定</button> 
-											<script>
+											<button id="btn" class="btn-xs btn-light">鎖定</button> <script>
                                                             document.querySelector(
                                                                 "#btn"
                                                             ).onclick = () => {
@@ -473,19 +473,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                                                     ).disabled;
                                                             };
                                                         </script></td>
-														<td>242新北市新莊區新泰路100號</td>
-														<td>草蝦</td>
-									
+										<td>242新北市新莊區新泰路100號</td>
+										<td>草蝦</td>
+
 										<td>2022-09-29 00:30:00</td>
 										<td>0919495902</td>
 										<td>無</td>
 										<td>
 											<button class="btn-xs btn-light" data-toggle="modal"
-												data-target="#editProduct">
-												查看詳情</button>
+												data-target="#editProduct">查看詳情</button>
 										</td>
 									</tr>
-									
+
 								</tbody>
 							</table>
 							<!-- <script>

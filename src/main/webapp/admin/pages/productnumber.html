@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Document</title>
+<style>
+th, td {
+	padding: 10px 40px;
+	border: 2px solid red;
+}
+</style>
+</head>
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>orderlistid</th>
+				<th>proname</th>
+				<th>quantity</th>
+			</tr>
+		</thead>
+		<tbody id="data"></tbody>
+	</table>
+
+	<script>
+            const orderData = document.querySelector("#data");
+            const selOrder = document.querySelector("#order");
+            const yaApi = {
+                all: "./productnumber.json",
+                no: "",
+                yes: "",
+            };
+            function trTamplate(id, name, quantity) {
+                return `<tr>
+                    <td>      <select name="1" id="order${id}">
+            <option value="0">未審核</option>
+            <option value="1">審核中</option>
+            <option value="2">已完成</option>
+        </select></td>
+                    <td>${name}</td>
+                    <td>${quantity}</td>
+                </tr>`;
+            }
+
+            /*
+             * init
+             */
+            function init(MyUrl) {
+                // select *
+
+                fetch(MyUrl)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        // 印到頁面
+                        // orderData.innerHTML = data
+                        //     .map(({ id, name, price }) => {
+                        //         return trTamplate(id, name, price);
+                        //     })
+                        //     .join("");
+
+                        data.forEach((e, i) => {
+                            orderData.innerHTML += trTamplate(
+                                e.orderlistid,
+                                e.proname,
+                                e.quantity
+                            );
+
+                            const selOrder = document.querySelector(
+                                `#order${e.orderlistid}`
+                            );
+                            selOrder.value = e.orderlistid;
+
+                            selOrder.onchange = () => {
+                                alert("我被換了");
+                            };
+                        });
+                    });
+            }
+            window.addEventListener("load", init(yaApi.all));
+        </script>
+</body>
+</html>

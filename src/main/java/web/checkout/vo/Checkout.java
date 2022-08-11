@@ -5,9 +5,18 @@ import web.order.vo.Order;
 import web.orderlist.vo.Orderlist;
 
 public class Checkout {
+	private String totalCount;
 	private Order order;
 	private List<Orderlist> orderlist;
 	
+	public String getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(String totalCount) {
+		this.totalCount = totalCount;
+	}
+
 	public Order getOrder() {
 		return order;
 	}

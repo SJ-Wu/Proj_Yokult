@@ -5,7 +5,10 @@ $(window).on("load", () => {
     let consignee = {};
     let paymethod;
     sessionStorage.setItem("delivery", "mailing");
+
     orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
+
+    console.log(orderlist);
     orderlist.forEach((product) => {
         addList(product);
         // remove unused key
@@ -18,6 +21,7 @@ $(window).on("load", () => {
     getDelivery(delivery);
     subtotal();
     totalaccount();
+    console.log($("input#consignee-cellphone"));
 
     // 收貨人同付款
     $("#same-payment").on("click", () => {
@@ -25,37 +29,40 @@ $(window).on("load", () => {
             payment = getPaymentInfo();
             $("#consignee-name").val(payment["name"]);
             $("#consignee-cellphone").val(payment["cellphone"]);
-            $("#consignee-phone").val(payment["phone"] ?? "");
+            $("#consignee-phone").val(payment["phone"]);
         }
     });
 
     // 結帳按鈕
     $("#btn-checkout").on("click", () => {
         order = getOrder();
+        console.log(order);
         axios
             .post("http://localhost:8080/Proj_Yokult/Checkout", {
                 order,
                 orderlist,
             })
             .then((response) => {
-                // let msg = response.data["msg"];
-                // if (msg === "Success") {
-                //     alert("付款成功");
-                // } else {
-                //     alert("付款失敗");
-                // }
-                console.log(response);
+                console.log(response.data);
+                let msg = response.data["msg"];
+                if (msg === "Success") {
+                    alert("付款成功");
+                    $(".clean").val("");
+                } else {
+                    alert("付款失敗");
+                }
+                // console.log(response);
             })
             .catch((error) => console.log(error));
     });
 });
 
-// 取得付款資訊
+// 取得付款資訊（信用卡）
 function getPaymentInfo() {
     let payment = {};
     payment["name"] = $("#payment-name").val();
     payment["cellphone"] = $("#payment-cellphone").val();
-    payment["phone"] = $("#payment-phone").val() ?? "";
+    payment["phone"] = $("#payment-phone").val();
     payment["creditcard-number"] = $("#payment-creditcard-number").val();
     payment["creditcard-code"] = $("#payment-creditcard-code").val();
     return payment;
@@ -78,10 +85,9 @@ function getOrder() {
     order["paymethod"] = $('input[name="payment"]:checked').val();
     order["receipter"] = $("#consignee-name").val();
     order["cellphone"] = $("#payment-cellphone").val();
-    order["phone"] = $("#consignee-phone").val() ?? "";
-    order["addr"] =
-        $("#consignee-city option:selected").val() +
-        $("#consignee-dist option:selected").val();
+    order["phone"] = $("#consignee-phone").val();
+    order["addr"] = $("#consignee-city").val();
+    $("#consignee-dist").val() + $("#address").val();
     return order;
 }
 
@@ -112,8 +118,8 @@ function addList(order) {
     商品名稱：
     <span>${order["proName"]}</span>
     <ul>
-        <li>價格：$<span>${order["proPrice"] ?? ""}</span></li>
-        <li>數量：<span>${order["quantity"] ?? ""}</span></li>
+        <li>價格：$<span>${order["proPrice"]}</span></li>
+        <li>數量：<span>${order["quantity"]}</span></li>
         <li>小計：$<span class="total_price">${
             order["proPrice"] * order["quantity"]
         }</span>></li>
@@ -121,3 +127,15 @@ function addList(order) {
     </li>`;
     $("#orderlist").append(list);
 }
+//ecpay
+fetch("/Adopets/shCartAction", {
+    method: "POST",
+    body: JSON.stringify(data),
+})
+    .then((response) => response.text())
+    .then((text) => {
+        $("xxx").html(text);
+
+        return;
+    });
+//ecpay

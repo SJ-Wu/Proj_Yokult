@@ -17,7 +17,16 @@
 	</properties>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.1</version>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -63,7 +72,8 @@
 	<build>
 		<finalName>Proj_Yokult</finalName>
 		<pluginManagement>
-			<!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
+			<!-- lock down plugins versions to avoid using Maven defaults (may be 
+				moved to parent pom) -->
 			<plugins>
 				<plugin>
 					<artifactId>maven-clean-plugin</artifactId>
