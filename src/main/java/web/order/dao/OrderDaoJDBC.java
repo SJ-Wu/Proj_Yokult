@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import web.order.vo.Order;
+import web.orderlist.vo.Orderlist;
 
 public class OrderDaoJDBC implements OrderDao{
 	private DataSource dataSource;
@@ -72,5 +73,20 @@ public class OrderDaoJDBC implements OrderDao{
 		System.out.println("[SELECTALL] GetNothing");
 		return null;
 	}
+	
+	final String INSERTorderid = "insert into `orderlist` (ordid FROM yokult.orderlist)";
+	@Override
+	public Integer insert(Orderlist orderlist) {
+		try(Connection conn = dataSource.getConnection(); PreparedStatement ps = conn.prepareStatement(INSERTorderid);) {
+			ps.setString(1, orderlist.getOrdid());
+			int rowCount = ps.executeUpdate();
+			System.out.println("[INSERT] " + rowCount + " ordid");
+			return rowCount;
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("[INSERT] Fail");
+		return -1;
+	} 
 
 }

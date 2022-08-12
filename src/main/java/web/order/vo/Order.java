@@ -3,7 +3,9 @@ package web.order.vo;
 import java.sql.Timestamp;
 
 public class Order {
-
+	//轉hibeernate要額外@transient
+	private String totalCount;
+	
 	private String ordid;
 	private String memid;
 	private String paymethod;

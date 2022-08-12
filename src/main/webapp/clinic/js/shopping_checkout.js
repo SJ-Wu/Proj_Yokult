@@ -4,24 +4,23 @@ $(window).on("load", () => {
     let payment = {};
     let consignee = {};
     let paymethod;
-    sessionStorage.setItem("delivery", "mailing");
 
     orderlist = JSON.parse(sessionStorage.getItem("orderlist"));
 
-    console.log(orderlist);
+    // console.log(orderlist);
     orderlist.forEach((product) => {
         addList(product);
         // remove unused key
         delete product.proName;
         delete product.proPicture;
     });
-    console.log("after:");
-    console.log(orderlist);
+    // console.log("after:");
+    // console.log(orderlist);
     delivery = sessionStorage.getItem("delivery");
     getDelivery(delivery);
     subtotal();
     totalaccount();
-    console.log($("input#consignee-cellphone"));
+    // console.log($("input#consignee-cellphone"));
 
     // 收貨人同付款
     $("#same-payment").on("click", () => {
@@ -36,25 +35,37 @@ $(window).on("load", () => {
     // 結帳按鈕
     $("#btn-checkout").on("click", () => {
         order = getOrder();
+        //呆呆A方法  order.totalCount = $("span#total").text(); 並在VO裡面加屬性 讓gson parse
+        //呆呆B方法  totalCount = $("span#total").text() 加在post裡面一起傳  在checkoutVO加屬性  讓gson parse
+        //chrome一直獨到舊的檔案 用edge開就可以即時讀到
+        totalCount = $("span#total").text();
         console.log(order);
+        console.log(totalCount);
         axios
             .post("http://localhost:8080/Proj_Yokult/Checkout", {
                 order,
                 orderlist,
+                totalCount,
             })
             .then((response) => {
-                console.log(response.data);
+                console.log(response);
                 let msg = response.data["msg"];
-                if (msg === "Success") {
-                    alert("付款成功");
-                    $(".clean").val("");
+                if ($("#creditcard").val() === "creditcard") {
+                    $("#ecpay").html(response.data.msg);
                 } else {
-                    alert("付款失敗");
+                    if (msg === "Success") {
+                        alert("付款成功");
+                        $(".clean").val("");
+                    } else {
+                        alert("付款失敗");
+                    }
                 }
-                // console.log(response);
             })
             .catch((error) => console.log(error));
     });
+
+    console.log("hereeeeeeeeee");
+    console.log($("span#total").text());
 });
 
 // 取得付款資訊（信用卡）
@@ -127,15 +138,16 @@ function addList(order) {
     </li>`;
     $("#orderlist").append(list);
 }
-//ecpay
-fetch("/Adopets/shCartAction", {
-    method: "POST",
-    body: JSON.stringify(data),
-})
-    .then((response) => response.text())
-    .then((text) => {
-        $("xxx").html(text);
+// console.log("Data:", data);
+// //ecpay
+// fetch("/Adopets/shCartAction", {
+//     method: "POST",
+//     body: JSON.stringify(data),
+// })
+//     .then((response) => response.text())
+//     .then((text) => {
+//         $("xxx").html(text);
 
-        return;
-    });
-//ecpay
+//         return;
+//     });
+// //ecpay

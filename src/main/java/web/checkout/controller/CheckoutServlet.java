@@ -30,7 +30,7 @@ public class CheckoutServlet extends HttpServlet {
 		setHeaders(req, resp);
 		req.setCharacterEncoding("UTF-8");
 		Checkout checkout = gson.fromJson(req.getReader(), Checkout.class);
-		System.out.println(checkout);
+		System.out.println("[servlet checkout]" + checkout);
 		JsonObject respObject = new JsonObject();
 		try {
 			service = new CheckoutServiceImpl();

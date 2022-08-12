@@ -9,6 +9,8 @@ public interface OrderService {
 	String addOrder(Order order);
 	public Order selectOrderid(String orderid);
 	List<Order> selectOrderStatus(String orderStatus);
-	public String ecpayValidation(List<String> proname, Integer orderid, Order order, String totalCount);
+//	public String ecpayValidation(List<String> proname, Integer orderid, Order order, String totalCount);
+//	String ecpayValidation(List<String> list, String count, Order order, String totalCount);
+	String ecpayValidation(List<String> list, Order order, String string);
 }
 

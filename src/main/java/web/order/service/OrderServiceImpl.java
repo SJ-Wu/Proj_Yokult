@@ -78,7 +78,7 @@ public class OrderServiceImpl implements OrderService {
 	
 
 	@Override
-	public String ecpayValidation(List<String> proname, Integer ordid, Order order, String totalCount) {
+	public String ecpayValidation(List<String> proname, Order order, String totalCount) {
 
 		Optional<String> reduce = proname.stream().reduce((String acc, String curr) -> {
 			return acc + "#" + curr; //回傳累加 用#來隔開
@@ -89,12 +89,13 @@ public class OrderServiceImpl implements OrderService {
 		String orderDate = sdf.format(new Date());
 		AllInOne allInOne = new AllInOne("");
 		AioCheckOutALL aioCheckOutALL = new AioCheckOutALL();
-		aioCheckOutALL.setMerchantTradeNo(ordid + "Yokult"); //訂單編號必須數字+英文字母 
+		aioCheckOutALL.setMerchantTradeNo(order.getOrdid().replaceAll("_", "")); //訂單編號必須數字+英文字母 
+		System.out.println("aaaaaa:"+ order.getOrdid());
 		aioCheckOutALL.setMerchantTradeDate(orderDate);
 		aioCheckOutALL.setTotalAmount(totalCount); //加總
-		aioCheckOutALL.setTradeDesc("test");
-		aioCheckOutALL.setItemName(itemName);
-		aioCheckOutALL.setClientBackURL("http://localhost:8080/Proj_Yokult/clinic/shopping.html");
+		aioCheckOutALL.setTradeDesc("test"); //訂單描述
+		aioCheckOutALL.setItemName(itemName); //商品名稱
+		aioCheckOutALL.setClientBackURL("http://localhost:8080/Proj_Yokult/clinic/shopping.html"); //按個按鈕返回商城
 		aioCheckOutALL.setReturnURL("http://localhost:8080/Proj_Yokult/clinic/shopping.html"); //結束後回到自動商城
 		aioCheckOutALL.setNeedExtraPaidInfo("N");
 
