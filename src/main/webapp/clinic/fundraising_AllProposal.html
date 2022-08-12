@@ -259,26 +259,28 @@
 
                     //迴圈印出募資提案
                     for(var i=0 ; i<jsObject.length ; i++ ){
-                        let proposalID = jsObject[i].proposalID;
+                        let joProposal = jsObject[i];
+                        let proposalID = joProposal.proposalID;
 
-                        let proposalPage = `./fundraising_propsal-${proposalID}.html`;
-                        let proposalPictureBase64 = jsObject[i].proposalPictureBase64;
+                        let proposalPage = `./fundraising_proposal-${proposalID}.html`;
+                        let proposalPictureBase64 = joProposal.proposalPictureBase64;
                         
-                        let proposalHostName = jsObject[i].proposalHostName;
-                        let proposalName = jsObject[i].proposalName;
-                        let currentMillis = jsObject[i].currentMillis;
+                        let proposalHostName = joProposal.proposalHostName;
+                        let proposalName = joProposal.proposalName;
+                        let currentMillis = joProposal.currentMillis;
                         
-                        let proposalGoal = jsObject[i].proposalGoal;
-                        let proposalAmount = jsObject[i].proposalAmount;
+                        let proposalGoal = joProposal.proposalGoal;
+                        let proposalAmount = joProposal.proposalAmount;
                         let amountPercent;
                         let status;
                         let fontawesome;
-                        let proposalStartedDateTimeMillis = jsObject[i].proposalStartedDateTimeMillis;
-                        let proposalEndedDateTimeMillis = jsObject[i].proposalEndedDateTimeMillis;
+                        let proposalStartedDateTimeMillis = joProposal.proposalStartedDateTimeMillis;
+                        let proposalEndedDateTimeMillis = joProposal.proposalEndedDateTimeMillis;
                         let showStatusText;
                         let backgroundColorBase;
                         let backgroundColor;
                         let showBarPercent;
+                        let pipe = " | ";
                         if(proposalAmount / proposalGoal >= 1){
                             showBarPercent = 100;
                         }else{
@@ -286,8 +288,9 @@
                         }
 
                         if(currentMillis < proposalStartedDateTimeMillis){
-                            proposalAmount = "-";
-                            amountPercent = "-";
+                            proposalAmount = "";
+                            amountPercent = "";
+                            pipe = "";
                             fontawesome = "fa-regular fa-face-surprise ";
                             status = "敬請期待";
                             showStatusText = "尚未開始";
@@ -301,7 +304,7 @@
                                 fontawesome = "fa-regular fa-face-rolling-eyes ";
                                 status = "尚未達標";
                             }
-                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1));
+                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1)) + '%';
                             showStatusText = "募資中";
                             backgroundColorBase = "bg-light";
                             backgroundColor = "";
@@ -313,14 +316,18 @@
                                 fontawesome = "fa-regular fa-face-dizzy ";
                                 status = "未達標";
                             }
-                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1));
+                            amountPercent = addComma(roundDecimal(proposalAmount / proposalGoal *100 , 1)) + '%';
                             showStatusText = "已結束";
                             backgroundColorBase = "";
                             backgroundColor = "background-color: rgb(220, 220, 220);";
                         }
                         // 加逗號
-                        proposalGoal = addComma(jsObject[i].proposalGoal);
-                        proposalAmount = addComma(jsObject[i].proposalAmount);
+                        if(proposalGoal != ""){
+                            proposalGoal = '目標：$' + addComma(proposalGoal);
+                        }
+                        if(proposalAmount != ""){
+                            proposalAmount = addComma(proposalAmount);
+                        }
 
 
                         let html = `
@@ -346,9 +353,9 @@
                                                 <div style="height: 4px; width: ${showBarPercent}%; background: lightcoral"></div>
                                             </div>
 
-                                            <p style="margin: 0; display: inline; font-size: small; font-weight:bold;">$ ${proposalAmount}</p>
-                                            <div style="display: inline; font-size: small; font-weight:bold;"> | </div>
-                                            <p style="margin: 0; display: inline; font-size: small; font-weight:bold;">${amountPercent}%</p>
+                                            <p style="margin-top: 20px; display: inline; font-size: small; font-weight:bold;">$ ${proposalAmount}</p>
+                                            <div style="margin-top: 20px; display: inline; font-size: small; font-weight:bold;">${pipe}</div>
+                                            <p style="margin: 0; display: inline; font-size: small; font-weight:bold;">${amountPercent}</p>
                                             <p style="margin-top: 5px; display: inline; font-size: small; font-weight:bold; float:right;">${showStatusText}</p>
                                         </div>
                                     </div>

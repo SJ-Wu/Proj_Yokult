@@ -112,7 +112,7 @@ public class FundraisingServlet extends HttpServlet {
 	    member.setMemID(memberID);
 	    member.setMemPassword(password);
 	    member = memberService.login(member);
-	    if(null == member) {
+	    if(null != member) {
 	    	System.out.println("Login success.");
 	    }
 	    
@@ -184,6 +184,43 @@ public class FundraisingServlet extends HttpServlet {
 	    	sum.add(proposalQueryResult);
 	    	sum.add(planQueryResult);
 	    	sum.add(postQueryResult);
+	    	
+	    	PrintWriter out = res.getWriter();
+	    	String jsonString = new Gson().toJson(sum);
+	    	out.write(jsonString);
+//	    	System.out.println("Succeeded to get proposalJsonString + plansJsonString : \n" + jsonString);
+	    	
+	    	out.flush();
+	    	res.flushBuffer();
+	    	System.out.println();    //間隔一行
+	    }
+	    
+	    
+////    ===================================  僅查詢自己的proposal + plan + 會員資訊 =================================
+//	    fundraising_propsal-n
+	    if("Proposal".equals(table) && "GetMine".equals(action)){	
+	    	res.setContentType("application/json; charset=utf-8");
+	    	ProposalService proposalService = new ProposalService(res);
+	    	
+	    	List<ProposalBean> allMyProposalBeans = proposalService.selectMyAllBeans(member.getMemID());
+	    	System.out.println("allMyProposalBeans.size : " + allMyProposalBeans.size());
+	    	List<ProposalBean> proposalList = new ArrayList<ProposalBean>();
+	    	List<Object> proposalPlanList = new ArrayList<Object>();
+	    	for(ProposalBean proposalBean : allMyProposalBeans) {
+	    		proposalList.add(proposalBean);
+	    		System.out.println("proposalBean : " + proposalBean);
+	    		
+	    		PlanService planService = new PlanService(res);
+	    		List<PlanBean> planQueryResult = planService.selectBeansByProposal(proposalBean);
+	    		proposalPlanList.add(planQueryResult);
+	    		for(PlanBean bean : planQueryResult) {
+	    			System.out.println("planBean : " + bean);
+	    		}
+	    	}
+	    	
+	    	List<Object> sum = new ArrayList<Object>();
+	    	sum.add(proposalList);
+	    	sum.add(proposalPlanList);
 	    	
 	    	PrintWriter out = res.getWriter();
 	    	String jsonString = new Gson().toJson(sum);

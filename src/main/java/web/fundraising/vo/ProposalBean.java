@@ -33,6 +33,7 @@ public class ProposalBean implements Serializable {
 	private String proposalEmail;
 	private String proposalCellphone;
 	private String proposalSummary;
+	private String proposalHtmlContent;
 	@Lob
 	private byte[] proposalPicture;
 	@Lob
@@ -64,10 +65,6 @@ public class ProposalBean implements Serializable {
 	
 	public ProposalBean() {}
 
-	
-
-
-
 	public ProposalBean(String proposalName, String proposalHostName, Integer proposalGoal,
 			String proposalCategoryID, Timestamp proposalStartedDateTime, Timestamp proposalEndedDateTime,
 			String statusID, String proposalEmail, String proposalCellphone, String proposalSummary,
@@ -93,10 +90,6 @@ public class ProposalBean implements Serializable {
 		this.proposalEndedDateTimeMillis = proposalEndedDateTimeMillis;
 	}
 
-
-
-
-
 	@Override
 	public String toString() {
 		return "ProposalBean [proposalID=" + proposalID + ", proposalName=" + proposalName + ", proposalHostName="
@@ -104,11 +97,12 @@ public class ProposalBean implements Serializable {
 				+ ", proposalStartedDateTime=" + proposalStartedDateTime + ", proposalEndedDateTime="
 				+ proposalEndedDateTime + ", statusID=" + statusID + ", proposalEmail=" + proposalEmail
 				+ ", proposalCellphone=" + proposalCellphone + ", proposalSummary=" + proposalSummary
-				+ ", proposalPicture=" + Arrays.toString(proposalPicture) + ", proposalPictureZip="
-				+ Arrays.toString(proposalPictureZip) + ", memID=" + memID + ", proposalPictureBase64="
-				+ proposalPictureBase64 + ", proposalPictureBaseZip64=" + proposalPictureBaseZip64
-				+ ", proposalStartedDateTimeMillis=" + proposalStartedDateTimeMillis + ", proposalEndedDateTimeMillis="
-				+ proposalEndedDateTimeMillis + "]";
+				+ ", proposalHtmlContent=" + proposalHtmlContent + ", proposalPicture=" + Arrays.toString(proposalPicture)
+				+ ", proposalPictureZip=" + Arrays.toString(proposalPictureZip) + ", memID=" + memID
+				+ ", proposalPictureBase64=" + proposalPictureBase64 + ", proposalPictureBaseZip64="
+				+ proposalPictureBaseZip64 + ", proposalStartedDateTimeMillis=" + proposalStartedDateTimeMillis
+				+ ", proposalEndedDateTimeMillis=" + proposalEndedDateTimeMillis + ", currentMillis=" + currentMillis
+				+ ", proposalAmount=" + proposalAmount + "]";
 	}
 
 
@@ -284,6 +278,16 @@ public class ProposalBean implements Serializable {
 
 	public void setProposalEndedDateTimeMillis(long proposalEndedDateTimeMillis) {
 		this.proposalEndedDateTimeMillis = proposalEndedDateTimeMillis;
+	}
+
+
+	public String getHtml_content() {
+		return proposalHtmlContent;
+	}
+
+
+	public void setHtml_content(String proposalHtmlContent) {
+		this.proposalHtmlContent = proposalHtmlContent;
 	}
 
 

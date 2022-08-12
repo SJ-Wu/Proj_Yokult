@@ -2,6 +2,7 @@ package web.fundraising.service;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,24 @@ public class ProposalService {
 		ProposalBean bean = this.proposalDAO.select(id).renewBean(this.proposalDAO);
 		return bean;
 	}
+	
+	public List<ProposalBean> selectMyAllBeans(String memID) throws IOException {
+		try {
+			List<ProposalBean> list_Proposal = this.proposalDAO.selectAll();
+			List<ProposalBean> myProposalBeans = new ArrayList<ProposalBean>();
+	    	for(ProposalBean b : list_Proposal) {
+	    		if(memID.equals(b.getMemID())) {
+	    			b.renewBean(this.proposalDAO);
+	    			myProposalBeans.add(b);
+	    		}
+	    	}
+	    	return myProposalBeans;
+		} catch (Exception e) {
+			System.out.println("false");
+			return null;
+		}
+	}
+	
 	public List<ProposalBean> selectAllBeans() throws IOException {
 		try {
 			List<ProposalBean> list_Proposal = this.proposalDAO.selectAll();
