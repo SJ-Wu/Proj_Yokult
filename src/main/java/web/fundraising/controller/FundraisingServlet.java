@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -103,6 +104,10 @@ public class FundraisingServlet extends HttpServlet {
 	    String memberID = "TGA001";
 	    String password = "123";
 	    Integer proposalID = 1;
+
+//	    傳遞錯誤訊息用
+	    Map<String, String> errors = new HashMap<String, String>();
+	    req.setAttribute("errors", errors);
 
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.getCurrentSession();
